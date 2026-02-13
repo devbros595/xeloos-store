@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Order {{ order.order_id }} | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .order-detail {
+        margin: 5rem 0;
+        padding: 0 10rem;
+    }
+    @media (max-width: 768px) {
+        .order-detail {
+            padding: 0;
+            margin-top: 7rem;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .order-detail {
+            padding: 0 2rem;
+            margin-top: 7rem;
+        }
+
+    }
+</style>
+<main class="index-main">
+    <section class="sim-store-navbar" data-aos="fade-down">
+        <div class="container-fluid d-flex flex-column gap-4">
+            <div class="sim-store-header">
+                <h2>Order #{{ order.order_id }} Details</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <a href="{% url 'user-order-history' %}">
+                    <span>Order History</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Order #{{ order.order_id }}</span>
+            </div>
+        </div>
+    </section>
+    <section class="order-detail">
+        <div class="container">
+            <h2>Order Details - {{ order.order_id }}</h2>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+            <p><strong>Name:</strong> {{ order.name }}</p>
+            <p><strong>Email:</strong> {{ order.email }}</p>
+            <p><strong>Phone:</strong> {{ order.phone }}</p>
+            <p><strong>Address:</strong> {{ order.address }}, {{ order.city }}, {{ order.state }}</p>
+            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+
+            <h4 class="mt-4">Items:</h4>
+            <ul>
+                {% for item in order.items.all %}
+                <li>{{ item.sim_name }} - Quantity: {{ item.quantity }} - Price: ${{ item.sim_price }}</li>
+                {% empty %}
+                <li>No items found for this order.</li>
+                {% endfor %}
+            </ul>
+
+            <a href="{% url 'user-order-history' %}" class="btn btn-secondary mt-3">Back to Order History</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

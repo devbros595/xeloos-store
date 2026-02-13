@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>SIM Catalogue | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .catalogue-section {
+        margin: 5rem auto;
+    }
+
+    .catalogue-item {
+        opacity: 1;
+        transition: 0.4s ease;
+    }
+
+    .catalogue-item:hover {
+        transform: scale(1.03);
+        opacity: 0.5;
+    }
+
+    .catalogue-content img {
+        width: 4rem;
+        height: 4rem;
+        object-fit: cover;
+    }
+
+    .catalogue-name span {
+        font-size: 14px;
+        font-weight: 500;
+        color: black;
+        margin-right: 0.2rem;
+    }
+
+    @media (min-width: 320px) and (max-width: 1024px) {
+        .catalogue-section {
+            padding: 0rem 3rem;
+        }
+    }
+</style>
+<main>
+    <section class="sim-store-navbar" data-aos="fade-down">
+        <div class="container-fluid d-flex flex-column gap-4">
+            <div class="sim-store-header">
+                <h2>XELOOS SIM Catalogue</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Store Catalogue</span>
+            </div>
+        </div>
+    </section>
+    <section class="catalogue-section">
+        <div class="container">
+            <div class="row" data-aos="fade-right" data-aos-delay="500">
+                {% for country in categories %}
+                {% if country.slug %}
+                <div class="col-sm-12 col-md-4 col-lg-3  d-flex justify-content-center">
+                    <div class="catalogue-item ">
+                        <a href="{% url 'store' country.slug %}" class="text-decoration-none">
+                            <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
+                                {% if country.image %}
+                                <img src="{{ country.image.url }}" alt="{{ country.name }}">
+                                {% endif %}
+                                <div class="catalogue-name">
+                                    <span>{{ country.name }} SIM Cards</span>
+
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

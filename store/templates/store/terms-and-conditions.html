@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Terms & Conditions | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .sim-store-navbar .container-fluid {
+        background: linear-gradient(80deg, #000000, #b303ff, #000000);
+        padding: 2rem 4rem 1rem;
+    }
+
+    .mini-navbar span {
+        color: rgb(158, 158, 158);
+        font-size: 14px;
+    }
+
+    .mini-navbar a {
+        text-decoration: none;
+        color: white;
+
+    }
+
+    .mini-navbar i {
+        margin-top: 0.3rem;
+    }
+
+    @media (min-width: 320px) and (max-width: 1024px) {
+        .sim-store-navbar .container-fluid {
+            padding: 2rem 1rem 1rem;
+        }
+    }
+</style>
+<main>
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h3>Terms & Conditions</h3>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span class="text-white ">Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs" style="color: white;"></i>
+                <span>Terms & Conditions</span>
+            </div>
+        </div>
+    </section>
+    <section class="">
+        
+    </section>
+
+</main>
+
+
+{% endblock %}

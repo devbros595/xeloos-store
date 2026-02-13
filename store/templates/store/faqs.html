@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Frequently Asked Questions | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+
+    .faq-section {
+        margin: 5rem 0;
+        padding: 0 10rem;
+    }
+
+    .faq-item {
+        margin-bottom: 30px;
+        padding: 2rem;
+        border-radius: 2rem;
+    }
+
+    .question {
+        font-size: 18px;
+        color: #b303ff;
+        margin-bottom: 2rem;
+        cursor: pointer;
+    }
+
+    .question i {
+        margin-right: 0.5rem;
+    }
+
+    .answer {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    @media (min-width: 320px) and (max-width: 1024px) {
+
+        .faq-main .faq-section {
+            padding: 0;
+            margin-top: 7rem;
+        }
+    }
+</style>
+<main class="faq-main">
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Frequently asked questions</span>
+            </div>
+        </div>
+    </section>
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-item bg-light" data-aos="fade-right" data-aos-delay="200">
+                <h3 class="question"><i class="fas fa-plus-circle"></i>Can I recieve & send calls, text anywhere in the
+                    world?</h3>
+                <p class="answer">Yes, we offer SIM cards with wide global range coverage and you can purchase data
+                    plans for browsing at various destinations.
+                </p>
+            </div>
+
+            <div class="faq-item bg-light" data-aos="fade-right" data-aos-delay="200">
+                <h3 class="question"><i class="fas fa-plus-circle"></i>Are the SIM cards physically available?</h3>
+                <p class="answer">Absolutely, we have loads of SIM cards in stock.</p>
+            </div>
+            <div class="faq-item bg-light" data-aos="fade-right" data-aos-delay="100">
+                <h3 class="question"><i class="fas fa-plus-circle"></i>How can I recharge the SIM card?</h3>
+                <p class="answer">If ypo own a dollar card, you can recharge your SIM online or you could pay us to do
+                    it for you.</p>
+            </div>
+            <div class="faq-item bg-light" data-aos="fade-right" data-aos-delay="100">
+                <h3 class="question"><i class="fas fa-plus-circle"></i>Can I be a distributor?</h3>
+                <p class="answer">Yes, you can join our resellers team and make profit from working with us.</p>
+            </div>
+            <div class="faq-item bg-light" data-aos="fade-right" data-aos-delay="100">
+                <h3 class="question"><i class="fas fa-plus-circle"></i>Can you deliver outside Nigeria?</h3>
+                <p class="answer">Yes we can deliver, we have numerous customerswithin and outside Nigeria.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+<script>
+    $(document).ready(function () {
+        $('.faq-item').click(function () {
+            $(this).toggleClass('active').find('.answer').slideToggle();
+
+            // Toggle the plus/minus icon
+            var icon = $(this).find('.question i');
+            icon.toggleClass('fa-plus-circle fa-minus-circle');
+
+            // Close other FAQ items
+            $('.faq-item').not(this).removeClass('active').find('.answer').slideUp();
+            $('.faq-item').not(this).find('.question i').removeClass('fa-minus-circle').addClass('fa-plus-circle');
+        });
+    });
+</script>
+
+{% endblock %}

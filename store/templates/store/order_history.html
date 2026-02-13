@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>View Order History | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .order-history {
+        margin: 5rem 0;
+        padding: 0 10rem;
+    }
+    @media (max-width: 768px) {
+        .order-history {
+            padding: 0;
+            margin-top: 7rem;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .order-history {
+            padding: 0 2rem;
+            margin-top: 7rem;
+        }
+
+    }
+</style>
+<main class="index-main">
+    <section class="sim-store-navbar" data-aos="fade-down">
+        <div class="container-fluid d-flex flex-column gap-4">
+            <div class="sim-store-header">
+                <h2>Order History</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Order History</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="order-history">
+        <div class="container">
+            <div class="card shadow border-0 p-4">
+                <h5 class="mb-4">Your Orders</h5>
+                {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.order_id }}</td>
+                                <td>{{ order.created_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    {% if order.status == 'completed' %}
+                                    <span class="badge bg-success">Completed</span>
+                                    {% elif order.status == 'processing' %}
+                                    <span class="badge bg-warning text-dark">Processing</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ order.status|capfirst }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>${{ order.total_price|floatformat:2 }}</td>
+                                <td>
+<a href="{% url 'order_detail' order.order_id %}"
+    class="btn btn-sm btn-outline-primary">
+    View
+</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>You have not placed any orders yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

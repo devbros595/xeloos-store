@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>My Profile | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .my-profile {
+        margin: 5rem 0;
+        padding: 0 10rem;
+    }
+
+    .form-control {
+        font-size: 14px;
+        border: none;
+        border-bottom: 1px solid #000000;
+        border-radius: 0;
+        padding-left: 0rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .form-control::placeholder {
+        font-size: 15px;
+    }
+
+    .form-control:focus {
+        outline: none;
+        box-shadow: 0 0 8px rgba(179, 3, 255, 0.5);
+        /* soft glow */
+        border-radius: 5px;
+        padding-left: 1rem;
+        border: none;
+        border-bottom: 1px solid transparent;
+    }
+
+    button[type="submit"] {
+        background: linear-gradient(135deg, #bb30f6, #000000);
+        border: none;
+        margin-top: 1rem;
+    }
+
+    button[type="submit"]:hover {
+        border: none;
+        background: linear-gradient(135deg, #000000, #bb30f6);
+    }
+
+    @media (max-width: 768px) {
+        .my-profile {
+            padding: 0;
+            margin-top: 7rem;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .my-profile {
+            padding: 0 2rem;
+            margin-top: 7rem;
+        }
+
+    }
+</style>
+<main class="index-main">
+    <section class="sim-store-navbar" data-aos="fade-down">
+        <div class="container-fluid d-flex flex-column gap-4">
+            <div class="sim-store-header">
+                <h2>My Profile</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">My profile</span>
+            </div>
+        </div>
+    </section>
+    <section class="my-profile">
+        <div class="container">
+            <div class="card shadow border-0 mx-auto mt-4 p-4" style="max-width: 400px;">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="text-center mb-5">
+                        <i class="fa-solid fa-circle-user fa-2xl" style="color: #800bce;"></i>
+                    </div>
+                    <div class="mb-5">
+                        <label>Username</label>
+                        <input type="text" name="username" value="{{ user.username }}" class="form-control">
+                    </div>
+                    <div class="mb-5">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ user.email }}" class="form-control">
+                    </div>
+                    <div class="mb-5">
+                        <label>Phone</label>
+                        <input type="text" name="phone" value="{{ profile.phone }}" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Update Profile</button>
+                </form>
+            </div>
+        </div>
+
+    </section>
+</main>
+{% endblock %}

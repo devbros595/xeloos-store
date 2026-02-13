@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Accounts | Break Digital Barriers</title>
+{% endblock %}
+
+
+{% block content %}
+<style>
+    
+form {
+  margin-top: 2rem;
+}
+input[type="text"],
+input[type="password"] {
+  border: none;
+  border-bottom: 1px solid #000000;
+  border-radius: 0;
+  padding-left: 0rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  font-size: 15px;
+}
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(179, 3, 255, 0.5); /* soft glow */
+  border-radius: 5px;
+  padding-left: 1rem;
+  border: none;
+  border-bottom: 1px solid transparent;
+}
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+.sign-in-wrapper {
+  padding: 3rem 0;
+}
+
+.sign-in-wrapper a:hover {
+  color: #7400a5;
+}
+.sign-in-wrapper a {
+  color: #b303ff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+button[type="submit"] {
+  background-color: #9127be;
+  border: none;
+  transition: all 0.5s ease;
+  margin-top: 1rem;
+}
+button[type="submit"]:hover {
+  border: none;
+  background-color: #bb30f6;
+}
+.forgot-password a {
+  font-size: 14px;
+}
+
+
+</style>
+<main>
+    <section class="sim-store-navbar" data-aos="fade-down">
+        <div class="container-fluid d-flex flex-column gap-4">
+            <div class="sim-store-header">
+                <h2>Accounts</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Accounts</span>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="sign-in-wrapper d-flex justify-content-center">
+            <div class="card p-4 shadow" style="max-width: 400px; width: 100%; border-radius: 15px; border: none;">
+                <h2 class="mb-2">Sign in</h2>
+                <p class="mb-4 text-muted">Don't have an account? <a href="{% url 'sign_up' %}">Sign up</a></p>
+
+                <form method="POST" action="{% url 'sign_in' %}" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="username" name="username"placeholder="Username" required
+                            minlength="3">
+                        <div class="invalid-feedback">
+                            Username must be at least 3 characters.
+                        </div>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <input type="password" class="form-control pe-5" id="password" name="password" placeholder="Password" required
+                            minlength="6">
+                        <span
+                            class="position-absolute top-50 end-0 me-1 translate-middle-y m-auto text-muted toggle-password"
+                            style="cursor: pointer;">
+                            <i class="bi bi-eye"></i>
+                        </span>
+                        <div class="invalid-feedback">
+                            Password must be at least 6 characters.
+                        </div>
+                    </div>
+
+                    <div class="forgot-password mb-3">
+                        <a href="#">Forgotten password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    // Password toggle
+    const togglePassword = document.querySelector('.toggle-password');
+    const passwordInput = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+
+    // Form validation
+    const form = document.getElementById('signup-form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (form.checkValidity()) {
+            // Form is valid, you can submit it now (e.g., via AJAX or normal POST)
+            alert('Form submitted successfully!');
+        }
+
+        form.classList.add('was-validated');
+    });
+</script>
+
+</body>
+
+</html>
+
+
+{% endblock %}

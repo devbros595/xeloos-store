@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static custom_filters %}
+{% block title %}
+<title>Shop SIM Cards | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<main class="store-main">
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h2>{{country.name}} SIM Cards</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <a href="{% url 'store-category' %}">
+                    <span>Store catalogue</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">{{ country.name }} SIM Cards</span>
+
+            </div>
+        </div>
+    </section>
+    <section class="sim-store-items">
+        <div class="container">
+            <div class="row gy-4" data-aos="fade-right" data-aos-delay="300">
+                {% for sim in country_obj %}
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <div class="card">
+                        <div class="text-center border-bottom">
+                            <img src="{{ sim.image.url }}" class="card-img-top" alt="{{ sim.name }}"
+                                style="height: 100px; width: 100px; object-fit: cover;">
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="border-bottom p-3">
+                                <div class=" sim-deets">
+                                    <h5>{{ sim.name }}</h5>
+                                    <span>${{ sim.price }}</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-link p-0 text-decoration-none mt-3 desc-btn" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#description-{{ sim.id }}"
+                                    aria-expanded="false" aria-controls="description-{{ sim.id }}">
+                                    <small>View Details</small>
+                                    <i class="fa-solid fa-chevron-down ms-2 transition-icon" id="chevron-{{ sim.id }}"
+                                        style="color: #bb30f6;"></i>
+                                </button>
+                                <div class="collapse mt-2 description border-bottom pb-3" id="description-{{ sim.id }}">
+                                    <ul class="card-text text-muted" style=" font-size: 13px;">
+                                        {% for line in sim.description|splitlines %}
+                                        <li class="text-start">{{ line }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4 mb-3 cart-btn">
+                            <button type="button" value="{{ sim.id }}" class=" add-cart">
+                                <i class="fa-solid fa-cart-shopping me-2"></i>Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center text-muted">No available sims in selected country.</div>
+                {% endfor %}
+            </div>
+            <!-- Pagination controls -->
+            <div class="pagination">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                &laquo;
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li
+                            class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    &raquo;
+                                </a>
+                            </li>
+                            {% endif %}
+                    </ul>
+
+                </nav>
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+    $(document).on('click', '.add-cart', function (e) {
+        e.preventDefault();
+
+        var sim_id = $(this).val();
+        // Find the quantity select element for this sim_id
+        var quantity = $('.qty-select[data-sim-id="' + sim_id + '"]').val();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'cart_add' %}",
+            data: {
+                sim_id: sim_id,
+                quantity: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function (json) {
+                console.log(json)
+
+                // Update cart count element dynamically
+                var cartCountElem = document.getElementById("cart-count");
+                if (cartCountElem) {
+                    cartCountElem.innerHTML = json.cart_count;
+                }
+                // Reload cart modal content dynamically
+                $("#cart-modal-content").html(json.html);
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error:", errmsg);
+            }
+        });
+    })
+</script>
+{% endblock %}

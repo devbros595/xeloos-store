@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Order Received</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-height: 50px;
+        }
+        .details, .summary {
+            margin-bottom: 20px;
+        }
+        .summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .summary th, .summary td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary th {
+            background-color: #f8f8f8;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img src="{{ logo_url }}" alt="Company Logo">
+    </div>
+
+    <h2>New Order Received</h2>
+
+    <div class="details">
+        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+        <p><strong>Name:</strong> {{ order.name }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Phone:</strong> {{ order.phone }}</p>
+        <p><strong>Address:</strong> {{ order.address }}, {{ order.city }}, {{ order.state }}</p>
+        <p><strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+    </div>
+
+    <div class="summary">
+        <h4>Order Summary:</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>SIM</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.sim_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.sim_price|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2" style="text-align: right;"><strong>Total:</strong></td>
+                    <td><strong>${{ order.total_price|floatformat:2 }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        This is an automated email. Do not reply.
+    </div>
+</div>
+</body>
+</html>

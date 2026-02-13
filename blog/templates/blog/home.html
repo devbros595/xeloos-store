@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .blog-section {
+        margin: 3rem 0 5rem;
+    }
+
+    .blog-section .card {
+        border: none;
+        box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 1.5rem;
+        padding: 1rem 1rem 0;
+        background-color: #ffffff;
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out !important;
+    }
+
+    .blog-section .card:hover {
+        opacity: 0.6;
+    }
+
+    .blog-section .row {
+        margin: 2rem 0 0;
+    }
+
+    .post-date {
+        font-size: 14px;
+        color: rgba(0, 0, 0, .4);
+        margin-bottom: 2rem;
+    }
+
+    .post-content {
+        font-size: 15px;
+        color: rgba(0, 0, 0, .8);
+        margin-bottom: 3rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-clamp: 2;
+    }
+
+    .card-img-top {
+        height: 10rem;
+        object-fit: cover;
+        background-position: center;
+        border-radius: 1.5rem;
+    }
+
+    .blog-section .pagination {
+        margin: 2rem 0 0;
+        justify-content: center;
+    }
+
+    .blog-section .pagination .page-link {
+        color: #000000;
+        background-color: #ffffff;
+        border: none;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 500;
+        transition: 0.3s ease;
+        opacity: 1;
+        cursor: pointer;
+        margin-right: 0.5rem;
+    }
+
+    .pagination .page-link:hover {
+        color: #ffffff;
+        background-color: #b303ff;
+        opacity: 0.6;
+        border: none;
+    }
+
+    .pagination .page-item.active .page-link {
+        color: #ffffff;
+        background-color: #b303ff;
+        border-radius: 50%;
+    }
+
+    @media (min-width: 320px) and (max-width: 1024px) {
+
+        .blog-section {
+            margin-top: 7rem;
+            padding: 0;
+        }
+    }
+</style>
+
+<main>
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h2>Xeloos Blogspot</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Blog</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-section">
+        <div class="container">
+            <div class="text-center" data-aos="fade-down" data-aos-delay="100">
+                <h4>Latest Blog Posts</h4>
+            </div>
+            <div class="row g-4 p-3">
+                {% for post in page_obj %}
+                <div class="col-lg-4 col-md-6 col-sm-12" data-aos="fade-right" data-aos-delay="100">
+                    <a href="{% url 'blog_detail' post.slug %}" class="card h-100 text-decoration-none">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fs-6">{{ post.title }}</h5>
+                            <p class="post-date card-text text-muted">{{ post.created_at|date:"M d, Y" }}</p>
+                            <p class="post-content">{{ post.content|truncatewords:10 }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="text-center">
+                    <span class="text-muted">No posts available.</span>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Pagination controls -->
+            <div class="pagination">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                &laquo;
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li
+                            class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    &raquo;
+                                </a>
+                            </li>
+                            {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

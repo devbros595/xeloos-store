@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>About Xeloos | Break Digital Barriers</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .about-section {
+        margin: 0rem 0;
+    }
+
+    /* Fixed image for desktop only */
+    .fixed-image {
+        width: 50%;
+        position: relative;
+        border-right: 2px solid black;
+    }
+
+    .image-container {
+        background-image: url('/static/store/img/Xeloos_logo_black.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 300px;
+        height: 300px;
+        z-index: -1;
+        position: sticky;
+        top: 0%;
+        left: 0%;
+        transform: translate(50%, 20%);
+    }
+
+    .about-info {
+        margin: 0;
+        padding: 5rem 5rem 5rem 0;
+    }
+
+    @media (min-width: 320px) and (max-width: 1024px) {
+
+        .image-container {
+            top: 0%;
+            left: 0%;
+            transform: translate(0%, 20%);
+        }
+    }
+</style>
+<main>
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h2>About Us</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">About us</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 p-0 d-none d-md-block fixed-image" data-aos="fade-right" data-aos-delay="500">
+                    <div class="image-container"></div>
+                </div>
+
+                <!-- Mobile image -->
+                <div class="col-12 d-block d-md-none mb-4">
+                    <img src="{% static 'store/img/Xeloos_logo_black.jpg' %}" class="img-fluid w-100" alt="Xeloos-logo">
+                </div>
+                <div class="col-md-6 offset-md-6 px-5 about-info">
+                    <h4 class="mb-4 animate__animated animate__fadeInDown" style="color: #b303ff;   ">About Xeloos</h4>
+                    <p class="animate__animated animate__fadeInUp">
+                        <strong>Xeloos</strong> is a pioneering tech solutions provider, specializing in bridging the
+                        digital gap for Nigerians and foreigners alike. Our core offerings include the provision of
+                        roamed foreign SIM cards that seamlessly functon across 90+ countries, catering to the diverse
+                        needs of business professionals and travelers. In addition to our SIM card services, we offer a
+                        range of professional tech services, including:
+                    </p>
+                    <ul class="list-unstyled ps-3 animate__animated animate__fadeInUp">
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Development</strong>
+                        </li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Website & App
+                                Development</strong>
+                        </li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Project
+                                Management</strong></li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Digital Marketing
+                                Solutions</strong>
+                        </li>
+                    </ul>
+                    <p class="animate__animated animate__fadeInUp">
+                        Our mission is to empower individuals and businesses by breaking digital barriers
+                        and providing digital growth strategies.
+                    </p>
+                    <div class="mt-5 animate__animated animate__fadeInRight">
+                        <h4 class="mb-4" style="color: #b303ff;">Why Choose Xeloos?</h4>
+                        <p>
+                            With Xeloos we want to save you from the annoying hassle of arriving in a foreign country
+                            and endlessly looking around for a suitable SIM Card. We make it super simple for you by
+                            providing you with the best Sim Card package for the best price available. Wherever you
+                            travel, do it with the best data, call and text package from
+                            Xeloos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</main>
+
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+
+    .consultation {
+        margin: 5rem 0;
+        padding: 0 10rem;
+    }
+
+    .consultation h3::after {
+        background: linear-gradient(80deg, #b303ff, #000000);
+        content: "";
+        display: block;
+        height: 3px;
+        border-radius: 2rem;
+        margin-top: 0.5rem;
+        width: 10%;
+    }
+
+    .consultation h3 {
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+            "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        font-weight: 500;
+    }
+
+    .consult-form {
+        width: 70%;
+    }
+
+    .consult-form label {
+        color: #696969;
+        font-size: 14px;
+    }
+
+    .consult span {
+        font-size: 16px;
+    }
+
+    .consult-form input {
+        transition: all 0.5s ease-in-out;
+        border-radius: 5px;
+        border: 1px solid #cbcbcb;
+        outline: none;
+        padding-left: 1rem;
+        font-size: 14px;
+    }
+
+    .consult-form input:focus {
+        outline: none;
+        box-shadow: 0 0 6px 1px rgba(179, 3, 255, 0.349);
+        border-radius: 5px;
+        padding-left: 1rem;
+    }
+
+    .consult-form textarea {
+        white-space: pre-line;
+        box-sizing: border-box;
+        color: #000000;
+        font-size: 14px;
+        resize: none;
+        border: 1px dotted #cbcbcb;
+        outline: none;
+        transition: all 0.5s ease;
+        overflow: hidden;
+    }
+
+    .consult-form textarea:focus {
+        outline: none;
+        box-shadow: 0 0 6px 1px rgba(179, 3, 255, 0.349);
+        border-radius: 5px;
+        padding-left: 1rem;
+    }
+
+    .consult-form textarea::placeholder {
+        font-size: 14px;
+    }
+
+    .form-text {
+        font-size: 12px;
+    }
+
+    .checkboxes label {
+        font-size: 12px;
+    }
+
+    .privacy-policy p {
+        box-sizing: border-box;
+        font-size: 12px;
+        line-height: 1.78;
+        margin: 0;
+        padding: 0;
+    }
+
+    .consultation-btn {
+        background: linear-gradient(to right, #bb30f6, #000000);
+        transition: all 0.3s ease-in-out;
+        padding: .7rem 2.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+        border: none;
+        border-radius: 2rem;
+        text-transform: uppercase;
+    }
+
+    .consultation-btn:hover {
+        background: linear-gradient(to right, #8523ae, #7800ac);
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768.98px) {
+        .consult-form {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 425.98px) {
+        .consultation {
+            padding: 0 20px;
+        }
+
+        .consultation h3 {
+            font-size: 20px;
+        }
+    }
+    @media (min-width: 320px) and (max-width: 1024px) {
+
+        .consultation {
+            margin-top: 7rem;
+        }
+    }
+</style>
+<main>
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h2>XELOOS Consultation</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Consultation</span>
+            </div>
+        </div>
+    </section>
+    <section class="consultation" data-aos="fade-right" data-aos-delay="200">
+        <div class="container">
+            <h3>Need a Consultation?</h3>
+            <div class="consult mt-5">
+                <span> Drop us a message, we are here to answer your questions 24/7.</span>
+                <div class="consult-form mt-4">
+                    <form method="post" action="{% url 'index' %}">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Name</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Subject</label>
+                                <input type="text" name="subject" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Phone Number</label>
+                                <input type="text" name="phone" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message" class="form-label">* Write a Message</label>
+                            <textarea id="message" name="message" class="form-control" rows="4"
+                                placeholder="How can we help you?" required maxlength="500"
+                                oninput="autoExpand(this); updateCharCount(this)"></textarea>
+                            <div class="form-text" id="charCount">0 / 500 characters</div>
+                        </div>
+                        <div class="my-5 checkboxes">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to the terms and conditions
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to have Xeloos Tech. contact me via email, phone, messengers.
+                                </label>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3" data-aos="fade-up">
+                            <button type="submit" class="btn btn-primary consultation-btn">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main>
+<script>
+    function autoExpand(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    function updateCharCount(textarea) {
+        const count = textarea.value.length;
+        const max = textarea.getAttribute('maxlength');
+        document.getElementById('charCount').textContent = `${count} / ${max} characters`;
+    }
+</script>
+
+{% endblock %}

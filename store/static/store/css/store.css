@@ -1,0 +1,96 @@
+.store-main .sim-store-items {
+  margin: 5rem 0;
+}
+.store-main .sim-store-items .card {
+  box-shadow: 0 0 8px 2px rgba(179, 3, 255, 0.224);
+}
+.store-main .cart-btn button {
+  background: linear-gradient(to right, #bb30f6, #000000);
+  transition: 0.4s ease;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: white;
+  border: none;
+  border-radius: 6rem;
+}
+.store-main .cart-btn button:hover {
+  background: linear-gradient(to right, #8523ae, #7800ac);
+}
+#qty-cart {
+  width: 60px;
+}
+
+.store-main .pagination {
+  margin: 2rem 0 0;
+  justify-content: center;
+}
+
+.store-main .pagination .page-link {
+  color: #000000;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s ease;
+  opacity: 1;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.store-main .page-link:hover {
+  color: #ffffff;
+  background-color: #b303ff;
+  opacity: 0.6;
+  border: none;
+}
+
+.store-main .page-item.active .page-link {
+  color: #ffffff;
+  background-color: #b303ff;
+  border-radius: 50%;
+}
+.description li {
+  text-transform: capitalize;
+}
+
+.transition-icon {
+  transition: transform 0.3s ease;
+}
+.desc-btn small {
+  color: #bb30f6;
+  font-weight: 500;
+}
+
+/* Rotate icon when button has aria-expanded="true" */
+button[aria-expanded="true"] .transition-icon {
+  transform: rotate(180deg);
+}
+
+.store-main .sim-deets {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sim-deets h5 {
+  font-size: 15px;
+  margin: 0;
+}
+.sim-deets span {
+  font-weight: 600;
+  color: rgb(1, 92, 1);
+  font-size: 16px;
+}
+
+@media (min-width: 320px) and (max-width: 1024px) {
+  .sim-store-items {
+    padding: 0rem 3rem;
+  }
+}

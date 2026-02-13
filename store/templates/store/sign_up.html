@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Accounts | Break Digital Barriers</title>
+{% endblock %}
+
+
+{% block content %}
+<style>
+  form {
+    margin-top: 2rem;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    border: none;
+    border-bottom: 1px solid #000000;
+    border-radius: 0;
+    padding-left: 0;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder,
+  input[type="password"]::placeholder {
+    font-size: 15px;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(179, 3, 255, 0.5);
+    border-radius: 5px;
+    padding-left: 1rem;
+    border: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .sign-up-wrapper {
+    padding: 3rem 0;
+  }
+
+  .sign-up-wrapper a:hover {
+    color: #7400a5;
+  }
+
+  .sign-up-wrapper a {
+    color: #b303ff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  button[type="submit"] {
+    background-color: #9127be;
+    border: none;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+
+  }
+
+  button[type="submit"]:hover {
+    border: none;
+    background-color: #bb30f6;
+
+  }
+
+  .forgot-password a {
+    font-size: 14px;
+  }
+</style>
+<main>
+  <section class="sim-store-navbar" data-aos="fade-down">
+    <div class="container-fluid d-flex flex-column gap-4">
+      <div class="sim-store-header">
+        <h2>Accounts</h2>
+      </div>
+      <div class="mini-navbar d-flex align-items-center gap-3">
+        <a href="/">
+          <span>Home</span>
+        </a>
+        <i class="fa-solid fa-angle-right fa-xs"></i>
+        <span class="active">Accounts</span>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="sign-up-wrapper d-flex justify-content-center">
+      <div class="card p-4 shadow" style="max-width: 400px; width: 100%; border-radius: 15px; border: none;">
+        <h2 class="mb-2">Sign up</h2>
+        <p class="mb-4 text-muted">Own an account? <a href="{% url 'sign_in' %}">Sign in</a></p>
+
+        <form id="signup-form" method="POST" action="{% url 'sign_up' %}" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+            <div>
+              <span style="font-size: 12px; color: red;" id="email-message"></span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <input type="text" class="form-control" name="username" id="username" placeholder="Choose a username"
+              required minlength="3">
+            <div>
+              <span style="font-size: 12px; color: red;" id="username-message"></span>
+            </div>
+          </div>
+          <div class="my-3">
+            <div class="position-relative">
+              <input type="password" class="form-control pe-5" name="password" id="password"
+                placeholder="Create a password" required minlength="6" oninput="validatePassword()">
+              <span class="position-absolute top-50 end-0 translate-middle-y m-auto text-muted toggle-password"
+                style="cursor: pointer;">
+                <i class="bi bi-eye"></i>
+              </span>
+            </div>
+            <div>
+              <span style="font-size: 12px;" id="message"></span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Sign up</button>
+        </form>
+
+        <p class="text-center small text-muted mt-5">
+          By signing up to create an account, you are accepting our
+          <a href="#">terms of service</a> and <a href="#">privacy policy</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+  // Password toggle
+  const togglePassword = document.querySelector('.toggle-password');
+  const passwordInput = document.querySelector('#password');
+
+  togglePassword.addEventListener('click', function () {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+  });
+
+  function validatePassword() {
+    let password = document.getElementById("password").value;
+    let message = document.getElementById("message");
+
+    if (password.length >= 6) {
+      message.style.color = "green";
+      message.textContent = "Password is strong!";
+    } else {
+      message.style.color = "red";
+      message.textContent = "Password must be at least 6 characters long.";
+    }
+  }
+
+  function isValidEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
+  document.getElementById("signup-form").addEventListener("submit", function (event) {
+    const email = document.getElementById("email").value.trim();
+    let message = document.getElementById("email-message");
+
+    if (email === "") {
+      message.textContent = "Email is required";
+      event.preventDefault();
+    } else if (!isValidEmail(email)) {
+      message.textContent = "Invalid email format";
+      event.preventDefault();
+    }
+  });
+
+  document.getElementById("signup-form").addEventListener("submit", function (event) {
+    const username = document.getElementById("username").value.trim();
+    let message = document.getElementById("username-message");
+
+    if (username === "") {
+      message.textContent = "Username is required";
+      event.preventDefault();
+    }
+  });
+
+</script>
+
+</body>
+
+</html>
+
+
+{% endblock %}

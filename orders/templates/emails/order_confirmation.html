@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .email-wrapper {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+      color: #333;
+    }
+    .email-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .email-header img {
+      max-width: 150px;
+    }
+    .order-summary {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .order-summary th, .order-summary td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    .order-summary th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-header">
+      <img src="https://yourdomain.com/static/images/logo.png" alt="Logo">
+      <h2>Order Confirmation</h2>
+      <p>Order ID: <strong>{{ order.order_id }}</strong></p>
+    </div>
+
+    <h4>Order Details</h4>
+    <table class="order-summary">
+      <thead>
+        <tr>
+          <th>SIM</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.items.all %}
+        <tr>
+          <td>{{ item.sim_name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ item.sim_price|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p><strong>Total:</strong> ${{ order.total_price|floatformat:2 }}</p>
+
+    <p>We will contact you shortly to confirm your order.</p>
+    <p>Thank you for shopping with us!</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+{% extends 'base_2.html' %}
+{% block content %}
+<style>
+    .checkout-wrapper {
+        border-radius: 1rem;
+    }
+
+    .payment_instruction {
+        display: block;
+        font-size: 16px;
+        color: #4f4f4f;
+    }
+
+    .pay-btn {
+        background: linear-gradient(to right, #bb30f6, #000000);
+        transition: all 0.3s ease-in-out;
+        padding: 0.6rem 5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+        border: none;
+        border-radius: 2rem;
+    }
+
+    .pay-btn:hover {
+        background: linear-gradient(to right, #8523ae, #7800ac);
+    }
+
+    .payment-content-wrapper {
+        background: #ffffff;
+        border: 1px solid #ececec;
+        border-radius: .4rem;
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .payment-amount-info {
+        border-bottom: 1px solid #ececec;
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 1rem 0;
+    }
+
+    .payment-amount-info i {
+        margin-top: .6rem;
+        color: #8523ae;
+    }
+
+    .payment-amount-info p {
+        font-size: 13px;
+        text-align: justify;
+        line-height: 1.2rem;
+    }
+
+    .payment-content-wrapper span {
+        font-weight: 300;
+    }
+
+    .payment-info {
+        border-top: 1px solid #ececec;
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 1rem 0;
+    }
+
+    .payment-info i {
+        margin-top: .6rem;
+        color: #8523ae;
+    }
+
+    .payment-info p {
+        font-size: 13px;
+        text-align: justify;
+        line-height: 1.2rem;
+    }
+
+    .payment-details {
+        padding: 1rem 0 1rem 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .payment-details span {
+        font-weight: 300;
+        font-size: 14px;
+    }
+
+    .copy-account,
+    .copy-id {
+        cursor: pointer;
+        background-color: #b72ff1;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 0.3rem;
+        padding: 0.3rem 0.5rem;
+    }
+</style>
+<div class="container p-5">
+    <div class="row bg-light checkout-wrapper">
+        <div class="p-3">
+            <a href="{% url 'orders:shipping_method' %}" class="text-decoration-none">
+                <i class="fa-solid fa-angle-left fa-sm" style="color: #8523ae;"></i>
+                <span style="color: #8523ae; font-size: 17px; font-weight: 500; ">Back</span>
+            </a>
+        </div>
+        <div class="col-md-7 p-5 pt-3">
+            <div class="container">
+                <div class="d-flex align-items-center gap-2 mb-5">
+                    <i class="fa-solid fa-money-check-dollar fa-lg"></i>
+                    <h4 class="m-0 p-0">Payment</h4>
+                </div>
+                <form method="post" action="{% url 'orders:place_order' %}">
+                    {% csrf_token %}
+                    <p class="payment_instruction">Proceed to your bank app to complete this transaction<br> and click
+                        "I
+                        Have Made Payment".</p>
+                    <div class="payment-content-wrapper">
+                        <div class="payment-amount-info">
+                            <i class="fa-solid fa-circle-info fa-sm"></i>
+                            <p>To ensure a smooth transaction, please transfer the exact amount shown. Payments may be
+                                denied if the amount does not match.</p>
+                        </div>
+                        <div class="payment-details">
+                            <div class="d-flex flex-column">
+                                <span>PAYMENT ID</span>
+                                <div class="d-flex align-items-center gap-3">
+                                    <strong id="order-id">{{ payment_reference }}</strong>
+                                    <div class="copy-id">COPY</div>
+                                </div>
+
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span>AMOUNT</span>
+                                <strong>NGN 500</strong>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span>ACCOUNT NUMBER</span>
+                                <div class="d-flex align-items-center gap-3">
+                                    <strong id="accountNumber">1234567890</strong>
+                                    <div class="copy-account">COPY</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span>BANK NAME</span>
+                                <strong>First Bank</strong>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span>BENEFICIARY</span>
+                                <strong>XELOOS</strong>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span>REFERENCE</span>
+                                <strong>Your Payment ID</strong>
+                            </div>
+                        </div>
+                        <div class="payment-info">
+                            <i class="fa-solid fa-circle-info fa-sm"></i>
+                            <p>Use Payment ID as reference or description.</p>
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success pay-btn mt-4">I have made payment</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelector('.copy-account').addEventListener('click', function () {
+        const accountNumber = document.getElementById('accountNumber').textContent.trim();
+        navigator.clipboard.writeText(accountNumber)
+            .then(() => {
+                this.textContent = 'COPIED!';
+            })
+            .catch(err => {
+                console.error("Failed to copy!", err);
+            });
+    });
+    document.querySelector('.copy-id').addEventListener('click', function () {
+        const orderId = document.getElementById('order-id').textContent.trim();
+        navigator.clipboard.writeText(orderId)
+            .then(() => {
+                this.textContent = 'COPIED!';
+            })
+            .catch(err => {
+                console.error("Failed to copy!", err);
+            });
+    });
+</script>
+{% endblock %}

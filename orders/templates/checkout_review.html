@@ -1,0 +1,73 @@
+{% extends 'base_2.html' %}
+{% block content %}
+<style>
+    .pay-btn {
+        background: linear-gradient(to right, #bb30f6, #000000);
+        transition: all 0.3s ease-in-out;
+        padding: 0.6rem 5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+        border: none;
+        border-radius: 2rem;
+    }
+
+    .pay-btn:hover {
+        background: linear-gradient(to right, #8523ae, #7800ac);
+    }
+</style>
+<div class="container p-5">
+    <div class="bg-light p-5">
+        <div class="d-flex align-items-center gap-2 mb-5">
+            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+            <h4 class="m-0 p-0">Review Order</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <h5 class="mt-4">Delivery Information</h5>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item"><strong>Name:</strong> {{ checkout_data.name }}</li>
+                    <li class="list-group-item"><strong>Email:</strong> {{ checkout_data.email }}</li>
+                    <li class="list-group-item"><strong>Phone:</strong> {{ checkout_data.phone }}</li>
+                    <li class="list-group-item"><strong>Address:</strong> {{ checkout_data.address }}</li>
+                    <li class="list-group-item"><strong>City:</strong> {{ checkout_data.city }}</li>
+                    <li class="list-group-item"><strong>State:</strong> {{ checkout_data.state }}</li>
+                </ul>
+            </div>
+
+            <div class="col-md-5">
+                <h5 class="mt-4">Items</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>SIM</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-end">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.sim.name }}</td>
+                            <td class="text-center">{{ item.quantity }}</td>
+                            <td class="text-end">${{ item.total_price|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="text-end fw-bold fs-5 mt-3 mb-5">
+                    Total: ${{ cart_total|floatformat:2 }}
+                </div>
+
+                <form method="post" action="{% url 'orders:place_order' %}">
+                    {% csrf_token %}
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success pay-btn mt-4">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

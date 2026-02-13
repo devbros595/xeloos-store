@@ -1,0 +1,216 @@
+<style>
+    /* Styles for cart modal scroll */
+    .cart-wrapper {
+        max-height: 290px;
+        overflow-y: auto;
+        display: block;
+    }
+
+    .quantity-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 2rem;
+        overflow: hidden;
+        max-width: 120px;
+        margin: 0 auto;
+        background-color: #f9f9f9;
+    }
+
+    .qty-input {
+        width: 50px;
+        text-align: center;
+        border: none;
+        background-color: transparent;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .qty-input:focus {
+        outline: none;
+        box-shadow: none;
+        border: none;
+    }
+
+
+    .qty-btn {
+        background-color: #e0e0e0;
+        border: none;
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .qty-btn:hover {
+        background-color: #d0d0d0;
+    }
+
+    .qty-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .summary-total {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgb(0, 0, 0);
+    }
+</style>
+<div id="cart-modal-content">
+    {% if cart_items %}
+    <div class="cart-wrapper">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr style="font-size: 0.8rem;">
+                    <th scope="col" class="text-start">SIM</th>
+                    <th scope="col" class="text-center">Quantity</th>
+                    <th scope="col" class="text-center">Price</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td class="d-flex align-items-center gap-3">
+                        {% if item.sim.image %}
+                        <img src="{{ item.sim.image.url }}" alt="{{ item.sim.name }}"
+                            style="width: 40px; height: 40px; object-fit: cover;">
+                        {% endif %}
+                        <span>{{ item.sim.name }}</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="quantity-wrapper" data-item-id="{{ item.sim.id }}">
+                            <button class="qty-btn minus" data-action="decrement">−</button>
+                            <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" max="5"
+                                readonly>
+                            <button class="qty-btn plus" data-action="increment">+</button>
+                        </div>
+                    </td>
+
+                    <td class="text-center">
+                        ${{ item.total_price|floatformat:2 }}
+                    </td>
+
+                    <td>
+                        <div class="summary-remove-btn">
+<i class="fa-solid fa-trash-can remove-sim" data-item-id="{{ item.sim.id }}"
+                                style="color: #ff0000; cursor: pointer;"></i>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="cart-total d-flex justify-content-between px-3 mt-3">
+            <strong>Total:</strong>
+            <span>$ {{ cart_total|floatformat:2 }}</span>
+        </div>
+
+    </div>
+    <div class="checkout d-flex justify-content-center align-items-center mt-3">
+        <a href="{% url 'orders:checkout' %}
+" class="checkout-btn text-decoration-none">Proceed to checkout</a>
+    </div>
+    {% else %}
+    <div class="cart-content d-flex justify-content-center align-items-center gap-3 py-3">
+        <i class="fa-solid fa-triangle-exclamation fa-shake"></i>
+        <span>There are no items in the cart.</span>
+    </div>
+    {% endif %}
+
+</div>
+<script>
+    $(document).on('click', '.remove-sim', function (e) {
+        e.preventDefault();
+
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'cart_remove' %}",
+            data: {
+                sim_id: $(this).data('item-id'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function (json) {
+                // Reload cart modal content dynamically
+                $("#cart-modal-content").html(json.html);
+                var cartCountElem = document.getElementById("cart-count");
+                if (cartCountElem) {
+                    cartCountElem.innerHTML = json.cart_count;
+                }
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error:", errmsg);
+            }
+        });
+    })
+
+    $(document).off("click", ".qty-btn").on("click", ".qty-btn", function (e) {
+
+        e.preventDefault();
+
+        const button = $(this);
+        const action = button.data("action");
+        const wrapper = button.closest(".quantity-wrapper");
+        const input = wrapper.find(".qty-input");
+        const simId = wrapper.data("item-id");
+        let currentQty = parseInt(input.val());
+
+        if (action === "increment" && currentQty < 5) {
+            currentQty += 1;
+        } else if (action === "decrement" && currentQty > 1) {
+            currentQty -= 1;
+        } else {
+            return; // don't proceed if out of bounds
+        }
+
+
+
+        // Disable buttons if limits are hit
+        wrapper.find(".qty-btn.minus").prop("disabled", currentQty <= 1);
+        wrapper.find(".qty-btn.plus").prop("disabled", currentQty >= 5);
+
+        // Send AJAX to update cart quantity
+        $.ajax({
+            type: "POST",
+            url: "{% url 'cart_update' %}",
+            data: {
+                sim_id: simId,
+                quantity: currentQty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: "post"
+            },
+            success: function (json) {
+                $("#cart-modal-content").html(json.html);
+                const cartCountElem = document.getElementById("cart-count");
+                if (cartCountElem) {
+                    cartCountElem.innerHTML = json.cart_count;
+                }
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error:", errmsg);
+            }
+        });
+    });
+
+    // Optional: Disable buttons on page load based on current value
+    $(document).ready(function () {
+        $(".quantity-wrapper").each(function () {
+            const qty = parseInt($(this).find(".qty-input").val());
+            $(this).find(".qty-btn.minus").prop("disabled", qty <= 1);
+            $(this).find(".qty-btn.plus").prop("disabled", qty >= 5);
+        });
+    });
+
+</script>

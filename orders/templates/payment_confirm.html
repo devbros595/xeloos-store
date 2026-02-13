@@ -1,0 +1,28 @@
+{% extends 'base_2.html' %}
+{% block content %}
+<style>
+    .pay-btn {
+        background: linear-gradient(to right, #bb30f6, #000000);
+        transition: all 0.3s ease-in-out;
+        padding: 0.6rem 5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+        border: none;
+        border-radius: 2rem;
+    }
+
+    .pay-btn:hover {
+        background: linear-gradient(to right, #8523ae, #7800ac);
+    }
+</style>
+<div class="container mt-4 pt-2 pb-5 text-center bg-light rounded-3">
+    <div class="d-flex justify-content-center align-items-center gap-3 m-5">
+        <h2 class="text-success m-0 p-0">Thank you!</h2>
+        <i class="fa-solid fa-circle-check fa-xl fa-fade text-success"></i>
+    </div>
+    <p>Your order has been placed successfully.</p>
+    <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+    <a href="{% url 'store-category' %}" class="btn btn-primary mt-5 pay-btn">Return to Store</a>
+</div>
+{% endblock %}
