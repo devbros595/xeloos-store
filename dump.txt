@@ -1,0 +1,29 @@
+ <section class="banner-section" data-aos="fade-right" data-aos-delay="200">
+        <div class="swiper bannerSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 3">
+
+                </div>
+            </div>
+            <!-- Add pagination and navigation -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev">
+                <div class="btn-bg">
+                    <i class="fa-solid fa-chevron-left fa-lg" style="color: #ffffff;"></i>
+                </div>
+            </div>
+            <div class="swiper-button-next">
+                <div class="btn-bg">
+                    <i class="fa-solid fa-chevron-right fa-lg" style="color: #ffffff;"></i>
+                </div>
+            </div>
+        </div>
+
+    </section>

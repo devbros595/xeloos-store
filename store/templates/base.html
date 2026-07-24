@@ -24,7 +24,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 
     <script type="text/javascript"
         src="https://platform-api.sharethis.com/js/sharethis.js#property=683f91c5bde97c0013e1dfba&product=inline-share-buttons&source=platform"
@@ -280,10 +282,12 @@
             height: fit-content;
             text-align: center;
         }
-        .user-profile .dropdown-item{
+
+        .user-profile .dropdown-item {
             font-size: 14px;
         }
-        .mobile-profile .dropdown-item{
+
+        .mobile-profile .dropdown-item {
             font-size: 14px;
         }
 
@@ -446,7 +450,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="{% url 'user_profile' %}">My profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user-order-history' %}">View order history</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user-order-history' %}">View order
+                                        history</a></li>
                                 <li><a class="dropdown-item" href="{% url 'change_password' %}">Change password</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
@@ -493,7 +498,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="{% url 'user_profile' %}">My profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user-order-history' %}">View order history </a></li>
+                                <li><a class="dropdown-item" href="{% url 'user-order-history' %}">View order history
+                                    </a></li>
                                 <li><a class="dropdown-item" href="{% url 'change_password' %}">Change password</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
@@ -915,6 +921,94 @@
     </footer>
 
     <script>
+
+
+        const swiper = new Swiper('.swiper', {
+            speed: 2000,
+            loop: true,
+            loopPreventsSliding: false,
+            parallax: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+                hideOnClick: true
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                type: "bullets",
+                clickable: true
+            },
+            autoplay: {
+                delay: 5000,
+                pauseOnMouseEnter: false
+            }
+        });
+
+        function scrollContent(amount) {
+            const scrollContainer = document.getElementById('scrollable-content');
+            scrollContainer.scrollBy({ left: amount, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelector('.slides');
+            const slideImages = document.querySelectorAll('.slides img');
+            const prevButton = document.querySelector('.prev-slide');
+            const nextButton = document.querySelector('.next-slide');
+            const dotsContainer = document.querySelector('.dots-container');
+
+            let currentIndex = 0;
+            const totalSlides = slideImages.length;
+
+            // Create dots dynamically based on the number of slides
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === 0) {
+                    dot.classList.add('active');
+                }
+                dot.addEventListener('click', () => currentSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+
+            const dots = document.querySelectorAll('.dot');
+
+            function updateSlider() {
+                slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // Update active dot
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlider();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            }
+
+            function currentSlide(n) {
+                currentIndex = n;
+                updateSlider();
+            }
+
+            // Event listeners for navigation buttons
+            nextButton.addEventListener('click', nextSlide);
+            prevButton.addEventListener('click', prevSlide);
+
+            setInterval(nextSlide, 5000);
+        });
+
+
+
         const toggleBtn = document.getElementById('mobile-menu-toggle');
         const navLinks = document.getElementById('nav-links');
 
@@ -1016,27 +1110,8 @@
         AOS.init();
     </script>
     <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-        var swiper = new Swiper(".bannerSwiper", {
-            loop: true,
-            speed: 2000,
-            autoplay: {
-                delay: 8000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            effect: 'coverflow',
-            grabCursor: true
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 
 
 

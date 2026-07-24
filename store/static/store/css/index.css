@@ -1,46 +1,23 @@
-.xeloos-slide-container {
-  position: relative;
-  max-width: 100%;
-  margin: auto;
-  overflow: hidden;
-}
-
-.banner-section {
-  position: relative;
-}
-
-.banner-section .swiper-slide {
-  position: relative;
-  height: 80vh;
-  overflow: hidden;
-}
-
-.banner-section .swiper-slide img {
-  object-fit: cover;
+.swiper {
   width: 100%;
-  height: 100%;
+  height: 90vh;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  display: none;
-}
-.swiper-button-next {
-  margin-right: 1rem;
-}
-.swiper-button-prev {
-  margin-left: 1rem;
-}
-
-.btn-bg {
-  border: 2px solid #ffffff;
-  padding: 10px;
-  border-radius: 10px;
-  transition: 0.3s ease-in-out;
+.swiper-slide {
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
 }
 
-.btn-bg:hover {
-  transform: scale(1.1);
+.hero-image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .carousel-wrapper {
@@ -50,7 +27,7 @@
   white-space: nowrap;
   position: relative;
 }
-.carousel {
+.carousel-slider {
   display: inline-block;
   animation: slide 20s linear infinite;
 }
@@ -77,7 +54,7 @@
 .carousel-wrapper:hover .carousel {
   animation-play-state: paused;
 }
-.carousel img {
+.carousel-slider img {
   height: 70px;
   margin: 0 50px;
 }
@@ -256,7 +233,10 @@
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
-  transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+  transition:
+    color 0.3s,
+    background-color 0.3s,
+    border-color 0.3s;
   z-index: 3;
   background-color: #fff;
   text-decoration: none;

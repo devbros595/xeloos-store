@@ -6,38 +6,28 @@
 
 {% block content %}
 <main class="index-main">
-    <section class="banner-section" data-aos="fade-right" data-aos-delay="200">
-        <div class="swiper bannerSwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 1">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 2">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 3">
-
-                </div>
+    <!-- Slider main container -->
+    <div class="swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <img src="{% static 'store/img/hero/slide1.jpg' %}" class="hero-image" alt="Slide 1">
             </div>
-            <!-- Add pagination and navigation -->
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev">
-                <div class="btn-bg">
-                    <i class="fa-solid fa-chevron-left fa-lg" style="color: #ffffff;"></i>
-                </div>
+            <div class="swiper-slide">
+                <img src="{% static 'store/img/hero/slide2.jpg' %}" class="hero-image" alt="Slide 2">
             </div>
-            <div class="swiper-button-next">
-                <div class="btn-bg">
-                    <i class="fa-solid fa-chevron-right fa-lg" style="color: #ffffff;"></i>
-                </div>
+            <div class="swiper-slide">
+                <img src="{% static 'store/img/hero/slide3.jpg' %}" class="hero-image" alt="Slide 3">
             </div>
         </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
 
-    </section>
     <section class="service-provider-section">
         <div class="carousel-wrapper">
-            <div class="carousel">
+            <div class="carousel-slider">
                 <img src="{% static 'store/img/Lyca_Logo.png' %}" alt="Lyca_Logo">
                 <img src="{% static 'store/img/Three_Logo.png' %}" alt="Three_Logo">
                 <img src="{% static 'store/img/T-Mobile_Logo.png' %}" alt="T-Mobile_Logo">
@@ -48,7 +38,7 @@
         </div>
         <script>
             const wrapper = document.querySelector('.carousel-wrapper');
-            const original = wrapper.querySelector('.carousel');
+            const original = wrapper.querySelector('.carousel-slider');
 
             // Clone the carousel 2 more times (for a total of 3)
             for (let i = 0; i < 2; i++) {
@@ -401,10 +391,12 @@
                 <div class="xeloos-overview-content">
                     <img src="{% static 'store/img/Xeloos_logo_white.jpg' %}" alt="">
                     <div class="xeloos-overview-text">
-                        <p>Xeloos is the leading global marketplace for international Prepaid SIM Cards. We help international
+                        <p>Xeloos is the leading global marketplace for international Prepaid SIM Cards. We help
+                            international
                             travelers by offering a solution to avoid 100% of roaming charges through the use of local
                             Prepaid SIM Card packages. Our selection spans across continents, offering. . Xeloos is
-                            your #1 choice for International Prepaid SIM Cards. Wondering about delivery times? we can deliver to your doorstep in over 100 countries within just a few
+                            your #1 choice for International Prepaid SIM Cards. Wondering about delivery times? we can
+                            deliver to your doorstep in over 100 countries within just a few
                             business days. Place your order today with Xeloos and stay connected with your loved
                             ones back home!</p>
                     </div>
@@ -441,70 +433,7 @@
         </div>
     </section>
 </main>
-<script>
-    function scrollContent(amount) {
-        const scrollContainer = document.getElementById('scrollable-content');
-        scrollContainer.scrollBy({ left: amount, behavior: 'smooth' });
-    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const slides = document.querySelector('.slides');
-        const slideImages = document.querySelectorAll('.slides img');
-        const prevButton = document.querySelector('.prev-slide');
-        const nextButton = document.querySelector('.next-slide');
-        const dotsContainer = document.querySelector('.dots-container');
-
-        let currentIndex = 0;
-        const totalSlides = slideImages.length;
-
-        // Create dots dynamically based on the number of slides
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('span');
-            dot.classList.add('dot');
-            if (i === 0) {
-                dot.classList.add('active');
-            }
-            dot.addEventListener('click', () => currentSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-
-        const dots = document.querySelectorAll('.dot');
-
-        function updateSlider() {
-            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-            // Update active dot
-            dots.forEach((dot, index) => {
-                if (index === currentIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateSlider();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateSlider();
-        }
-
-        function currentSlide(n) {
-            currentIndex = n;
-            updateSlider();
-        }
-
-        // Event listeners for navigation buttons
-        nextButton.addEventListener('click', nextSlide);
-        prevButton.addEventListener('click', prevSlide);
-
-        setInterval(nextSlide, 5000);
-    });
-</script>
 
 
 {% endblock %}
