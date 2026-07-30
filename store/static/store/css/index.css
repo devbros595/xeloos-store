@@ -1,8 +1,10 @@
 :root {
-  --primary-color: #7A001F;
-  --secondary-color: #E6003E;
-  --light-background: #DCDCDC;
-  --background-color: #ffffff;
+  --dark: #7a001f;
+  --primary: #e6003e;
+  --light: #dcdcdc;
+  --font-color: #dcdcdc;
+  --primary-font: "Sora";
+  --secondary-font: "Inter";
 }
 
 .swiper {
@@ -546,29 +548,28 @@
 }
 
 @media (max-width: 425px) {
-
   .carousel-wrapper::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  background: linear-gradient(to left, rgb(255, 255, 255, 0), #ffffff);
-  content: "";
-  z-index: 1;
-  border: 1px solid #000;
-}
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: linear-gradient(to left, rgb(255, 255, 255, 0), #ffffff);
+    content: "";
+    z-index: 1;
+    border: 1px solid #000;
+  }
 
-.carousel-wrapper::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 250px;
-  height: 100%;
-  background: linear-gradient(to right, rgb(255, 255, 255, 0), #ffffff);
-  content: "";
-  z-index: 1;
-}
+  .carousel-wrapper::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background: linear-gradient(to right, rgb(255, 255, 255, 0), #ffffff);
+    content: "";
+    z-index: 1;
+  }
 
   .xeloos-sim-category {
     grid-template-columns: repeat(1, 1fr);

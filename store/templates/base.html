@@ -1,1137 +1,1713 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %} {% endblock %}
+    <link rel="stylesheet" href="{% static 'store/css/index.css'%}?v=1.8" />
+    <link rel="stylesheet" href="{% static 'store/css/store.css'%}?v=2.6" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'store/favicon/apple-touch-icon.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'store/favicon/favicon-32x32.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'store/favicon/favicon-16x16.png' %}"
+    />
+    <link rel="manifest" href="{% static 'store/favicon/site.webmanifest' %}" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <!-- Font Awesome CDN -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Swiper CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  {% block title %} {% endblock %}
-  <link rel="stylesheet" href="{% static 'store/css/index.css'%}?v=1.8" />
-  <link rel="stylesheet" href="{% static 'store/css/store.css'%}?v=2.6" />
-  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'store/favicon/apple-touch-icon.png' %}" />
-  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'store/favicon/favicon-32x32.png' %}" />
-  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'store/favicon/favicon-16x16.png' %}" />
-  <link rel="manifest" href="{% static 'store/favicon/site.webmanifest' %}" />
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  <!-- Font Awesome CDN -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-  <!-- Bootstrap CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-  <!-- Google Fonts CDN -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
-    rel="stylesheet" />
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-
-  <script type="text/javascript"
-    src="https://platform-api.sharethis.com/js/sharethis.js#property=683f91c5bde97c0013e1dfba&product=inline-share-buttons&source=platform"
-    async="async"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
-    integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
-    crossorigin="anonymous"></script>
-  <style>
-    :root {
-      --dark: #7A001F;
-      --primary: #E6003E;
-      --light: #DCDCDC;
-      --font-color: #dcdcdc;
-      --primary-font: "Sora";
-      --secondary-font: "Inter";
-    }
-
-    .sim-store-navbar .container-fluid {
-      background: linear-gradient(80deg, #000000, #b303ff, #000000);
-      padding: 2rem 4rem 1rem;
-    }
-
-    .sim-store-header h2 {
-      color: white;
-    }
-
-    .mini-navbar span {
-      color: rgb(255, 255, 255);
-      font-size: 14px;
-    }
-
-    .mini-navbar .active {
-      color: #bcbcbc;
-    }
-
-    .mini-navbar a {
-      text-decoration: none;
-      color: white;
-    }
-
-    .mini-navbar i {
-      margin-top: 0.1rem;
-      color: #ffffff;
-    }
-
-    body {
-      font-family: var(--body-font);
-      position: relative;
-      background-color: var(--dark-bg);
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: var(--heading-font);
-      font-weight: 700;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    #preloader {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      top: 0;
-      left: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loader-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #preloader-logo {
-      animation: pulse 1.5s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        opacity: 1;
+    <script
+      type="text/javascript"
+      src="https://platform-api.sharethis.com/js/sharethis.js#property=683f91c5bde97c0013e1dfba&product=inline-share-buttons&source=platform"
+      async="async"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
+      integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      :root {
+        --dark: #7a001f;
+        --primary: #e6003e;
+        --light: #dcdcdc;
+        --font-color: #dcdcdc;
+        --primary-font: "Sora";
+        --secondary-font: "Inter";
       }
 
-      50% {
-        transform: scale(1.1);
-        opacity: 0.8;
-      }
-
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .header {
-      position: sticky;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 999;
-      box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
-    }
-
-    .navbar {
-      width: 100%;
-      padding-right: 10px;
-    }
-
-    .navbar-container {
-      width: inherit;
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      padding: 0;
-      position: relative;
-    }
-
-    .navbar-logo {
-      margin-left: 4rem;
-    }
-
-    .navbar-logo img {
-      height: 50px;
-      width: 50px;
-      image-rendering: optimizeQuality;
-    }
-
-    .navbar-links {
-      flex: 1;
-      padding-left: 50px;
-    }
-
-    .navbar-links ul {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .navbar-links li {
-      list-style: none;
-    }
-
-    .navbar-links li a {
-      text-decoration: none;
-      color: black;
-      font-size: 16px;
-      font-weight: 300;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .navbar-links li a:hover {
-      color: #a928ff;
-    }
-
-    .navbar-icons {
-      display: flex;
-      align-items: center;
-      gap: 4rem;
-      font-size: 18px;
-      color: #333;
-      padding-right: 20px;
-    }
-
-    .navbar-icons .user-profile i {
-      transition: all 0.2s ease-in-out;
-    }
-
-    .navbar-icons .user-profile i:hover {
-      color: #b03aff;
-      cursor: pointer;
-      transform: scale(1.1);
-    }
-
-    .navbar-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .navbar-toggle span {
-      width: 22px;
-      height: 2px;
-      background: #333;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .navbar-toggle span:nth-child(2) {
-      width: 16px;
-    }
-
-    /* Active/animated state */
-    .menu-icon.open span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-
-    .menu-icon.open span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .menu-icon.open span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
-    }
-
-    .navbar-close {
-      font-size: 28px;
-      text-align: right;
-      padding: 10px 20px;
-      cursor: pointer;
-      display: none;
-    }
-
-    .user-profile {
-      display: block;
-    }
-
-    .mobile-profile {
-      display: none;
-    }
-
-    .cart {
-      position: relative;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .cart:hover {
-      transform: scale(1.1);
-    }
-
-    #cart-count {
-      position: absolute;
-      padding: 0 5px;
-      top: 0;
-      right: -1rem;
-      transform: translate(-50%, -50%);
-      border: 2px solid #ffffff;
-      border-radius: 20px;
-      background-color: #000000;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 600;
-      width: fit-content;
-      height: fit-content;
-      text-align: center;
-    }
-
-    .user-profile .dropdown-item {
-      font-size: 14px;
-    }
-
-    .mobile-profile .dropdown-item {
-      font-size: 14px;
-    }
-
-    /* Mobile styles */
-    @media (max-width: 768px) {
       .sim-store-navbar .container-fluid {
-        padding: 3rem 0rem 2rem 2rem;
-        position: relative;
+        background: linear-gradient(80deg, #000000, #b303ff, #000000);
+        padding: 2rem 4rem 1rem;
       }
 
-      .mini-navbar {
-        position: absolute;
-        bottom: 0rem;
-        transform: translateY(100%);
-        padding-top: 1rem;
-      }
-
-      .mini-navbar span,
-      a {
-        color: #b303ff;
-        font-size: 13px;
-        font-weight: 300;
-      }
-
-      .mini-navbar i {
-        color: #b303ff;
-      }
-
-      .mini-navbar .active {
-        color: #c3c3c3;
-      }
-
-      .faq-section {
-        padding: 0;
-        margin-top: 7rem;
-      }
-
-      .sim-store-header {
-        padding-right: 1rem;
-      }
-
-      h2 {
+      .sim-store-header h2 {
         color: white;
       }
 
-      .navbar-container {
-        justify-content: space-between;
-        padding: 0 1.5rem;
-      }
-
-      .navbar-logo {
-        margin-left: 0;
-      }
-
-      .navbar-icons {
-        position: fixed;
-        bottom: 30px;
-        right: 10px;
-        background: white;
-        padding: 10px 15px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-        display: flex;
-        align-items: center;
-      }
-
-      .navbar-icons i {
-        transform: scale(1.1);
-      }
-
-      .navbar-toggle {
-        display: flex;
-      }
-
-      .navbar-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 250px;
-        background: white;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        padding-top: 60px;
-        gap: 20px;
-        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease-in-out;
-        z-index: 999;
-      }
-
-      .navbar-links.active {
-        right: 0;
-      }
-
-      .navbar-links ul {
-        flex-direction: column;
-        width: 100%;
-        padding-left: 20px;
-      }
-
-      .navbar-links ul li {
-        margin: 10px 0;
-      }
-
-      .navbar-close {
-        display: block;
-      }
-
-      .mobile-profile {
-        display: block;
-      }
-
-      .user-profile {
-        display: none;
-      }
-
-      #cartIcon {
-        color: #800bce;
-        transform: scale(1.1);
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div id="preloader" style="display: none">
-    <div class="loader-wrapper text-center">
-      <img id="preloader-logo" src="{% static 'store/img/Xeloos_logo_black.jpg' %}" alt="Logo"
-        style="width: 80px; margin-bottom: 1rem" />
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </div>
-
-  <header class="header">
-    <nav class="navbar bg-white">
-      <div class="navbar-container">
-        <div class="navbar-logo">
-          <a href="/">
-            <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="" />
-          </a>
-        </div>
-        <div class="d-flex align-items-center gap-5">
-          <div class="mobile-profile">
-            {% if request.user.is_authenticated %}
-            <div class="dropdown">
-              <a class="d-flex align-items-center justify-content-center gap-2 text-white text-decoration-none" href="#"
-                id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                style="width: 40px; height: 40px">
-                <i class="fa-solid fa-circle-user fa-lg" style="color: #800bce"></i>
-                <span style="
-                      font-size: 15px;
-                      font-weight: 500;
-                      font-style: italic;
-                      color: #000000;
-                    ">
-                  {{ user.username }}
-                </span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="userDropdown">
-                <li>
-                  <a class="dropdown-item" href="{% url 'user_profile' %}">My profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'user-order-history' %}">View order history</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'change_password' %}">Change password</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item text-danger" href="{% url 'sign_out' %}">Sign out</a>
-                </li>
-              </ul>
-            </div>
-            {% else %}
-            <a href="{% url 'sign_in' %}" class="text-decoration-none">
-              <i class="fa-solid fa-right-to-bracket fa-lg" style="color: #800bce"></i>
-            </a>
-            {% endif %}
-          </div>
-          <!-- Hamburger button -->
-          <div class="navbar-toggle" id="mobile-menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <!-- Slide-in menu -->
-        <div class="navbar-links" id="nav-links">
-          <ul>
-            <li><a href="{% url 'store-category' %}">Shop SIM Cards</a></li>
-            <li><a href="{% url 'services' %}">Xeloos Services</a></li>
-            <li><a href="{% url 'blog' %}">Blog</a></li>
-            <li><a href="{% url 'consultation' %}">Consultation</a></li>
-            <li><a href="{% url 'about-us' %}">About Us</a></li>
-            <li><a href="{% url 'faqs' %}">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="navbar-icons">
-          <div class="user-profile">
-            {% if request.user.is_authenticated %}
-            <div class="dropdown">
-              <a class="d-flex align-items-center justify-content-center gap-2 text-white text-decoration-none" href="#"
-                id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                style="width: 40px; height: 40px">
-                <i class="fa-solid fa-circle-user fa-lg" style="color: #800bce"></i>
-                <span style="font-size: 15px; color: #000000">
-                  {{ user.username }}
-                </span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="userDropdown">
-                <li>
-                  <a class="dropdown-item" href="{% url 'user_profile' %}">My profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'user-order-history' %}">View order history
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'change_password' %}">Change password</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item text-danger" href="{% url 'sign_out' %}">Sign out</a>
-                </li>
-              </ul>
-            </div>
-            {% else %}
-            <a href="{% url 'sign_in' %}" class="text-decoration-none">
-              <i class="fa-solid fa-right-to-bracket fa-lg" style="color: #800bce"></i>
-            </a>
-            {% endif %}
-          </div>
-          <div id="cartIcon" class="cart">
-            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #000000"></i>
-            <div id="cart-count">{{ cart|length }}</div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <!-- Overlay and Cart Modal -->
-  <style>
-    /* Overlay */
-    .hidden {
-      display: none;
-    }
-
-    .overlay.active {
-      display: flex !important;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 4rem;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(202deg,
-          rgba(0, 0, 0, 0.9),
-          rgba(179, 3, 255, 0.9),
-          rgb(0, 0, 0, 0.9));
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    /* Show overlay */
-    .overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    /* Cart modal */
-    .cart-modal {
-      background: #fff;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 10px;
-      padding: 20px;
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      z-index: 1001;
-      box-shadow: 2px 2px 6px #ffffff;
-      transform: translateY(-30px);
-      opacity: 0;
-      transition:
-        transform 0.3s ease,
-        opacity 0.3s ease;
-    }
-
-    /* Animate modal when overlay is active */
-    .overlay.active .cart-modal {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* Cart header and close button */
-    .cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .close-btn {
-      background: transparent;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .checkout-btn {
-      position: relative;
-      padding: 0.9rem 2.5rem;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 2.5rem;
-      font-weight: 500;
-      line-height: 1;
-      white-space: nowrap;
-      transition: all 0.5s ease;
-      z-index: 3;
-      background: linear-gradient(to right, #bb30f6, #000000);
-      border: 1px solid transparent;
-      color: white;
-    }
-
-    .checkout-btn:hover {
-      background: transparent;
-      border: 1px solid #bb30f6;
-      color: #b03aff;
-    }
-
-    #closeCart {
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      .cart-modal {
-        position: relative;
-        top: auto;
-        right: auto;
-        margin: auto;
-      }
-    }
-  </style>
-
-  <div id="cartOverlay" class="overlay hidden">
-    <div class="cart-modal">
-      <div class="cart-header d-flex align-items-center mb-5">
-        <h5>Cart summary</h5>
-        <i id="closeCart" class="fa-regular fa-circle-xmark fa-lg" style="color: #000000"></i>
-      </div>
-      {% include 'cart_summary.html' %}
-    </div>
-  </div>
-  <section class="message-section">
-    <style>
-      .message-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        position: fixed;
-        left: 10rem;
-        top: 15rem;
-        transform: translate(-50%, 50%);
-      }
-
-      .message-content {
-        padding: 10px;
-        background: #f8f9fa;
-        padding: 10px;
-        border-radius: 8px;
-        font-weight: 500;
+      .mini-navbar span {
+        color: rgb(255, 255, 255);
         font-size: 14px;
       }
 
-      @media (max-width: 768px) {
-        .message-container {
-          position: relative;
-          z-index: 100;
-          left: 17rem;
-          top: 10rem;
-          transform: translate(-50%, 50%);
-        }
+      .mini-navbar .active {
+        color: #bcbcbc;
       }
-    </style>
 
-    {% if messages %}
-    <div class="message-container">
-      {% for message in messages %}
-      <div class="message-content {% if 'error' in message.tags %}text-danger{% else %}text-success{% endif %}">
-        <i
-          class="fas {% if 'error' in message.tags %}fa-exclamation-circle text-danger{% else %}fa-check-circle text-success{% endif %} me-2"></i>
-        {{ message }}
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </section>
+      .mini-navbar a {
+        text-decoration: none;
+        color: white;
+      }
 
-  {% block content %} {% endblock %}
+      .mini-navbar i {
+        margin-top: 0.1rem;
+        color: #ffffff;
+      }
 
-  <footer class="footer bg-light">
-    <style>
-      .footer {
+      body {
+        font-family: var(--secondary-font);
         position: relative;
-        z-index: 1;
-        overflow: hidden;
+        background-color: var(--dark);
       }
 
-      @media (max-width: 992px) {
-        .footer {
-          border-radius: 4rem 4rem 0px 0px;
-          padding: 4rem 0px 0px;
-        }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: var(--primary-font);
+        font-weight: 700;
       }
 
-      .footer-container {
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #preloader {
+        position: fixed;
         width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loader-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
 
-      @media (max-width: 768px) {
-        .footer-wrapper {
-          gap: 70px;
-          padding: 30px;
+      #preloader-logo {
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
       }
 
-      .footer-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 70px;
-        margin-bottom: 50px;
+      .header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
       }
 
-      .footer-wrapper ul {
+      .navbar {
+        width: 100%;
+        padding-right: 10px;
+      }
+
+      .navbar-container {
+        width: inherit;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 0;
+        position: relative;
+      }
+
+      .navbar-logo {
+        margin-left: 4rem;
+      }
+
+      .navbar-logo img {
+        height: 60px;
+        width: 60px;
+      }
+
+      .navbar-links {
+        flex: 1;
+        padding-left: 50px;
+      }
+
+      .navbar-links ul {
+        display: flex;
+        align-items: center;
+        gap: 25px;
         margin: 0;
         padding: 0;
       }
 
-      .footer-wrapper ul li {
+      .dropdown-mega {
+        position: relative;
+      }
+
+      .mega-menu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+
+        width: 700px;
+
+        background: #fff;
+        border-radius: 30px;
+
+        padding: 2rem;
+
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition: 0.35s ease;
+
+        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.08);
+
+        z-index: 1000;
+      }
+
+      .mega-dropdown {
+        position: relative;
+      }
+
+      .mega-menu {
+        position: absolute;
+
+        top: calc(100% + 20px);
+
+        left: 50%;
+
+        transform: translateX(-50%) translateY(10px);
+
+        width: 760px;
+
+        background: #fff;
+
+        border-radius: 30px;
+
+        padding: 35px;
+
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        transition: 0.35s;
+
+        z-index: 999;
+      }
+
+      .mega-dropdown:hover .mega-menu {
+        opacity: 1;
+
+        visibility: visible;
+
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .mega-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 25px;
+      }
+
+      .mega-card {
+        display: flex;
+
+        gap: 18px;
+
+        padding: 14px;
+
+        border-radius: 18px;
+
+        text-decoration: none;
+
+        transition: 0.25s;
+      }
+
+      .mega-card:hover {
+        background: #f8f8fb;
+
+        transform: translateY(-3px);
+      }
+
+      .icon {
+        width: 52px;
+
+        height: 52px;
+
+        border-radius: 14px;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        color: #fff;
+
+        flex-shrink: 0;
+      }
+
+      .icon.purple {
+        background: #8d3dff;
+      }
+
+      .icon.dark {
+        background: #101820;
+      }
+
+      .icon.blue {
+        background: #2d6cdf;
+      }
+
+      .icon.orange {
+        background: #ff8b5c;
+      }
+
+      .mega-menu::before {
+        content: "";
+
+        position: absolute;
+
+        top: -8px;
+
+        left: 50%;
+
+        width: 16px;
+
+        height: 16px;
+
+        background: white;
+
+        transform: translateX(-50%) rotate(45deg);
+      }
+
+      .desktop-shop {
+        position: relative;
+      }
+
+      .desktop-shop:hover .mega-menu {
+        opacity: 1;
+
+        visibility: visible;
+
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .mobile-shop {
+        display: none;
+      }
+
+      .custom-accordion {
+        border: none;
+
+        background: #f7f7fb;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+      }
+
+      .custom-accordion .accordion-button {
+        background: #f7f7fb;
+
+        font-size: 20px;
+
+        font-weight: 600;
+
+        box-shadow: none;
+
+        padding: 22px;
+      }
+
+      .custom-accordion .accordion-button::after {
+        display: none;
+      }
+
+      .custom-accordion .accordion-button::before {
+        content: "+";
+
+        margin-left: auto;
+
+        font-size: 26px;
+
+        transition: 0.3s;
+      }
+
+      .custom-accordion .accordion-button:not(.collapsed)::before {
+        content: "−";
+      }
+
+      .menu-item {
+        display: flex;
+
+        gap: 16px;
+
+        padding: 18px 22px;
+
+        text-decoration: none;
+
+        color: #222;
+      }
+
+      .menu-item:hover {
+        background: #f4f4f4;
+      }
+
+      .menu-icon {
+        width: 45px;
+
+        height: 45px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 12px;
+
+        color: white;
+
+        flex-shrink: 0;
+      }
+
+      .desktop-shop .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .nav-caret {
+        transition: transform 0.3s ease;
+      }
+
+      .desktop-shop:hover .nav-caret {
+        transform: rotate(180deg);
+      }
+
+      .desktop-shop .nav-link:hover {
+        color: var(--bs-primary);
+      }
+
+      /* .navbar-links li {
         list-style: none;
       }
 
-      .footer-wrapper ul li a {
+      .navbar-links li a {
         text-decoration: none;
-        cursor: pointer;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 14px;
+        color: black;
+        font-size: 16px;
+        font-weight: 300;
         transition: all 0.3s ease-in-out;
       }
 
-      .footer-wrapper ul li a:hover {
-        color: #b03aff;
-      }
+      .navbar-links li a:hover {
+        color: #a928ff;
+      } */
 
-      .footer-container h3 {
-        font-size: 14px;
-        font-weight: 600;
-        color: rgba(0, 0, 0, 0.8);
-        margin-bottom: 1.2rem;
-      }
-
-      .footer-logo img {
-        width: 100px;
-        height: 100px;
-      }
-
-      .phone-details span {
-        font-size: 13px;
-        color: rgba(0, 0, 0, 0.6);
-      }
-
-      .via-email a {
-        text-decoration: none;
-        cursor: pointer;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 15px;
-        transition: all 0.3s ease-in-out;
-      }
-
-      .via-email a:hover {
-        color: #b03aff;
-      }
-
-      .via-address p {
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 13px;
-      }
-
-      .contact-details {
+      .navbar-icons {
         display: flex;
+        align-items: center;
+        gap: 4rem;
+        font-size: 18px;
+        color: #333;
+        padding-right: 20px;
+      }
+
+      .navbar-icons .user-profile i {
+        transition: all 0.2s ease-in-out;
+      }
+
+      .navbar-icons .user-profile i:hover {
+        color: #b03aff;
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+      .navbar-toggle {
+        display: none;
         flex-direction: column;
-        gap: 10px;
+        justify-content: center;
+        gap: 5px;
+        cursor: pointer;
+        background: rgba(220, 220, 220, 0.3);
+        padding: 0.6rem;
+        border-radius: 0.3rem;
       }
 
-      .socials {
+      .navbar-toggle span {
+        width: 22px;
+        height: 2px;
+        background: #7a001f;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-toggle span:nth-child(2) {
+        width: 16px;
+      }
+
+      /* Active state */
+      .navbar-toggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .navbar-toggle.active span:nth-child(2) {
+        opacity: 0;
+        width: 0;
+      }
+
+      .navbar-toggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .user-profile {
+        display: block;
+      }
+
+      .mobile-profile {
+        display: none;
+      }
+
+      .cart {
+        position: relative;
+        cursor: pointer;
+        transition: all 0.5s ease;
+      }
+
+      .cart:hover {
+        transform: scale(1.1);
+      }
+
+      .step-circle {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
         display: flex;
-        gap: 20px;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        border: 1.5px solid var(--dark);
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(60%, -50%);
       }
 
-      .socials img {
-        width: 20px;
-      }
-
-      .socials a:hover {
-        background: #b03aff1f;
-      }
-
-      .socials a {
-        text-decoration: none;
-        border-radius: 10px;
-        padding: 3px;
-        transition: all 0.3s ease-in-out;
-      }
-
-      .footer-container hr {
-        border: none;
-        border-top: 1px solid #7b7b7b;
-        width: 80%;
-        height: 0;
-      }
-
-      .footer-copyright {
+      #cart-count {
+        color: var(--dark);
         font-size: 12px;
-        color: rgba(0, 0, 0, 0.8);
-        opacity: 0.4;
-        text-align: center;
-        padding: 0rem 0 1.5rem;
+        font-weight: 600;
+      }
+
+      .user-profile .dropdown-item {
+        font-size: 14px;
+      }
+
+      .mobile-profile .dropdown-item {
+        font-size: 14px;
+      }
+
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        .sim-store-navbar .container-fluid {
+          padding: 3rem 0rem 2rem 2rem;
+          position: relative;
+        }
+
+        .mini-navbar {
+          position: absolute;
+          bottom: 0rem;
+          transform: translateY(100%);
+          padding-top: 1rem;
+        }
+
+        .mini-navbar span,
+        a {
+          color: #b303ff;
+          font-size: 13px;
+          font-weight: 300;
+        }
+
+        .mini-navbar i {
+          color: #b303ff;
+        }
+
+        .mini-navbar .active {
+          color: #c3c3c3;
+        }
+
+        .faq-section {
+          padding: 0;
+          margin-top: 7rem;
+        }
+
+        .sim-store-header {
+          padding-right: 1rem;
+        }
+
+        h2 {
+          color: white;
+        }
+
+        .navbar {
+          padding-right: 0;
+        }
+
+        .navbar-container {
+          justify-content: space-between;
+          padding: 0 1.5rem;
+        }
+
+        .navbar-logo {
+          margin-left: 0;
+        }
+
+        .navbar-icons {
+          position: fixed;
+          bottom: 30px;
+          right: 10px;
+          background: #ffffff;
+          padding: 10px 15px;
+          border-radius: 12px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+          z-index: 999;
+          display: flex;
+          align-items: center;
+        }
+
+        .navbar-icons i {
+          transform: scale(1.1);
+        }
+
+        .navbar-toggle {
+          display: flex;
+        }
+
+        .navbar-links {
+          overflow-y: auto;
+          overflow-x: hidden;
+          position: fixed;
+          top: 4.7rem;
+          left: -100%;
+          height: calc(100vh - 4.7rem);
+          width: 100%;
+          background: #fff;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          padding-top: 1.5rem;
+          gap: 20px;
+          box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+          transition: left 0.3s ease-in-out;
+          z-index: 999;
+        }
+
+        .navbar-links.active {
+          left: 0;
+        }
+
+        .navbar-links ul {
+          flex-direction: column;
+          width: 100%;
+          padding-left: 20px;
+          padding-bottom: 2rem;
+        }
+        .desktop-shop {
+          display: none;
+        }
+
+        .mobile-shop {
+          display: block;
+        }
+
+        /* .navbar-links ul li {
+          margin: 10px 0;
+        } */
+
+        .navbar-close {
+          display: block;
+        }
+
+        .mobile-profile {
+          display: block;
+        }
+
+        .user-profile {
+          display: none;
+        }
+
+        #cartIcon {
+          color: #800bce;
+          transform: scale(1.1);
+        }
       }
     </style>
-    <div class="footer-container">
-      <div class="footer-wrapper">
-        <div class="footer-logo d-flex flex-column">
-          <img src="{% static 'store/img/Xeloos_logo_black.jpg' %}" alt="Xeloos-logo" />
-        </div>
-        <div class="quick-links-company">
-          <h3>XELOOS</h3>
-          <nav>
-            <ul>
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <a href="{% url 'about-us' %}">About Us</a>
-              </li>
-              <li>
-                <a href="{% url 'blog' %}">Blog</a>
-              </li>
-              <li>
-                <a href="{% url 'consultation' %}">Consultation</a>
-              </li>
-              <li>
-                <a href="{% url 'policy' %}">Privacy Policy</a>
-              </li>
-              <li>
-                <a href="{% url 'terms' %}">Terms & conditions</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="quick-links-product">
-          <h3>Product</h3>
-          <nav>
-            <ul>
-              <li>
-                <a href="{% url 'store-category' %}">SIM Store</a>
-              </li>
-              <li>
-                <a href="{% url 'faqs' %}">Frequently Asked Questions</a>
-              </li>
-              <!-- <li>
-                                <a href="">Affliate Program</a>
-                            </li> -->
-            </ul>
-          </nav>
-        </div>
-        <div class="contact-us">
-          <h3>Contact</h3>
-          <div class="contact-details">
-            <div class="via-phone d-flex align-items-center gap-3">
-              <i class="fa-solid fa-phone" style="color: #b03aff"></i>
-              <div class="phone-details d-flex flex-column">
-                <span>+234-201-636-7000</span>
-                <span>+234-201-636-7000</span>
-              </div>
-            </div>
-            <div class="via-email d-flex align-items-center gap-3">
-              <i class="fa-solid fa-envelope" style="color: #b03aff"></i>
-              <a href="mailto:info@xeloos.com">info@xeloos.com</a>
-            </div>
-            <div class="via-address d-flex gap-3">
-              <i class="fa-solid fa-location-dot" style="color: #b03aff"></i>
-              <p>
-                MWS HK LTD 9th Floor,<br />
-                Amtel Building<br />
-                148 Des Voeux Road Central<br />
-                Hong Kong
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="social-links">
-          <h3>CONNECT WITH US</h3>
-          <div class="socials">
-            <a href="" target="_blank" rel="noopener">
-              <img src="{% static 'store/svg/instagram.svg' %}" alt="" />
-            </a>
-            <a href="" target="_blank" rel="noopener">
-              <img src="{% static 'store/svg/x.svg' %}" alt="" />
-            </a>
-            <a href="" target="_blank" rel="noopener">
-              <img src="{% static 'store/svg/facebook.svg' %}" alt="" />
-            </a>
-            <a href="" target="_blank" rel="noopener">
-              <img src="{% static 'store/svg/tiktok.svg' %}" alt="" />
-            </a>
-          </div>
+  </head>
+
+  <body>
+    <div id="preloader" style="display: none">
+      <div class="loader-wrapper text-center">
+        <img
+          id="preloader-logo"
+          src="{% static 'store/img/Xeloos_logo_black.jpg' %}"
+          alt="Logo"
+          style="width: 80px; margin-bottom: 1rem"
+        />
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-      <hr />
-      <div class="footer-copyright">© 2025 Xeloos | All rights reserved.</div>
     </div>
-  </footer>
 
-  <script>
-    const swiper = new Swiper(".swiper", {
-      speed: 2000,
-      loop: true,
-      loopPreventsSliding: false,
-      parallax: true,
-      pagination: {
-        el: ".swiper-pagination",
-        type: "bullets",
-        clickable: true,
-      },
-      autoplay: false,
-      // autoplay: {
-      //   delay: 10000,
-      //   pauseOnMouseEnter: true,
-      // },
-    });
+    <header class="header">
+      <nav class="navbar bg-white">
+        <div class="navbar-container">
+          <div class="navbar-logo">
+            <a href="/">
+              <img
+                src="{% static 'store/xeloos_assets/primary-logo.svg' %}"
+                alt=""
+              />
+            </a>
+          </div>
+          <div class="d-flex align-items-center gap-5">
+            <div class="mobile-profile">
+              {% if request.user.is_authenticated %}
+              <div class="dropdown">
+                <a
+                  class="d-flex align-items-center justify-content-center gap-2 text-white text-decoration-none"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style="width: 40px; height: 40px"
+                >
+                  <i
+                    class="fa-solid fa-circle-user fa-lg"
+                    style="color: #7a001f"
+                  ></i>
+                  <span
+                    style="
+                      font-size: 15px;
+                      font-weight: 500;
+                      font-style: italic;
+                      color: #000000;
+                    "
+                  >
+                    {{ user.username }}
+                  </span>
+                </a>
+                <ul
+                  class="dropdown-menu dropdown-menu-end mt-2"
+                  aria-labelledby="userDropdown"
+                >
+                  <li>
+                    <a class="dropdown-item" href="{% url 'user_profile' %}"
+                      >My profile</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="{% url 'user-order-history' %}"
+                      >View order history</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'change_password' %}"
+                      >Change password</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item text-danger"
+                      href="{% url 'sign_out' %}"
+                      >Sign out</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              {% else %}
+              <a href="{% url 'sign_in' %}" class="text-decoration-none">
+                <i
+                  class="fa-solid fa-right-to-bracket fa-lg"
+                  style="color: #7a001f"
+                ></i>
+              </a>
+              {% endif %}
+            </div>
+            <!-- Hamburger button -->
+            <div class="navbar-toggle" id="mobile-menu-toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
 
-    function scrollContent(amount) {
-      const scrollContainer = document.getElementById("scrollable-content");
-      scrollContainer.scrollBy({ left: amount, behavior: "smooth" });
-    }
+          <!-- Slide-in menu -->
+          <div class="navbar-links" id="nav-links">
+            <ul>
+              <li class="nav-item desktop-shop">
+                <a href="#" class="nav-link">
+                  Shop
+                  <i class="fas fa-chevron-down ms-1 small nav-caret"></i>
+                </a>
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const slides = document.querySelector(".slides");
-      const slideImages = document.querySelectorAll(".slides img");
-      const prevButton = document.querySelector(".prev-slide");
-      const nextButton = document.querySelector(".next-slide");
-      const dotsContainer = document.querySelector(".dots-container");
+                <div class="mega-menu">
+                  <div class="mega-grid">
+                    <a href="#" class="mega-card">
+                      <div class="icon purple">
+                        <i class="fas fa-sim-card"></i>
+                      </div>
 
-      let currentIndex = 0;
-      const totalSlides = slideImages.length;
+                      <div>
+                        <h6>eSIM Store</h6>
+                        <p>Instant activation for over 200 destinations.</p>
+                      </div>
+                    </a>
 
-      // Create dots dynamically based on the number of slides
-      for (let i = 0; i < totalSlides; i++) {
-        const dot = document.createElement("span");
-        dot.classList.add("dot");
-        if (i === 0) {
-          dot.classList.add("active");
-        }
-        dot.addEventListener("click", () => currentSlide(i));
-        dotsContainer.appendChild(dot);
+                    <a href="#" class="mega-card">
+                      <div class="icon dark">
+                        <i class="fas fa-globe"></i>
+                      </div>
+
+                      <div>
+                        <h6>Travel SIM</h6>
+                        <p>International SIM cards.</p>
+                      </div>
+                    </a>
+
+                    <a href="#" class="mega-card">
+                      <div class="icon blue">
+                        <i class="fas fa-wifi"></i>
+                      </div>
+
+                      <div>
+                        <h6>Data Bundles</h6>
+                        <p>Affordable roaming packages.</p>
+                      </div>
+                    </a>
+
+                    <a href="#" class="mega-card">
+                      <div class="icon orange">
+                        <i class="fas fa-headset"></i>
+                      </div>
+
+                      <div>
+                        <h6>Consultation</h6>
+                        <p>We'll help you choose.</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="mobile-shop">
+                <div class="accordion" id="shopAccordion">
+                  <div class="accordion-item custom-accordion">
+                    <h2 class="accordion-header">
+                      <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#shopCollapse"
+                      >
+                        Shop
+                      </button>
+                    </h2>
+
+                    <div
+                      id="shopCollapse"
+                      class="accordion-collapse collapse"
+                      data-bs-parent="#shopAccordion"
+                    >
+                      <div class="accordion-body p-0">
+                        <a href="#" class="menu-item">
+                          <div class="menu-icon purple">
+                            <i class="fas fa-sim-card"></i>
+                          </div>
+
+                          <div>
+                            <h6>eSIM Store</h6>
+
+                            <p>Instant activation for 200+ destinations.</p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="menu-icon dark">
+                            <i class="fas fa-globe"></i>
+                          </div>
+
+                          <div>
+                            <h6>Travel SIM</h6>
+
+                            <p>International SIM cards.</p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="menu-icon blue">
+                            <i class="fas fa-wifi"></i>
+                          </div>
+
+                          <div>
+                            <h6>Data Bundles</h6>
+
+                            <p>Affordable roaming packages.</p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="menu-icon orange">
+                            <i class="fas fa-headset"></i>
+                          </div>
+
+                          <div>
+                            <h6>Consultation</h6>
+
+                            <p>Need help?</p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- <li class="nav-item dropdown-mega">
+                <a href="#" class="nav-link">
+                  Products
+                  <i class="fas fa-chevron-down ms-1 small"></i>
+                </a>
+
+                <div class="mega-menu shadow-lg">
+                  <a href="#" class="mega-item">
+                    <div class="mega-icon bg-danger">
+                      <i class="fas fa-credit-card"></i>
+                    </div>
+
+                    <div>
+                      <h6>eSIM Store</h6>
+                      <p>Buy local and international eSIMs.</p>
+                    </div>
+                  </a>
+
+                  <a href="#" class="mega-item">
+                    <div class="mega-icon bg-success">
+                      <i class="fas fa-sim-card"></i>
+                    </div>
+
+                    <div>
+                      <h6>Physical SIM</h6>
+                      <p>International SIM cards for travel.</p>
+                    </div>
+                  </a>
+
+                  <a href="#" class="mega-item">
+                    <div class="mega-icon bg-primary">
+                      <i class="fas fa-globe"></i>
+                    </div>
+
+                    <div>
+                      <h6>Data Packages</h6>
+                      <p>Affordable roaming data bundles.</p>
+                    </div>
+                  </a>
+
+                  <a href="#" class="mega-item">
+                    <div class="mega-icon bg-warning">
+                      <i class="fas fa-headset"></i>
+                    </div>
+
+                    <div>
+                      <h6>Consultation</h6>
+                      <p>Need help choosing the right SIM?</p>
+                    </div>
+                  </a>
+                </div>
+              </li> -->
+              <!-- <li><a href="{% url 'store-category' %}">Shop SIM Cards</a></li>
+              <li><a href="{% url 'services' %}">Xeloos Services</a></li>
+              <li><a href="{% url 'blog' %}">Blog</a></li>
+              <li><a href="{% url 'consultation' %}">Consultation</a></li>
+              <li><a href="{% url 'about-us' %}">About Us</a></li>
+              <li><a href="{% url 'faqs' %}">FAQs</a></li> -->
+            </ul>
+          </div>
+          <div class="navbar-icons">
+            <div class="user-profile">
+              {% if request.user.is_authenticated %}
+              <div class="dropdown">
+                <a
+                  class="d-flex align-items-center justify-content-center gap-2 text-white text-decoration-none"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style="width: 40px; height: 40px"
+                >
+                  <i
+                    class="fa-solid fa-circle-user fa-lg"
+                    style="color: #800bce"
+                  ></i>
+                  <span style="font-size: 15px; color: #000000">
+                    {{ user.username }}
+                  </span>
+                </a>
+                <ul
+                  class="dropdown-menu dropdown-menu-end mt-2"
+                  aria-labelledby="userDropdown"
+                >
+                  <li>
+                    <a class="dropdown-item" href="{% url 'user_profile' %}"
+                      >My profile</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="{% url 'user-order-history' %}"
+                      >View order history
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'change_password' %}"
+                      >Change password</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item text-danger"
+                      href="{% url 'sign_out' %}"
+                      >Sign out</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              {% else %}
+              <a href="{% url 'sign_in' %}" class="text-decoration-none">
+                <i
+                  class="fa-solid fa-right-to-bracket fa-lg"
+                  style="color: #800bce"
+                ></i>
+              </a>
+              {% endif %}
+            </div>
+            <div id="cartIcon" class="cart">
+              <i
+                class="fa-solid fa-cart-shopping fa-lg"
+                style="color: var(--dark)"
+              ></i>
+              <div class="step-circle">
+                <div id="cart-count">{{ cart|length }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- Overlay and Cart Modal -->
+    <style>
+      /* Overlay */
+      .hidden {
+        display: none;
       }
 
-      const dots = document.querySelectorAll(".dot");
+      .overlay.active {
+        display: flex !important;
+      }
 
-      function updateSlider() {
-        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+      .overlay {
+        position: fixed;
+        top: 4rem;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          202deg,
+          rgba(0, 0, 0, 0.9),
+          rgba(179, 3, 255, 0.9),
+          rgb(0, 0, 0, 0.9)
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
 
-        // Update active dot
-        dots.forEach((dot, index) => {
-          if (index === currentIndex) {
+      /* Show overlay */
+      .overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* Cart modal */
+      .cart-modal {
+        background: #fff;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 10px;
+        padding: 20px;
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        z-index: 1001;
+        box-shadow: 2px 2px 6px #ffffff;
+        transform: translateY(-30px);
+        opacity: 0;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+
+      /* Animate modal when overlay is active */
+      .overlay.active .cart-modal {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Cart header and close button */
+      .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .close-btn {
+        background: transparent;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .checkout-btn {
+        position: relative;
+        padding: 0.9rem 2.5rem;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2.5rem;
+        font-weight: 500;
+        line-height: 1;
+        white-space: nowrap;
+        transition: all 0.5s ease;
+        z-index: 3;
+        background: linear-gradient(to right, #bb30f6, #000000);
+        border: 1px solid transparent;
+        color: white;
+      }
+
+      .checkout-btn:hover {
+        background: transparent;
+        border: 1px solid #bb30f6;
+        color: #b03aff;
+      }
+
+      #closeCart {
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .cart-modal {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin: auto;
+        }
+      }
+    </style>
+
+    <div id="cartOverlay" class="overlay hidden">
+      <div class="cart-modal">
+        <div class="cart-header d-flex align-items-center mb-5">
+          <h5>Cart summary</h5>
+          <i
+            id="closeCart"
+            class="fa-regular fa-circle-xmark fa-lg"
+            style="color: #000000"
+          ></i>
+        </div>
+        {% include 'cart_summary.html' %}
+      </div>
+    </div>
+    <section class="message-section">
+      <style>
+        .message-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          position: fixed;
+          left: 10rem;
+          top: 15rem;
+          transform: translate(-50%, 50%);
+        }
+
+        .message-content {
+          padding: 10px;
+          background: #f8f9fa;
+          padding: 10px;
+          border-radius: 8px;
+          font-weight: 500;
+          font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+          .message-container {
+            position: relative;
+            z-index: 100;
+            left: 17rem;
+            top: 10rem;
+            transform: translate(-50%, 50%);
+          }
+        }
+      </style>
+
+      {% if messages %}
+      <div class="message-container">
+        {% for message in messages %}
+        <div
+          class="message-content {% if 'error' in message.tags %}text-danger{% else %}text-success{% endif %}"
+        >
+          <i
+            class="fas {% if 'error' in message.tags %}fa-exclamation-circle text-danger{% else %}fa-check-circle text-success{% endif %} me-2"
+          ></i>
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+
+    {% block content %} {% endblock %}
+
+    <footer class="footer bg-light">
+      <style>
+        .footer {
+          position: relative;
+          z-index: 1;
+          overflow: hidden;
+        }
+
+        @media (max-width: 992px) {
+          .footer {
+            border-radius: 4rem 4rem 0px 0px;
+            padding: 4rem 0px 0px;
+          }
+        }
+
+        .footer-container {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        @media (max-width: 768px) {
+          .footer-wrapper {
+            gap: 70px;
+            padding: 30px;
+          }
+        }
+
+        .footer-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          gap: 70px;
+          margin-bottom: 50px;
+        }
+
+        .footer-wrapper ul {
+          margin: 0;
+          padding: 0;
+        }
+
+        .footer-wrapper ul li {
+          list-style: none;
+        }
+
+        .footer-wrapper ul li a {
+          text-decoration: none;
+          cursor: pointer;
+          color: rgba(0, 0, 0, 0.6);
+          font-size: 14px;
+          transition: all 0.3s ease-in-out;
+        }
+
+        .footer-wrapper ul li a:hover {
+          color: #b03aff;
+        }
+
+        .footer-container h3 {
+          font-size: 14px;
+          font-weight: 600;
+          color: rgba(0, 0, 0, 0.8);
+          margin-bottom: 1.2rem;
+        }
+
+        .footer-logo img {
+          width: 100px;
+          height: 100px;
+        }
+
+        .phone-details span {
+          font-size: 13px;
+          color: rgba(0, 0, 0, 0.6);
+        }
+
+        .via-email a {
+          text-decoration: none;
+          cursor: pointer;
+          color: rgba(0, 0, 0, 0.6);
+          font-size: 15px;
+          transition: all 0.3s ease-in-out;
+        }
+
+        .via-email a:hover {
+          color: #b03aff;
+        }
+
+        .via-address p {
+          color: rgba(0, 0, 0, 0.6);
+          font-size: 13px;
+        }
+
+        .contact-details {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .socials {
+          display: flex;
+          gap: 20px;
+        }
+
+        .socials img {
+          width: 20px;
+        }
+
+        .socials a:hover {
+          background: #b03aff1f;
+        }
+
+        .socials a {
+          text-decoration: none;
+          border-radius: 10px;
+          padding: 3px;
+          transition: all 0.3s ease-in-out;
+        }
+
+        .footer-container hr {
+          border: none;
+          border-top: 1px solid #7b7b7b;
+          width: 80%;
+          height: 0;
+        }
+
+        .footer-copyright {
+          font-size: 12px;
+          color: rgba(0, 0, 0, 0.8);
+          opacity: 0.4;
+          text-align: center;
+          padding: 0rem 0 1.5rem;
+        }
+      </style>
+      <div class="footer-container">
+        <div class="footer-wrapper">
+          <div class="footer-logo d-flex flex-column">
+            <img
+              src="{% static 'store/img/Xeloos_logo_black.jpg' %}"
+              alt="Xeloos-logo"
+            />
+          </div>
+          <div class="quick-links-company">
+            <h3>XELOOS</h3>
+            <nav>
+              <ul>
+                <li>
+                  <a href="/">Home</a>
+                </li>
+                <li>
+                  <a href="{% url 'about-us' %}">About Us</a>
+                </li>
+                <li>
+                  <a href="{% url 'blog' %}">Blog</a>
+                </li>
+                <li>
+                  <a href="{% url 'consultation' %}">Consultation</a>
+                </li>
+                <li>
+                  <a href="{% url 'policy' %}">Privacy Policy</a>
+                </li>
+                <li>
+                  <a href="{% url 'terms' %}">Terms & conditions</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="quick-links-product">
+            <h3>Product</h3>
+            <nav>
+              <ul>
+                <li>
+                  <a href="{% url 'store-category' %}">SIM Store</a>
+                </li>
+                <li>
+                  <a href="{% url 'faqs' %}">Frequently Asked Questions</a>
+                </li>
+                <!-- <li>
+                                <a href="">Affliate Program</a>
+                            </li> -->
+              </ul>
+            </nav>
+          </div>
+          <div class="contact-us">
+            <h3>Contact</h3>
+            <div class="contact-details">
+              <div class="via-phone d-flex align-items-center gap-3">
+                <i class="fa-solid fa-phone" style="color: #b03aff"></i>
+                <div class="phone-details d-flex flex-column">
+                  <span>+234-201-636-7000</span>
+                  <span>+234-201-636-7000</span>
+                </div>
+              </div>
+              <div class="via-email d-flex align-items-center gap-3">
+                <i class="fa-solid fa-envelope" style="color: #b03aff"></i>
+                <a href="mailto:info@xeloos.com">info@xeloos.com</a>
+              </div>
+              <div class="via-address d-flex gap-3">
+                <i class="fa-solid fa-location-dot" style="color: #b03aff"></i>
+                <p>
+                  MWS HK LTD 9th Floor,<br />
+                  Amtel Building<br />
+                  148 Des Voeux Road Central<br />
+                  Hong Kong
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="social-links">
+            <h3>CONNECT WITH US</h3>
+            <div class="socials">
+              <a href="" target="_blank" rel="noopener">
+                <img src="{% static 'store/svg/instagram.svg' %}" alt="" />
+              </a>
+              <a href="" target="_blank" rel="noopener">
+                <img src="{% static 'store/svg/x.svg' %}" alt="" />
+              </a>
+              <a href="" target="_blank" rel="noopener">
+                <img src="{% static 'store/svg/facebook.svg' %}" alt="" />
+              </a>
+              <a href="" target="_blank" rel="noopener">
+                <img src="{% static 'store/svg/tiktok.svg' %}" alt="" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="footer-copyright">© 2025 Xeloos | All rights reserved.</div>
+      </div>
+    </footer>
+
+    <script>
+      const swiper = new Swiper(".swiper", {
+        speed: 2000,
+        loop: true,
+        loopPreventsSliding: false,
+        parallax: true,
+        pagination: {
+          el: ".swiper-pagination",
+          type: "bullets",
+          clickable: true,
+        },
+        autoplay: false,
+        // autoplay: {
+        //   delay: 10000,
+        //   pauseOnMouseEnter: true,
+        // },
+      });
+
+      function scrollContent(amount) {
+        const scrollContainer = document.getElementById("scrollable-content");
+        scrollContainer.scrollBy({ left: amount, behavior: "smooth" });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const slides = document.querySelector(".slides");
+        const slideImages = document.querySelectorAll(".slides img");
+        const prevButton = document.querySelector(".prev-slide");
+        const nextButton = document.querySelector(".next-slide");
+        const dotsContainer = document.querySelector(".dots-container");
+
+        let currentIndex = 0;
+        const totalSlides = slideImages.length;
+
+        // Create dots dynamically based on the number of slides
+        for (let i = 0; i < totalSlides; i++) {
+          const dot = document.createElement("span");
+          dot.classList.add("dot");
+          if (i === 0) {
             dot.classList.add("active");
-          } else {
-            dot.classList.remove("active");
           }
-        });
-      }
-
-      function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
-      }
-
-      function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSlider();
-      }
-
-      function currentSlide(n) {
-        currentIndex = n;
-        updateSlider();
-      }
-
-      // Event listeners for navigation buttons
-      nextButton.addEventListener("click", nextSlide);
-      prevButton.addEventListener("click", prevSlide);
-
-      setInterval(nextSlide, 5000);
-    });
-
-    const toggleBtn = document.getElementById("mobile-menu-toggle");
-    const navLinks = document.getElementById("nav-links");
-
-    toggleBtn.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-      toggleBtn.classList.toggle("active");
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const cartOverlay = document.getElementById("cartOverlay");
-      const closeBtn = document.getElementById("closeCart");
-      const cartIcon = document.getElementById("cartIcon");
-
-      cartIcon.addEventListener("click", () => {
-        cartOverlay.classList.add("active");
-      });
-
-      closeBtn.addEventListener("click", () => {
-        cartOverlay.classList.remove("active");
-      });
-
-      cartOverlay.addEventListener("click", (e) => {
-        if (e.target === cartOverlay) {
-          cartOverlay.classList.remove("active");
+          dot.addEventListener("click", () => currentSlide(i));
+          dotsContainer.appendChild(dot);
         }
+
+        const dots = document.querySelectorAll(".dot");
+
+        function updateSlider() {
+          slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+          // Update active dot
+          dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+              dot.classList.add("active");
+            } else {
+              dot.classList.remove("active");
+            }
+          });
+        }
+
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % totalSlides;
+          updateSlider();
+        }
+
+        function prevSlide() {
+          currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+          updateSlider();
+        }
+
+        function currentSlide(n) {
+          currentIndex = n;
+          updateSlider();
+        }
+
+        // Event listeners for navigation buttons
+        nextButton.addEventListener("click", nextSlide);
+        prevButton.addEventListener("click", prevSlide);
+
+        setInterval(nextSlide, 5000);
       });
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const alerts = document.querySelectorAll(".message-container");
+      const menuToggle = document.getElementById("mobile-menu-toggle");
+      const navLinks = document.getElementById("nav-links");
 
-      alerts.forEach((alert) => {
-        setTimeout(() => {
-          alert.style.transition = "opacity 0.5s ease-out";
-          alert.style.opacity = "0";
-
-          setTimeout(() => {
-            alert.remove();
-          }, 500);
-        }, 5000);
+      menuToggle.addEventListener("click", () => {
+        menuToggle.classList.toggle("active");
+        navLinks.classList.toggle("active");
       });
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const preloader = document.getElementById("preloader");
+      document
+        .querySelectorAll(
+          "#nav-links .menu-item, #nav-links > ul > li > a:not([data-bs-toggle])",
+        )
+        .forEach((link) => {
+          link.addEventListener("click", () => {
+            menuToggle.classList.remove("active");
 
-      // Always hide preloader on page load
-      preloader.style.display = "none";
+            navLinks.classList.remove("active");
+          });
+        });
 
-      function showPreloaderThenNavigate(e, url) {
-        e.preventDefault();
-        preloader.style.display = "flex";
+      document.addEventListener("DOMContentLoaded", () => {
+        const cartOverlay = document.getElementById("cartOverlay");
+        const closeBtn = document.getElementById("closeCart");
+        const cartIcon = document.getElementById("cartIcon");
 
-        setTimeout(() => {
-          window.location.href = url;
-        }, 1500);
-      }
+        cartIcon.addEventListener("click", () => {
+          cartOverlay.classList.add("active");
+        });
 
-      document.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", function (e) {
-          const href = this.getAttribute("href");
-          if (
-            href &&
-            href !== "#" &&
-            !href.startsWith("javascript") &&
-            !this.hasAttribute("target")
-          ) {
-            showPreloaderThenNavigate(e, href);
+        closeBtn.addEventListener("click", () => {
+          cartOverlay.classList.remove("active");
+        });
+
+        cartOverlay.addEventListener("click", (e) => {
+          if (e.target === cartOverlay) {
+            cartOverlay.classList.remove("active");
           }
         });
       });
 
-      document.querySelectorAll("form").forEach((form) => {
-        form.addEventListener("submit", function (e) {
+      document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll(".message-container");
+
+        alerts.forEach((alert) => {
+          setTimeout(() => {
+            alert.style.transition = "opacity 0.5s ease-out";
+            alert.style.opacity = "0";
+
+            setTimeout(() => {
+              alert.remove();
+            }, 500);
+          }, 5000);
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const preloader = document.getElementById("preloader");
+
+        // Always hide preloader on page load
+        preloader.style.display = "none";
+
+        function showPreloaderThenNavigate(e, url) {
           e.preventDefault();
           preloader.style.display = "flex";
 
           setTimeout(() => {
-            form.submit();
-          }, 1000);
+            window.location.href = url;
+          }, 1500);
+        }
+
+        document.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+            if (
+              href &&
+              href !== "#" &&
+              !href.startsWith("javascript") &&
+              !this.hasAttribute("target")
+            ) {
+              showPreloaderThenNavigate(e, href);
+            }
+          });
+        });
+
+        document.querySelectorAll("form").forEach((form) => {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            preloader.style.display = "flex";
+
+            setTimeout(() => {
+              form.submit();
+            }, 1000);
+          });
+        });
+
+        // Hide preloader on browser back/forward navigation (bfcache restore)
+        window.addEventListener("pageshow", function (event) {
+          preloader.style.display = "none";
+        });
+
+        // Also cover manual popstate navigation
+        window.addEventListener("popstate", function () {
+          preloader.style.display = "none";
         });
       });
-
-      // Hide preloader on browser back/forward navigation (bfcache restore)
-      window.addEventListener("pageshow", function (event) {
-        preloader.style.display = "none";
-      });
-
-      // Also cover manual popstate navigation
-      window.addEventListener("popstate", function () {
-        preloader.style.display = "none";
-      });
-    });
-  </script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-</body>
-
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  </body>
 </html>
