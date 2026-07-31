@@ -82,7 +82,7 @@
         --dark: #7a001f;
         --primary: #e6003e;
         --light: #dcdcdc;
-        --font-color: #dcdcdc;
+        --font-color: #515151;
         --primary-font: "Sora";
         --secondary-font: "Inter";
       }
@@ -215,12 +215,7 @@
         padding: 0;
       }
 
-      .desktop-shop {
-        position: relative;
-      }
-
       .mega-menu {
-        width: 50vw;
         opacity: 0;
         visibility: hidden;
         border: 1px solid var(--light);
@@ -231,14 +226,14 @@
         background: #fff;
         left: 50%;
         transform: translateX(-50%);
-        top: 170%;
-         transition: all 0.3s ease;
+        top: 120%;
+        transition: all 0.3s ease;
       }
 
       .mega-menu::before {
         content: "";
         position: absolute;
-        top: -27px;
+        top: -7%;
         left: 0;
         width: 100%;
         height: 50px;
@@ -248,21 +243,20 @@
       .mega-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
+        grid-gap: 1.5rem;
       }
 
       .mega-card {
         display: flex;
-
-        gap: 18px;
-
-        padding: 14px;
-
         border-radius: 18px;
-
         text-decoration: none;
-
         transition: 0.25s;
+        color: var(--dark);
+        width: 21.12rem;
+        display: flex;
+        padding: 1rem;
+        align-items: flex-start;
+        gap: 1rem;
       }
 
       .mega-card:hover {
@@ -293,7 +287,11 @@
         background: #8d3dff;
       }
 
-      .icon.dark {
+      .icon.primary {
+        background: var(--primary);
+      }
+
+      .icon.black {
         background: #101820;
       }
 
@@ -305,6 +303,14 @@
         background: #ff8b5c;
       }
 
+      .icon.green {
+        background: #28a745;
+      }
+
+      .icon.red {
+        background: #ff4d4f;
+      }
+
       .desktop-shop:hover .mega-menu {
         opacity: 1;
 
@@ -313,60 +319,90 @@
         transform: translateX(-50%) translateY(0);
       }
 
+      .mega-card p {
+        color: var(--font-color);
+        font-size: 1rem;
+        font-weight: 400;
+        margin: 0;
+      }
+      .mega-card .mega-card-heading {
+        font-family: var(--primary-font);
+        color: var(--dark);
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 0.2rem;
+      }
+
       .mobile-shop {
         display: none;
       }
 
+      .mobile-shop .accordion {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
       .custom-accordion {
         border: none;
-
-        background: #f7f7fb;
-
-        border-radius: 20px;
-
+        background: var(--bs-light);
         overflow: hidden;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
       }
 
       .custom-accordion .accordion-button {
-        background: #f7f7fb;
-
-        font-size: 20px;
-
-        font-weight: 600;
-
-        box-shadow: none;
-
-        padding: 22px;
+        font-size: 18px;
+        font-weight: 400;
+        color: var(--dark);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(122, 0, 30, 0.187);
       }
 
       .custom-accordion .accordion-button::after {
         display: none;
+        color: var(--dark);
+        transition: all 0.3s ease-in-out;
       }
 
-      .custom-accordion .accordion-button::before {
-        content: "+";
-
-        margin-left: auto;
-
-        font-size: 26px;
-
-        transition: 0.3s;
-      }
-
-      .custom-accordion .accordion-button:not(.collapsed)::before {
-        content: "−";
+      .custom-accordion .accordion-body {
+        max-height: 32.5rem;
+        transition: all 0.5s cubic-bezier(0, 0, 1, 0);
+        display: flex;
+        padding: 0 1.5rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        overflow-y: auto;
       }
 
       .menu-item {
-        display: flex;
-
-        gap: 16px;
-
-        padding: 18px 22px;
-
         text-decoration: none;
+        transition: all 0.3s ease-in-out;
+        width: 18.5625rem;
+        height: 6.25rem;
+        display: flex;
+        padding: 1rem 0;
+        align-items: flex-start;
+        gap: 1rem;
+      }
 
-        color: #222;
+      .menu-item p {
+        color: var(--font-color);
+        font-size: 14px;
+        font-weight: 400;
+        margin: 0;
+      }
+
+      .menu-item .mega-card-heading {
+        font-family: var(--primary-font);
+        color: var(--dark);
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
       }
 
       .menu-item:hover {
@@ -392,6 +428,7 @@
       }
 
       .desktop-shop .nav-link {
+        font-family: var(--primary-font);
         text-decoration: none;
         color: var(--dark);
         font-size: 16px;
@@ -403,7 +440,7 @@
         text-decoration: none;
         color: var(--dark);
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 400;
         transition: all 0.3s ease-in-out;
       }
 
@@ -657,6 +694,10 @@
           display: block;
         }
 
+        .custom-accordion .accordion-button::after {
+          display: block;
+        }
+
         /* .navbar-links ul li {
           margin: 10px 0;
         } */
@@ -798,175 +839,244 @@
                   <div class="mega-grid">
                     <a href="#" class="mega-card">
                       <div class="icon purple">
-                        <i class="fas fa-sim-card"></i>
+                        <i class="fa-solid fa-sim-card fa-xl"></i>
                       </div>
 
                       <div>
-                        <h6>eSIM Store</h6>
+                        <p class="mega-card-heading">Physical SIM Cards</p>
+                        <p>90+ countries SIM cards for seamless coverage.</p>
+                      </div>
+                    </a>
+                    <a href="#" class="mega-card">
+                      <div class="icon primary">
+                        <i class="fa-solid fa-microchip fa-xl"></i>
+                      </div>
+
+                      <div>
+                        <p class="mega-card-heading">eSIM Store</p>
                         <p>Instant activation for over 200 destinations.</p>
                       </div>
                     </a>
 
                     <a href="#" class="mega-card">
-                      <div class="icon dark">
-                        <i class="fas fa-globe"></i>
+                      <div class="icon green">
+                        <i class="fa-solid fa-gas-pump fa-xl"></i>
                       </div>
 
                       <div>
-                        <h6>Travel SIM</h6>
-                        <p>International SIM cards.</p>
+                        <p class="mega-card-heading">SIM Refills</p>
+                        <p>Recharge your existing SIM in just a few clicks.</p>
                       </div>
                     </a>
 
                     <a href="#" class="mega-card">
                       <div class="icon blue">
-                        <i class="fas fa-wifi"></i>
+                        <i class="fa-solid fa-gift fa-xl"></i>
                       </div>
 
                       <div>
-                        <h6>Data Bundles</h6>
-                        <p>Affordable roaming packages.</p>
+                        <p class="mega-card-heading">Buy Gift Cards</p>
+                        <p>Buy digital gift cards from top global brands.</p>
                       </div>
                     </a>
-
                     <a href="#" class="mega-card">
                       <div class="icon orange">
-                        <i class="fas fa-headset"></i>
+                        <i class="fas fa-wifi fa-xl"></i>
                       </div>
 
                       <div>
-                        <h6>Consultation</h6>
-                        <p>We'll help you choose.</p>
+                        <p class="mega-card-heading">Internet</p>
+                        <p>
+                          Stay connected with portable internet solutions on the
+                          go.
+                        </p>
                       </div>
                     </a>
-                  </div>
-                </div>
-              </li>
-              <li class="nav-item desktop-shop">
-                <a href="#" class="nav-link">
-                  Company
-                  <i class="fas fa-chevron-down ms-1 small nav-caret"></i>
-                </a>
-
-                <div class="mega-menu">
-                  <div class="mega-grid">
                     <a href="#" class="mega-card">
-                      <div class="icon purple">
-                        <i class="fas fa-sim-card"></i>
+                      <div class="icon black">
+                        <i class="fas fa-user-secret fa-xl"></i>
                       </div>
 
                       <div>
-                        <h6>eSIM Store</h6>
-                        <p>Instant activation for over 200 destinations.</p>
-                      </div>
-                    </a>
-
-                    <a href="#" class="mega-card">
-                      <div class="icon dark">
-                        <i class="fas fa-globe"></i>
-                      </div>
-
-                      <div>
-                        <h6>Travel SIM</h6>
-                        <p>International SIM cards.</p>
-                      </div>
-                    </a>
-
-                    <a href="#" class="mega-card">
-                      <div class="icon blue">
-                        <i class="fas fa-wifi"></i>
-                      </div>
-
-                      <div>
-                        <h6>Data Bundles</h6>
-                        <p>Affordable roaming packages.</p>
-                      </div>
-                    </a>
-
-                    <a href="#" class="mega-card">
-                      <div class="icon orange">
-                        <i class="fas fa-headset"></i>
-                      </div>
-
-                      <div>
-                        <h6>Consultation</h6>
-                        <p>We'll help you choose.</p>
+                        <p class="mega-card-heading">Privacy</p>
+                        <p>
+                          Encrypt your data, and safeguard your online activity.
+                        </p>
                       </div>
                     </a>
                   </div>
                 </div>
               </li>
               <li class="nav-item desktop-shop no-ddwn">
-                <a href="#" class="nav-link">
-                  Install eSIM
-                </a>
+                <a href="#" class="nav-link"> Install eSIM </a>
               </li>
 
               <li class="mobile-shop">
-                <div class="accordion" id="shopAccordion">
+                <div class="accordion" id="mobileMenuAccordion">
+                  <!-- ================= PRODUCT ================= -->
                   <div class="accordion-item custom-accordion">
-                    <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#productCollapse"
+                      aria-expanded="false"
+                      aria-controls="productCollapse"
+                    >
+                      Product
+                    </button>
+
+                    <div
+                      id="productCollapse"
+                      class="accordion-collapse collapse"
+                      aria-labelledby="productHeading"
+                      data-bs-parent="#mobileMenuAccordion"
+                    >
+                      <div class="accordion-body p-0">
+                        <a href="#" class="menu-item">
+                          <div class="icon purple">
+                            <i class="fa-solid fa-sim-card fa-xl"></i>
+                          </div>
+
+                          <div>
+                            <p class="mega-card-heading">Physical SIM Cards</p>
+                            <p>
+                              90+ countries SIM cards for seamless coverage.
+                            </p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="icon primary">
+                            <i class="fa-solid fa-microchip fa-xl"></i>
+                          </div>
+
+                          <div>
+                            <p class="mega-card-heading">eSIM Store</p>
+                            <p>Instant activation for over 200 destinations.</p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="icon green">
+                            <i class="fa-solid fa-gas-pump fa-xl"></i>
+                          </div>
+
+                          <div>
+                            <p class="mega-card-heading">SIM Refills</p>
+                            <p>
+                              Recharge your existing SIM in just a few clicks.
+                            </p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="icon blue">
+                            <i class="fa-solid fa-gift fa-xl"></i>
+                          </div>
+
+                          <div>
+                            <p class="mega-card-heading">Buy Gift Cards</p>
+                            <p>
+                              Buy digital gift cards from top global brands.
+                            </p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="icon orange">
+                            <i class="fas fa-wifi fa-xl"></i>
+                          </div>
+
+                          <div>
+                            <p class="mega-card-heading">Internet</p>
+                            <p>
+                              Stay connected with portable internet solutions on
+                              the go.
+                            </p>
+                          </div>
+                        </a>
+
+                        <a href="#" class="menu-item">
+                          <div class="icon black">
+                            <i class="fas fa-user-secret fa-xl"></i>
+                          </div>
+
+                          <div>
+                            <p class="mega-card-heading">Privacy</p>
+                            <p>
+                              Encrypt your data and safeguard your online
+                              activity.
+                            </p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ================= COMPANY ================= -->
+                  <div class="accordion-item custom-accordion mt-3">
+                    <h2 class="accordion-header" id="companyHeading">
                       <button
                         class="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#shopCollapse"
+                        data-bs-target="#companyCollapse"
+                        aria-expanded="false"
+                        aria-controls="companyCollapse"
                       >
-                        Shop
+                        Company
                       </button>
                     </h2>
 
                     <div
-                      id="shopCollapse"
+                      id="companyCollapse"
                       class="accordion-collapse collapse"
-                      data-bs-parent="#shopAccordion"
+                      aria-labelledby="companyHeading"
+                      data-bs-parent="#mobileMenuAccordion"
                     >
                       <div class="accordion-body p-0">
                         <a href="#" class="menu-item">
-                          <div class="menu-icon purple">
-                            <i class="fas fa-sim-card"></i>
+                          <div class="icon primary">
+                            <i class="fas fa-building fa-xl"></i>
                           </div>
 
                           <div>
-                            <h6>eSIM Store</h6>
-
-                            <p>Instant activation for 200+ destinations.</p>
+                            <p class="mega-card-heading">About Us</p>
+                            <p>Learn more about Xeloos.</p>
                           </div>
                         </a>
 
                         <a href="#" class="menu-item">
-                          <div class="menu-icon dark">
-                            <i class="fas fa-globe"></i>
+                          <div class="icon green">
+                            <i class="fas fa-headset fa-xl"></i>
                           </div>
 
                           <div>
-                            <h6>Travel SIM</h6>
-
-                            <p>International SIM cards.</p>
+                            <p class="mega-card-heading">Contact</p>
+                            <p>We're here to help.</p>
                           </div>
                         </a>
 
                         <a href="#" class="menu-item">
-                          <div class="menu-icon blue">
-                            <i class="fas fa-wifi"></i>
+                          <div class="icon orange">
+                            <i class="fas fa-newspaper fa-xl"></i>
                           </div>
 
                           <div>
-                            <h6>Data Bundles</h6>
-
-                            <p>Affordable roaming packages.</p>
+                            <p class="mega-card-heading">Blog</p>
+                            <p>News, tips and travel updates.</p>
                           </div>
                         </a>
 
                         <a href="#" class="menu-item">
-                          <div class="menu-icon orange">
-                            <i class="fas fa-headset"></i>
+                          <div class="icon blue">
+                            <i class="fas fa-circle-question fa-xl"></i>
                           </div>
 
                           <div>
-                            <h6>Consultation</h6>
-
-                            <p>Need help?</p>
+                            <p class="mega-card-heading">FAQs</p>
+                            <p>Answers to common questions.</p>
                           </div>
                         </a>
                       </div>
@@ -1606,6 +1716,12 @@
       menuToggle.addEventListener("click", () => {
         menuToggle.classList.toggle("active");
         navLinks.classList.toggle("active");
+
+        if (navLinks.classList.contains("active")) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "";
+        }
       });
 
       document
