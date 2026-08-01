@@ -23,7 +23,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: kenburns 5000ms ease-in-out infinite alternate;
 }
 
 .swiper-slide {
@@ -45,6 +44,7 @@
 
 .hero-content {
   z-index: 2;
+  position: absolute;
   left: 8%;
   right: auto;
   bottom: 50%;
