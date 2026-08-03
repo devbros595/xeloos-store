@@ -1,29 +1,337 @@
- <section class="banner-section" data-aos="fade-right" data-aos-delay="200">
-        <div class="swiper bannerSwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 1">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 2">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{% static 'store/img/xeloos-banner.jpg' %}" class="img-fluid w-100" alt="Banner 3">
+hero-image {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #000;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+.hero-content-wrapper {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #b61818;
+}
+
+.hero-content {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.hero-tag {
+  display: inline-block;
+  background: var(--dark);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  animation: fadeDown 0.8s;
+}
+
+.hero-title {
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  animation: slideLeft 1s;
+}
+
+.hero-text {
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 35px;
+  animation: slideUp 1.2s;
+}
+
+.hero-btn {
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-weight: 600;
+  animation: zoomIn 1.4s;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1) translate(-2%, -1%);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-70px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 991px) {
+  
+
+  .hero-content {
+    left: 5%;
+    right: 5%;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+  .hero-btn {
+    margin-top: 10px;
+  }
+}
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center min-vh-100">
+
+            <!-- ===========================
+                 LEFT CONTENT
+            ============================ -->
+
+            <div class="col-lg-6">
+
+                <span class="hero-badge">
+
+                    Premium Global Connectivity
+
+                </span>
+
+                <h1 class="hero-title">
+
+                    Break Digital
+                    <span>Barriers</span>
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Stay connected wherever life takes you with premium
+                    Physical SIMs and eSIMs designed for travellers,
+                    remote professionals and businesses.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="{% url 'shop' %}" class="btn btn-primary btn-lg">
+
+                        Shop SIM Cards
+
+                        <i class="fas fa-arrow-right ms-2"></i>
+
+                    </a>
+
+                    <a href="#" class="btn btn-outline-dark btn-lg">
+
+                        Explore eSIMs
+
+                        <i class="fas fa-arrow-right ms-2"></i>
+
+                    </a>
 
                 </div>
+
             </div>
-            <!-- Add pagination and navigation -->
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev">
-                <div class="btn-bg">
-                    <i class="fa-solid fa-chevron-left fa-lg" style="color: #ffffff;"></i>
+
+            <!-- ===========================
+                 RIGHT CONTENT
+            ============================ -->
+
+            <div class="col-lg-6">
+
+                <div class="hero-products">
+
+                    <!-- Background Circle -->
+
+                    <div class="hero-circle"></div>
+
+                    <!-- UAE -->
+
+                    <img
+                        src="{% static 'images/hero/uae.png' %}"
+                        class="product-card card-1"
+                        alt="UAE SIM">
+
+                    <!-- EUROPE -->
+
+                    <img
+                        src="{% static 'images/hero/europe.png' %}"
+                        class="product-card card-2"
+                        alt="Europe SIM">
+
+                    <!-- ASIA -->
+
+                    <img
+                        src="{% static 'images/hero/asia.png' %}"
+                        class="product-card card-3"
+                        alt="Asia SIM">
+
+                    <!-- NEW ZEALAND -->
+
+                    <img
+                        src="{% static 'images/hero/new-zealand.png' %}"
+                        class="product-card card-4"
+                        alt="New Zealand SIM">
+
+                    <!-- eSIM -->
+
+                    <img
+                        src="{% static 'images/hero/esim.png' %}"
+                        class="product-card esim-card"
+                        alt="Global eSIM">
+
                 </div>
+
             </div>
-            <div class="swiper-button-next">
-                <div class="btn-bg">
-                    <i class="fa-solid fa-chevron-right fa-lg" style="color: #ffffff;"></i>
-                </div>
-            </div>
+
         </div>
 
-    </section>
+    </div>
+
+</section>
+
+<!-- =============================
+     FEATURE STRIP
+================================ -->
+
+<section class="hero-features">
+
+    <div class="container">
+
+        <div class="row text-center gy-4">
+
+            <div class="col-md-3">
+
+                <div class="feature-item">
+
+                    <i class="fas fa-globe"></i>
+
+                    <div>
+
+                        <h6>90+ Countries</h6>
+
+                        <p>Worldwide Coverage</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="feature-item">
+
+                    <i class="fas fa-bolt"></i>
+
+                    <div>
+
+                        <h6>Instant Activation</h6>
+
+                        <p>Get Connected Fast</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="feature-item">
+
+                    <i class="fas fa-sim-card"></i>
+
+                    <div>
+
+                        <h6>Physical & eSIM</h6>
+
+                        <p>Choose Your Preference</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="feature-item">
+
+                    <i class="fas fa-shield-alt"></i>
+
+                    <div>
+
+                        <h6>Trusted Networks</h6>
+
+                        <p>Reliable Connectivity</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
