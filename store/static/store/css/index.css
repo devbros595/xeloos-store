@@ -26,7 +26,6 @@
   background: linear-gradient(to left, rgb(255, 255, 255, 0), #ffffff);
   content: "";
   z-index: 1;
-  border: 1px solid #000;
 }
 
 .carousel-wrapper::after {
@@ -69,29 +68,19 @@
   gap: 40px;
 }
 
-.xeloos-features {
-  padding: 50px 20px;
-  margin: 40px 0;
-  border-radius: 20px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  row-gap: 4rem;
+.features-section {
+  background: #ebebeb;
+  padding: 2rem 0;
 }
 
 .features-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
-.features-icon {
-  border: 1.5px solid #8c25d1;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.features-text span {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .newsletter-container {
@@ -341,8 +330,6 @@
   }
   .xeloos-features {
     padding: 50px 20px;
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 4rem;
   }
   .newsletter-wrapper form {
     flex-direction: column;
