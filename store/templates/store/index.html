@@ -5,52 +5,72 @@
   {% include "includes/hero.html" %}
 
   <section class="features-section" data-aos="fade-up" data-aos-delay="100">
-    <div class="container p-0">
-        <div class="row g-4">
-          <div class="col">
-            <div class="features-item">
-              <div class="features-icon">
-                <i class="fa-solid fa-globe fa-2xl" style="color: #7a001f"></i>
-              </div>
-              <div class="features-text">
-                <span>90+ Countries Coverage</span>
-              </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <div class="features-item">
+            <div class="features-icon">
+              <i class="fa-solid fa-globe fa-2xl" style="color: #7a001f"></i>
             </div>
-          </div>
-          <div class="col">
-            <div class="features-item">
-              <div class="features-icon">
-                <i class="fa-solid fa-bolt fa-2xl" style="color: #7a001f"></i>
-              </div>
-              <div class="features-text">
-                <span>Instant Connectivity</span>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="features-item">
-              <div class="features-icon">
-                <i class="fa-solid fa-sim-card fa-2xl" style="color: #7a001f"></i>
-              </div>
-              <div class="features-text">
-                <span>Physical SIM & eSIM</span>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="features-item">
-              <div class="features-icon">
-                <i
-                  class="fa-solid fa-shield fa-2xl"
-                  style="color: #7a001f"
-                ></i>
-              </div>
-              <div class="features-text">
-                <span>Trusted Global Networks</span>
-              </div>
+            <div class="features-text">
+              <span>90+ Countries</span>
             </div>
           </div>
         </div>
+        <div class="col-3">
+          <div class="features-item">
+            <div class="features-icon">
+              <i class="fa-solid fa-bolt fa-2xl" style="color: #7a001f"></i>
+            </div>
+            <div class="features-text">
+              <span>Instant Connectivity</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="features-item">
+            <div class="features-icon">
+              <i class="fa-solid fa-sim-card fa-2xl" style="color: #7a001f"></i>
+            </div>
+            <div class="features-text">
+              <span>Physical SIM & eSIM</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="features-item">
+            <div class="features-icon">
+              <i class="fa-solid fa-shield fa-2xl" style="color: #7a001f"></i>
+            </div>
+            <div class="features-text">
+              <span>Trusted Global Networks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="promo-banner1">
+    <div class="container">
+      <div class="promo-text">
+        <span class="promo-badge"> GLOBAL BY DESIGN </span>
+
+        <h1 class="promo-title">
+          Connect without Boundaries
+        </h1>
+
+        <p class="promo-description">
+          Stay connected in 90+ countries with reliable 4G/5G networks wherever you go.
+        </p>
+
+        <div class="promo-buttons">
+          <a href="" class="btn btn-lg">
+            Explore Coverage
+
+            <i class="fas fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
   <section class="service-provider-section">
@@ -58,19 +78,10 @@
       <div class="carousel-slider">
         <img src="{% static 'store/img/Lyca_Logo.png' %}" alt="Lyca_Logo" />
         <img src="{% static 'store/img/Three_Logo.png' %}" alt="Three_Logo" />
-        <img
-          src="{% static 'store/img/T-Mobile_Logo.png' %}"
-          alt="T-Mobile_Logo"
-        />
-        <img
-          src="{% static 'store/img/SmarTone_Logo.png' %}"
-          alt="SmarTone_Logo"
-        />
+        <img src="{% static 'store/img/T-Mobile_Logo.png' %}" alt="T-Mobile_Logo" />
+        <img src="{% static 'store/img/SmarTone_Logo.png' %}" alt="SmarTone_Logo" />
         <img src="{% static 'store/img/Optus_Logo.png' %}" alt="Optus_Logo" />
-        <img
-          src="{% static 'store/img/Virgin_Mobile_Logo.png' %}"
-          alt="Virgin_Mobile_Logo"
-        />
+        <img src="{% static 'store/img/Virgin_Mobile_Logo.png' %}" alt="Virgin_Mobile_Logo" />
       </div>
     </div>
     <script>
@@ -83,6 +94,51 @@
         wrapper.appendChild(copy);
       }
     </script>
+  </section>
+  <section class="featured-collections">
+    <div class="container">
+      <div class="collections-header">
+        <h6>Featured Collections</h6>
+        <a href="#">View all
+          <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="collections-item card-1">
+            <div class="collection-text">
+              <h5>Europe</h5>
+              <span>Travel confidently across Europe.</span>
+              <a href="#">Shop
+                <i class="fas fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+            <div class="collections-img">
+              <img src="{% static '' %}" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="collections-item card-2">
+            <div class="collection-text"></div>
+            <div class="collections-img"></div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="collections-item card-3">
+            <div class="collection-text">
+            </div>
+            <div class="collections-img"></div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="collections-item card-4">
+            <div class="collection-text"></div>
+            <div class="collections-img"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
   <section class="countries-section" data-aos="fade-up" data-aos-delay="100">
     <style>
@@ -205,32 +261,18 @@
       </button>
 
       <div class="xeloos-scroll-wrapper">
-        <div
-          class="xeloos-scroll-content d-flex overflow-auto"
-          id="scrollable-content"
-        >
+        <div class="xeloos-scroll-content d-flex overflow-auto" id="scrollable-content">
           {% for country in country %} {% if country.slug %}
-          <div
-            class="catalogue-item-wrapper flex-shrink-0"
-            style="width: 200px"
-          >
+          <div class="catalogue-item-wrapper flex-shrink-0" style="width: 200px">
             <div class="catalogue-item">
-              <a
-                href="{% url 'store' country.slug %}"
-                class="text-decoration-none"
-              >
-                <div
-                  class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content"
-                >
+              <a href="{% url 'store' country.slug %}" class="text-decoration-none">
+                <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
                   {% if country.image %}
                   <img src="{{ country.image.url }}" alt="{{ country.name }}" />
                   {% endif %}
                   <div class="catalogue-name">
                     <span>{{ country.name }} SIM Cards</span>
-                    <i
-                      class="fa-solid fa-caret-right"
-                      style="color: #8c25d1"
-                    ></i>
+                    <i class="fa-solid fa-caret-right" style="color: #8c25d1"></i>
                   </div>
                 </div>
               </a>
@@ -358,15 +400,8 @@
       <div class="row g-4 p-3">
         {% for post in recent_posts %}
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <a
-            href="{% url 'blog_detail' post.slug %}"
-            class="card h-100 text-decoration-none"
-          >
-            <img
-              src="{{ post.image.url }}"
-              alt="{{ post.title }}"
-              class="card-img-top"
-            />
+          <a href="{% url 'blog_detail' post.slug %}" class="card h-100 text-decoration-none">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top" />
             <div class="card-body d-flex flex-column">
               <h5 class="card-title fs-6">{{ post.title }}</h5>
               <p class="post-date card-text text-muted">
@@ -433,33 +468,17 @@
         </div>
         <form method="post" action="#">
           {% csrf_token %}
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email address"
-          />
+          <input type="email" name="email" placeholder="Enter your email address" />
           <button type="submit" class="btn">
-            <svg
-              fill="#000000"
-              width="15px"
-              height="15px"
-              viewBox="0 0 1920 1920"
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="#ffffff"
-            >
+            <svg fill="#000000" width="15px" height="15px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"
+              stroke="#ffffff">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke="#CCCCCC"
-                stroke-width="3.84"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                stroke-width="3.84"></g>
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M1920 428.266v1189.54l-464.16-580.146-88.203 70.585 468.679 585.904H83.684l468.679-585.904-88.202-70.585L0 1617.805V428.265l959.944 832.441L1920 428.266ZM1919.932 226v52.627l-959.943 832.44L.045 278.628V226h1919.887Z"
-                  fill-rule="evenodd"
-                ></path>
+                  fill-rule="evenodd"></path>
               </g>
             </svg>
             <span>Subscribe</span>
