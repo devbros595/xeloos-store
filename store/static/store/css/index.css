@@ -3,8 +3,8 @@
   --primary: #e6003e;
   --light: #dcdcdc;
   --font-color: #dcdcdc;
-  --primary-font: "Sora";
-  --secondary-font: "Inter";
+  --primary-font: "Sora", sans-serif;
+  --secondary-font: "Inter" sans-serif;
 }
 
 .carousel-wrapper {
@@ -391,7 +391,6 @@
 }
 
 .collections-item {
-
   position: relative;
 
   display: block;
@@ -458,90 +457,83 @@
 .collection-content {
   position: absolute;
 
-    left: 10px;
-    top: 50%;
+  left: 10px;
+  top: 50%;
 
-    transform: translateY(-50%);
+  transform: translateY(-50%);
 
-    z-index: 3;
-
-    
+  z-index: 3;
 }
 
 .collection-content h3 {
-    margin: 0 0 5px;
+  margin: 0 0 5px;
 
-    font-family: "Sora", sans-serif;
+  font-family: "Sora", sans-serif;
 
-    font-size: 16px;
-    font-weight: 600;
+  font-size: 16px;
+  font-weight: 600;
 
-    line-height: 1;
+  line-height: 1;
 
-    color: #111;
+  color: #111;
 }
 
 .collection-content p {
-    margin: 0 0 5px;
+  margin: 0 0 5px;
 
-    font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
 
-    font-size: 12px;
-    font-weight: 500;
+  font-size: 12px;
+  font-weight: 500;
 
-    line-height: 1.25;
+  line-height: 1.25;
 
-    color: #666;
+  color: #666;
 }
 
 .collection-shop {
-    display: inline-flex;
+  display: inline-flex;
 
-    align-items: center;
-    gap: 4px;
+  align-items: center;
+  gap: 4px;
 
+  font-size: 14px;
+  font-weight: 600;
 
-    font-size: 14px;
-    font-weight: 600;
-
-    color: #7B1730;
-    cursor: pointer;
+  color: #7b1730;
+  cursor: pointer;
 }
 
 .collection-shop i {
-    font-size: 6px;
+  font-size: 6px;
 
-    transition: transform .25s ease;
+  transition: transform 0.25s ease;
 }
 
 .collection-card:hover .collection-shop i {
-    transform: translateX(3px);
+  transform: translateX(3px);
 }
 
 .collection-product {
-    position: absolute;
+  position: absolute;
 
-    z-index: 2;
+  z-index: 2;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    left: 108px;
-    bottom: 0px;
+  left: 108px;
+  bottom: 0px;
 
-    object-fit: contain;
+  object-fit: contain;
 
-    filter:
-        drop-shadow(
-            8px 10px 10px rgba(0, 0, 0, .18)
-        );
+  filter: drop-shadow(8px 10px 10px rgba(0, 0, 0, 0.18));
 
-    transition:
-        transform .35s ease;
+  transition: transform 0.35s ease;
 }
 
 .collection-card:hover .collection-product {
-    transform: translateY(-3px);
+  transform: translateY(-3px);
 }
 
 /* =========================================================
@@ -549,371 +541,399 @@
 ========================================================= */
 
 .esim-duration-section {
-    width: 100%;
-    padding: 0 0 25px;
-    background: #fff;
-    border: 1px solid #000;
+  width: 100%;
+  padding: 0 0 25px;
+  background: #fff;
 }
-
 
 /* =========================================================
    MAIN BLACK BANNER
 ========================================================= */
 
 .esim-duration-banner {
-    position: relative;
+  position: relative;
 
-    width: 100%;
-    min-height: 125px;
+  width: 100%;
 
-    display: flex;
-    align-items: stretch;
+  display: flex;
+  align-items: stretch;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    border-radius: 4px;
+  border-radius: 4px;
 
-    background:
-        radial-gradient(
-            circle at 80% 50%,
-            rgba(123, 23, 48, .22),
-            transparent 40%
-        ),
-        #050505;
+  background:
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(123, 23, 48, 0.22),
+      transparent 40%
+    ),
+    #050505;
 
-    box-shadow:
-        0 5px 18px rgba(0, 0, 0, .12);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
 }
-
 
 /* =========================================================
    INTRO AREA
 ========================================================= */
 
 .esim-duration-intro {
-    position: relative;
+  position: relative;
+  z-index: 3;
 
-    z-index: 3;
+  flex: 0 0 27%;
 
-    flex: 0 0 27%;
+  padding: 18px 10px 15px 22px;
 
-    padding: 18px 10px 15px 22px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .esim-duration-label {
-    display: block;
+  display: block;
 
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
+  font-family: var(--primary-font);
+  font-size: 14px;
+  font-weight: 700;
 
-    font-family: "Inter", sans-serif;
+  letter-spacing: 1px;
 
-    font-size: 14px;
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    color: #7B1730;
+  color: #7b1730;
 }
 
 .esim-duration-intro h2 {
-    margin: 0 0 7px;
+  margin: 0 0 7px;
 
-    font-family: "Sora", sans-serif;
+  font-family: "Sora", sans-serif;
 
-    font-size: 20px;
-    line-height: 1.3;
+  font-size: 20px;
+  line-height: 1.3;
 
-    font-weight: 700;
+  font-weight: 700;
 
-    color: #fff;
+  color: #fff;
 }
 
 .esim-duration-intro p {
-    margin: 0;
-
-    font-family: "Inter", sans-serif;
-
-    font-size: 10px;
-    line-height: 1.5;
-    font-weight: 500;
-
-    color: #a9a9a9;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #a9a9a9;
 }
-
-
-/* =========================================================
-   PLANS CONTAINER
-========================================================= */
 
 .esim-duration-plans {
-    position: relative;
+  position: relative;
 
-    z-index: 2;
+  z-index: 2;
 
-    flex: 1;
+  flex: 1;
 
-    display: grid;
+  display: grid;
 
-    grid-template-columns:
-        repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 
-    gap: 9px;
+  gap: 9px;
 
-    padding: 9px 15px 9px 5px;
+  padding: 9px 15px 9px 5px;
 }
 
-
-/* =========================================================
-   INDIVIDUAL PLAN
-========================================================= */
-
-
 .duration-card {
-    position: relative;
+  position: relative;
 
-    display: flex;
-    flex-direction: column;
+  font-family: var(--primary-font);
 
-    height: 150px;
+  display: flex;
+  flex-direction: column;
 
-    overflow: hidden;
+  height: 200px;
 
-    padding: 8px 7px 7px;
+  overflow: hidden;
 
-    border-radius: 4px;
+  padding: 8px 7px 7px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #101010 0%,
-            #080808 70%,
-            #030303 100%
-        );
+  border-radius: 4px;
 
-    border: 1px solid rgba(255,255,255,.05);
+  background: linear-gradient(180deg, #101010 0%, #080808 70%, #030303 100%);
 
-    text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 
-    box-shadow:
-        inset 0 0 18px rgba(255,255,255,.015);
+  text-decoration: none;
 
-    transition:
-        transform .3s ease,
-        border-color .3s ease,
-        box-shadow .3s ease;
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.015);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .duration-card:hover {
-    transform: translateY(-3px);
+  transform: translateY(-3px);
 
-    border-color: rgba(255,255,255,.15);
+  border-color: rgba(255, 255, 255, 0.15);
 
-    box-shadow:
-        0 8px 18px rgba(0,0,0,.3);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
 }
 
-
-/* =========================================================
-   CARD HEADER
-========================================================= */
-
 .duration-card-top {
-    position: relative;
-
-    z-index: 3;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .duration-brand {
-    font-family: "Sora", sans-serif;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .duration-type {
-    font-family: "Inter", sans-serif;
-
-    font-size: 10px;
-
-    color: #ddd;
+  font-size: 10px;
+  color: #ddd;
 }
-
-
-/* =========================================================
-   CARD TITLE
-========================================================= */
 
 .duration-card h3 {
-    position: relative;
-
-    z-index: 3;
-
-    margin: 5px 0 0;
-
-    font-family: "Inter", sans-serif;
-
-    font-size: 14px;
-
-    line-height: 1;
-
-    font-weight: 700;
-
-    color: #fff;
+  position: relative;
+  z-index: 3;
+  margin: 1rem 0 0;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 700;
+  color: #fff;
 }
-
-
-/* =========================================================
-   COLORED GLOW
-========================================================= */
 
 .duration-glow {
-    position: absolute;
-
-    left: 50%;
-    bottom: -25px;
-
-    transform: translateX(-50%);
-
-    width: 80px;
-    height: 80px;
-
-    border-radius: 50%;
-
-    filter: blur(8px);
-
-    opacity: .9;
+  position: absolute;
+  left: 50%;
+  bottom: -25px;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.9;
 }
 
-
-/* =========================================================
-   DIFFERENT PLAN COLORS
-========================================================= */
-
 .duration-1 .duration-glow {
-    background:
-        radial-gradient(
-            circle,
-            rgba(0, 255, 220, .75) 0%,
-            rgba(0, 180, 160, .25) 40%,
-            transparent 70%
-        );
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 220, 0.75) 0%,
+    rgba(0, 180, 160, 0.25) 40%,
+    transparent 70%
+  );
 }
 
 .duration-3 .duration-glow {
-    background:
-        radial-gradient(
-            circle,
-            rgba(0, 255, 230, .65) 0%,
-            rgba(0, 170, 160, .2) 45%,
-            transparent 70%
-        );
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 230, 0.65) 0%,
+    rgba(0, 170, 160, 0.2) 45%,
+    transparent 70%
+  );
 }
 
 .duration-6 .duration-glow {
-    background:
-        radial-gradient(
-            circle,
-            rgba(255, 178, 0, .8) 0%,
-            rgba(220, 110, 0, .25) 45%,
-            transparent 70%
-        );
+  background: radial-gradient(
+    circle,
+    rgba(255, 178, 0, 0.8) 0%,
+    rgba(220, 110, 0, 0.25) 45%,
+    transparent 70%
+  );
 }
 
 .duration-12 .duration-glow {
-    background:
-        radial-gradient(
-            circle,
-            rgba(45, 110, 255, .8) 0%,
-            rgba(20, 70, 200, .25) 45%,
-            transparent 70%
-        );
+  background: radial-gradient(
+    circle,
+    rgba(45, 110, 255, 0.8) 0%,
+    rgba(20, 70, 200, 0.25) 45%,
+    transparent 70%
+  );
 }
 
 .duration-lifetime .duration-glow {
-    background:
-        radial-gradient(
-            circle,
-            rgba(220, 40, 255, .75) 0%,
-            rgba(150, 20, 190, .25) 45%,
-            transparent 70%
-        );
+  background: radial-gradient(
+    circle,
+    rgba(220, 40, 255, 0.75) 0%,
+    rgba(150, 20, 190, 0.25) 45%,
+    transparent 70%
+  );
 }
-
-
-/* =========================================================
-   CARD GLOW LINES
-========================================================= */
 
 .duration-card::before {
-    content: "";
+  content: "";
 
-    position: absolute;
+  position: absolute;
 
-    left: 50%;
-    bottom: 8px;
+  left: 50%;
+  bottom: 8px;
 
-    transform: translateX(-50%);
+  transform: translateX(-50%);
 
-    width: 70px;
-    height: 35px;
+  width: 70px;
+  height: 35px;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    border-top: 1px solid rgba(255,255,255,.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 
-    opacity: .6;
+  opacity: 0.6;
 }
 
-
-/* =========================================================
-   EXPLORE
-========================================================= */
-
 .duration-explore {
-    position: absolute;
-
-    left: 7px;
-    bottom: 6px;
-
-    z-index: 5;
-
-    display: flex;
-    align-items: center;
-
-    gap: 3px;
-
-    font-family: "Inter", sans-serif;
-
-    font-size: 10px;
-    font-weight: 500;
-
-    color: #fff;
+  position: absolute;
+  left: 7px;
+  bottom: 6px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
 }
 
 .duration-explore i {
-    font-size: 8px;
-
-    transition: transform .25s ease;
+  font-size: 8px;
+  transition: transform 0.25s ease;
 }
 
 .duration-card:hover .duration-explore i {
-    transform: translateX(3px);
+  transform: translateX(3px);
 }
 
+.popular-sims-section {
+  width: 100%;
+  padding: 0 0 28px;
+  background: #fff;
+  border: 1px solid #000;
+}
 
+.popular-sims-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
 
+.popular-sims-title {
+  font-family:var(--primary-font);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--dark);
+}
 
+.popular-sims-view {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--primary-font);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    text-decoration: none;
+    text-transform: capitalize;
+}
 
+.popular-sims-carousel {
+  position: relative;
+  width: 100%;
+  border: 1px solid #000;
+}
+
+.popularSimsSwiper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.popularSimsSwiper .swiper-wrapper {
+  align-items: flex-start;
+}
+
+.popularSimsSwiper .swiper-slide {
+  height: auto;
+}
+
+.physical-sim-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 0.68 / 1;
+  overflow: hidden;
+  border-radius: 4px;
+  text-decoration: none;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.physical-sim-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.physical-sim-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.popular-sims-prev,
+.popular-sims-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #7b1730;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.popular-sims-prev {
+  left: 25px;
+}
+
+.popular-sims-next {
+  right: 25px;
+}
+
+.popular-sims-prev:hover,
+.popular-sims-next:hover {
+  background: #611124;
+}
+
+.popular-sims-prev i,
+.popular-sims-next i {
+  font-size: 8px;
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.popular-sims-pagination {
+  display: none;
+}
 
 @media (max-width: 768px) {
   .index-main h2 {
@@ -995,158 +1015,216 @@
     font-weight: 500;
   }
 
+  .esim-duration-section {
+    padding: 0 0 2rem;
+  }
 
-    .esim-duration-section {
-        padding: 0 0 20px;
-    }
+  .esim-duration-banner {
+    min-height: 0;
 
-    .esim-duration-section .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-    }
+    display: block;
 
+    padding: 0;
 
-    /* Main card */
+    border-radius: 12px;
 
-    .esim-duration-banner {
-        min-height: 0;
+    background:
+      radial-gradient(
+        circle at 50% 70%,
+        rgba(123, 23, 48, 0.12),
+        transparent 50%
+      ),
+      #050505;
+  }
 
-        display: block;
+  .esim-duration-intro {
+    display: block;
+    padding: 18px 15px 8px;
+    width: 100%;
+  }
 
-        padding: 0;
+  .esim-duration-label {
+    font-size: 10px;
 
-        border-radius: 12px;
+    margin-bottom: 5px;
+  }
 
-        background:
-            radial-gradient(
-                circle at 50% 70%,
-                rgba(123, 23, 48, .12),
-                transparent 50%
-            ),
-            #050505;
-    }
+  .esim-duration-intro h2 {
+    font-size: 16px;
 
+    line-height: 1.05;
 
-    /* Intro */
+    margin-bottom: 8px;
+  }
 
-    .esim-duration-intro {
-        display: block;
+  .esim-duration-intro p {
+    font-size: 12px;
 
-        padding:
-            18px
-            15px
-            8px;
+    line-height: 1.4;
 
-        width: 100%;
-    }
+    color: #b0b0b0;
+  }
 
-    .esim-duration-label {
-        font-size: 6px;
+  .esim-duration-plans {
+    display: grid;
 
-        margin-bottom: 5px;
-    }
+    grid-template-columns: repeat(3, 1fr);
 
-    .esim-duration-intro h2 {
-        font-size: 16px;
+    gap: 7px;
 
-        line-height: 1.05;
+    padding: 4px 15px 15px;
+  }
 
-        margin-bottom: 8px;
-    }
+  .duration-card {
+    width: 100%;
 
-    .esim-duration-intro p {
-        font-size: 7px;
+    height: 120px;
 
-        line-height: 1.4;
+    padding: 7px 6px 6px;
 
-        color: #b0b0b0;
-    }
+    border-radius: 7px;
+  }
 
+  .duration-card-top {
+    align-items: flex-start;
+  }
 
-    /* Plans */
+  .duration-brand {
+    font-size: 8px;
+  }
 
-    .esim-duration-plans {
-        display: grid;
+  .duration-type {
+    font-size: 8px;
+  }
 
-        grid-template-columns:
-            repeat(3, 1fr);
+  .duration-card h3 {
+    font-size: 10px;
+    margin-top: 1rem;
+  }
 
-        gap: 7px;
+  .duration-explore {
+    left: 6px;
+    bottom: 6px;
+    font-size: 10px;
+  }
 
-        padding:
-            4px
-            15px
-            15px;
-    }
+  .duration-explore i {
+    font-size: 8px;
+  }
 
+  .duration-glow {
+    width: 65px;
+    height: 65px;
 
-    /* Cards */
+    bottom: -22px;
+  }
 
-    .duration-card {
-        width: 100%;
+  .duration-12 {
+    grid-column: auto;
+  }
 
-        height: 82px;
+  .duration-lifetime {
+    grid-column: auto;
+  }
 
-        padding:
-            7px
-            6px
-            6px;
+  .desktop-break {
+    display: none;
+  }
 
-        border-radius: 7px;
-    }
+  .popular-sims-section {
+    padding-bottom: 25px;
+  }
 
-    .duration-card-top {
-        align-items: flex-start;
-    }
+  .popular-sims-header {
+    padding: 0 10px;
 
-    .duration-brand {
-        font-size: 4px;
-    }
+    margin-bottom: 14px;
+  }
 
-    .duration-type {
-        font-size: 4px;
-    }
+  .popular-sims-title {
+    font-size: 8px;
+  }
 
-    .duration-card h3 {
-        font-size: 7px;
+  .popular-sims-view {
+    font-size: 7px;
+  }
 
-        margin-top: 3px;
-    }
+  .popular-sims-view i {
+    font-size: 6px;
+  }
 
-    .duration-explore {
-        left: 6px;
-        bottom: 6px;
+  /* Carousel */
 
-        font-size: 5px;
-    }
+  .popular-sims-carousel {
+    padding: 0 8px 25px;
+  }
 
-    .duration-explore i {
-        font-size: 4px;
-    }
+  /* Four cards */
 
-    .duration-glow {
-        width: 65px;
-        height: 65px;
+  .popularSimsSwiper {
+    width: 100%;
+  }
 
-        bottom: -22px;
-    }
+  .popularSimsSwiper .swiper-slide {
+    width: calc((100% - 18px) / 4);
+  }
 
+  .popularSimsSwiper .swiper-wrapper {
+    gap: 0;
+  }
 
-    /* Keep last two on second row */
+  /* Card */
 
-    .duration-12 {
-        grid-column: auto;
-    }
+  .physical-sim-card {
+    aspect-ratio: 0.67 / 1;
 
-    .duration-lifetime {
-        grid-column: auto;
-    }
+    border-radius: 5px;
+  }
 
+  /* Hide desktop arrows */
 
-    .desktop-break {
-        display: none;
-    }
+  .popular-sims-prev,
+  .popular-sims-next {
+    display: none;
+  }
 
+  /* Pagination */
+
+  .popular-sims-pagination {
+    position: absolute;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    left: 0;
+    right: 0;
+
+    bottom: 0;
+
+    height: 12px;
+  }
+
+  .popular-sims-pagination .swiper-pagination-bullet {
+    width: 7px;
+    height: 7px;
+
+    margin: 0 4px !important;
+
+    border-radius: 50%;
+
+    background: #d5d5d5;
+
+    opacity: 1;
+  }
+
+  .popular-sims-pagination .swiper-pagination-bullet-active {
+    width: 10px;
+    height: 10px;
+
+    background: #7b1730;
+  }
 }
 
 @media (max-width: 425px) {

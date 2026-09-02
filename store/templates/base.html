@@ -1723,6 +1723,101 @@
       });
     });
   </script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const popularSimsSwiper = new Swiper(".popularSimsSwiper", {
+
+        slidesPerView: 7,
+
+        spaceBetween: 28,
+
+        speed: 600,
+
+        grabCursor: true,
+
+        navigation: {
+            nextEl: ".popular-sims-next",
+            prevEl: ".popular-sims-prev",
+        },
+
+        breakpoints: {
+
+            /* Tablet */
+            768: {
+                slidesPerView: 5,
+                spaceBetween: 18,
+            },
+
+            /* Small desktop */
+            992: {
+                slidesPerView: 5,
+                spaceBetween: 22,
+            },
+
+            /* Desktop */
+            1200: {
+                slidesPerView: 5,
+                spaceBetween: 28,
+            }
+
+        }
+
+    });
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const popularSimsSwiper = new Swiper(".popularSimsSwiper", {
+
+        slidesPerView: 7,
+
+        spaceBetween: 28,
+
+        speed: 600,
+
+        grabCursor: true,
+
+        navigation: {
+            nextEl: ".popular-sims-next",
+            prevEl: ".popular-sims-prev",
+        },
+
+        pagination: {
+            el: ".popular-sims-pagination",
+            clickable: true,
+        },
+
+        breakpoints: {
+
+            0: {
+                slidesPerView: 4,
+                spaceBetween: 5,
+            },
+
+            768: {
+                slidesPerView: 5,
+                spaceBetween: 18,
+            },
+
+            992: {
+                slidesPerView: 6,
+                spaceBetween: 22,
+            },
+
+            1200: {
+                slidesPerView: 7,
+                spaceBetween: 28,
+            }
+
+        }
+
+    });
+
+});
+</script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
