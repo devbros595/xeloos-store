@@ -359,18 +359,31 @@
 .featured-collections {
   background: #fff;
   padding: 2rem 0;
-  border: 1px solid #000;
 }
 
 .collections-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   color: var(--dark);
   text-transform: uppercase;
   margin-bottom: 1rem;
 }
 
+.collections-header span {
+  font-family: "Sora", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--dark);
+}
+
 .collections-header a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Sora", sans-serif;
+  font-size: 14px;
   font-weight: 500;
   text-decoration: none;
   color: var(--dark);
@@ -378,21 +391,36 @@
 }
 
 .collections-item {
-  height: 200px;
-  width: auto;
-  border-radius: 2rem;
+
   position: relative;
-  overflow: hidden;
-  padding: 2rem 0;
+
+  display: block;
+
   width: 100%;
+  height: 140px;
+
+  margin-bottom: 5px;
+
+  overflow: hidden;
+
+  border-radius: 1rem;
+  border: none;
+
+  text-decoration: none;
+
+  background-color: #f1f3f4;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.collections-item::after {
-  background: rgba(255, 255, 255, 0.012);
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+.collections-item:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .featured-collections .card-1 {
@@ -408,15 +436,484 @@
   background: url("../xeloos_assets/card4.png") center/cover no-repeat;
 }
 
-.collection-text{
-  display: flex;
-  flex-direction: column;
-  padding-left: 1rem;
+.collections-item::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.7) 35%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+
+  pointer-events: none;
+
+  z-index: 1;
 }
 
-.collection-text span{
-  max-width: 150px;
+.collection-content {
+  position: absolute;
+
+    left: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 3;
+
+    
 }
+
+.collection-content h3 {
+    margin: 0 0 5px;
+
+    font-family: "Sora", sans-serif;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    color: #111;
+}
+
+.collection-content p {
+    margin: 0 0 5px;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    line-height: 1.25;
+
+    color: #666;
+}
+
+.collection-shop {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 4px;
+
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #7B1730;
+    cursor: pointer;
+}
+
+.collection-shop i {
+    font-size: 6px;
+
+    transition: transform .25s ease;
+}
+
+.collection-card:hover .collection-shop i {
+    transform: translateX(3px);
+}
+
+.collection-product {
+    position: absolute;
+
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    left: 108px;
+    bottom: 0px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            8px 10px 10px rgba(0, 0, 0, .18)
+        );
+
+    transition:
+        transform .35s ease;
+}
+
+.collection-card:hover .collection-product {
+    transform: translateY(-3px);
+}
+
+/* =========================================================
+   eSIM DURATION SECTION
+========================================================= */
+
+.esim-duration-section {
+    width: 100%;
+    padding: 0 0 25px;
+    background: #fff;
+    border: 1px solid #000;
+}
+
+
+/* =========================================================
+   MAIN BLACK BANNER
+========================================================= */
+
+.esim-duration-banner {
+    position: relative;
+
+    width: 100%;
+    min-height: 125px;
+
+    display: flex;
+    align-items: stretch;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+
+    background:
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(123, 23, 48, .22),
+            transparent 40%
+        ),
+        #050505;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, .12);
+}
+
+
+/* =========================================================
+   INTRO AREA
+========================================================= */
+
+.esim-duration-intro {
+    position: relative;
+
+    z-index: 3;
+
+    flex: 0 0 27%;
+
+    padding: 18px 10px 15px 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.esim-duration-label {
+    display: block;
+
+    margin-bottom: 1rem;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #7B1730;
+}
+
+.esim-duration-intro h2 {
+    margin: 0 0 7px;
+
+    font-family: "Sora", sans-serif;
+
+    font-size: 20px;
+    line-height: 1.3;
+
+    font-weight: 700;
+
+    color: #fff;
+}
+
+.esim-duration-intro p {
+    margin: 0;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 10px;
+    line-height: 1.5;
+    font-weight: 500;
+
+    color: #a9a9a9;
+}
+
+
+/* =========================================================
+   PLANS CONTAINER
+========================================================= */
+
+.esim-duration-plans {
+    position: relative;
+
+    z-index: 2;
+
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 9px;
+
+    padding: 9px 15px 9px 5px;
+}
+
+
+/* =========================================================
+   INDIVIDUAL PLAN
+========================================================= */
+
+
+.duration-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 150px;
+
+    overflow: hidden;
+
+    padding: 8px 7px 7px;
+
+    border-radius: 4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #101010 0%,
+            #080808 70%,
+            #030303 100%
+        );
+
+    border: 1px solid rgba(255,255,255,.05);
+
+    text-decoration: none;
+
+    box-shadow:
+        inset 0 0 18px rgba(255,255,255,.015);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
+
+.duration-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(255,255,255,.15);
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.3);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.duration-card-top {
+    position: relative;
+
+    z-index: 3;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.duration-brand {
+    font-family: "Sora", sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #fff;
+}
+
+.duration-type {
+    font-family: "Inter", sans-serif;
+
+    font-size: 10px;
+
+    color: #ddd;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.duration-card h3 {
+    position: relative;
+
+    z-index: 3;
+
+    margin: 5px 0 0;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1;
+
+    font-weight: 700;
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   COLORED GLOW
+========================================================= */
+
+.duration-glow {
+    position: absolute;
+
+    left: 50%;
+    bottom: -25px;
+
+    transform: translateX(-50%);
+
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+
+    filter: blur(8px);
+
+    opacity: .9;
+}
+
+
+/* =========================================================
+   DIFFERENT PLAN COLORS
+========================================================= */
+
+.duration-1 .duration-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 255, 220, .75) 0%,
+            rgba(0, 180, 160, .25) 40%,
+            transparent 70%
+        );
+}
+
+.duration-3 .duration-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 255, 230, .65) 0%,
+            rgba(0, 170, 160, .2) 45%,
+            transparent 70%
+        );
+}
+
+.duration-6 .duration-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 178, 0, .8) 0%,
+            rgba(220, 110, 0, .25) 45%,
+            transparent 70%
+        );
+}
+
+.duration-12 .duration-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(45, 110, 255, .8) 0%,
+            rgba(20, 70, 200, .25) 45%,
+            transparent 70%
+        );
+}
+
+.duration-lifetime .duration-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(220, 40, 255, .75) 0%,
+            rgba(150, 20, 190, .25) 45%,
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   CARD GLOW LINES
+========================================================= */
+
+.duration-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 8px;
+
+    transform: translateX(-50%);
+
+    width: 70px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    border-top: 1px solid rgba(255,255,255,.12);
+
+    opacity: .6;
+}
+
+
+/* =========================================================
+   EXPLORE
+========================================================= */
+
+.duration-explore {
+    position: absolute;
+
+    left: 7px;
+    bottom: 6px;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+
+    gap: 3px;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    color: #fff;
+}
+
+.duration-explore i {
+    font-size: 8px;
+
+    transition: transform .25s ease;
+}
+
+.duration-card:hover .duration-explore i {
+    transform: translateX(3px);
+}
+
+
+
+
+
 
 @media (max-width: 768px) {
   .index-main h2 {
@@ -488,9 +985,168 @@
     padding: 3rem 0;
   }
 
-  .collections-header a {
-    font-size: 16px;
+  .collections-header span {
+    font-size: 15px;
+    font-weight: 600;
   }
+
+  .collections-header a {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+
+    .esim-duration-section {
+        padding: 0 0 20px;
+    }
+
+    .esim-duration-section .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+
+    /* Main card */
+
+    .esim-duration-banner {
+        min-height: 0;
+
+        display: block;
+
+        padding: 0;
+
+        border-radius: 12px;
+
+        background:
+            radial-gradient(
+                circle at 50% 70%,
+                rgba(123, 23, 48, .12),
+                transparent 50%
+            ),
+            #050505;
+    }
+
+
+    /* Intro */
+
+    .esim-duration-intro {
+        display: block;
+
+        padding:
+            18px
+            15px
+            8px;
+
+        width: 100%;
+    }
+
+    .esim-duration-label {
+        font-size: 6px;
+
+        margin-bottom: 5px;
+    }
+
+    .esim-duration-intro h2 {
+        font-size: 16px;
+
+        line-height: 1.05;
+
+        margin-bottom: 8px;
+    }
+
+    .esim-duration-intro p {
+        font-size: 7px;
+
+        line-height: 1.4;
+
+        color: #b0b0b0;
+    }
+
+
+    /* Plans */
+
+    .esim-duration-plans {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 7px;
+
+        padding:
+            4px
+            15px
+            15px;
+    }
+
+
+    /* Cards */
+
+    .duration-card {
+        width: 100%;
+
+        height: 82px;
+
+        padding:
+            7px
+            6px
+            6px;
+
+        border-radius: 7px;
+    }
+
+    .duration-card-top {
+        align-items: flex-start;
+    }
+
+    .duration-brand {
+        font-size: 4px;
+    }
+
+    .duration-type {
+        font-size: 4px;
+    }
+
+    .duration-card h3 {
+        font-size: 7px;
+
+        margin-top: 3px;
+    }
+
+    .duration-explore {
+        left: 6px;
+        bottom: 6px;
+
+        font-size: 5px;
+    }
+
+    .duration-explore i {
+        font-size: 4px;
+    }
+
+    .duration-glow {
+        width: 65px;
+        height: 65px;
+
+        bottom: -22px;
+    }
+
+
+    /* Keep last two on second row */
+
+    .duration-12 {
+        grid-column: auto;
+    }
+
+    .duration-lifetime {
+        grid-column: auto;
+    }
+
+
+    .desktop-break {
+        display: none;
+    }
+
 }
 
 @media (max-width: 425px) {
@@ -534,5 +1190,16 @@
   .promo-description {
     max-width: 250px;
     color: #fff;
+  }
+
+  .collections-header span {
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .collections-header a {
+    font-size: 10px;
+    font-weight: 500;
+    gap: 2px;
   }
 }
