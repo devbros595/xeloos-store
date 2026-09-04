@@ -922,6 +922,10 @@
   font-size: 16px;
 }
 
+.popular-sims-pagination {
+  display: none;
+}
+
 /* =========================================================
    WHY XELOOS SECTION
 ========================================================= */
@@ -932,55 +936,32 @@
   padding: 0 0 22px;
 }
 
-/* =========================================================
-   WHY CHOOSE XELOOS
-========================================================= */
-
 .why-xeloos {
   width: 100%;
-
   display: grid;
-
   grid-template-columns: 40% 60%;
-
   min-height: 165px;
-
   overflow: hidden;
-
-  border-radius: 4px;
-
   background: #fff;
 }
 
-/* =========================================================
-   IMAGE
-========================================================= */
-
 .why-xeloos-image {
   position: relative;
-
+  border-radius: 1rem;
   width: 100%;
-  height: 165px;
-
+  height: 100%;
   overflow: hidden;
 }
 
 .why-xeloos-image img {
   display: block;
-
   width: 100%;
   height: 100%;
-
   object-fit: cover;
 }
 
-/* =========================================================
-   CONTENT
-========================================================= */
-
 .why-xeloos-content {
-  padding: 15px 30px;
-
+  padding: 1rem 1rem 1rem 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -989,30 +970,30 @@
 .section-eyebrow {
   display: block;
 
-  margin-bottom: 4px;
+  margin-bottom: 1rem;
 
-  font-family: "Inter", sans-serif;
+  font-family: var(--secondary-font);
 
-  font-size: 6px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
 
   letter-spacing: 0.7px;
 
-  color: #7b1730;
+  color: var(--dark);
   text-transform: uppercase;
 }
 
 .why-xeloos-content h2 {
-  margin: 0 0 12px;
+  margin: 0 0 2rem;
 
-  font-family: "Sora", sans-serif;
+  font-family: var(--primary-font);
 
   font-size: 16px;
   font-weight: 700;
 
   line-height: 1.1;
 
-  color: #111;
+  color: #000000;
 }
 
 /* =========================================================
@@ -1024,8 +1005,8 @@
 
   grid-template-columns: repeat(2, minmax(0, 1fr));
 
-  column-gap: 45px;
-  row-gap: 7px;
+  column-gap: 2rem;
+  row-gap: 1rem;
 }
 
 .why-item {
@@ -1037,7 +1018,7 @@
 
   font-family: "Inter", sans-serif;
 
-  font-size: 6.5px;
+  font-size: 12px;
   font-weight: 400;
 
   line-height: 1.2;
@@ -1048,8 +1029,8 @@
 .why-icon {
   flex: 0 0 auto;
 
-  width: 13px;
-  height: 13px;
+  width: 18px;
+  height: 18px;
 
   display: flex;
 
@@ -1060,13 +1041,13 @@
 
   background: #fff5f7;
 
-  color: #7b1730;
+  color: var(--dark);
 
   border: 1px solid rgba(123, 23, 48, 0.1);
 }
 
 .why-icon i {
-  font-size: 6px;
+  font-size: 16px;
 }
 
 /* =========================================================
@@ -1079,7 +1060,7 @@
   width: 100%;
   min-height: 95px;
 
-  margin-top: 10px;
+  margin-top: 1rem;
 
   display: grid;
 
@@ -1089,7 +1070,7 @@
 
   overflow: hidden;
 
-  border-radius: 4px;
+  border-radius: 1rem;
 
   background:
     radial-gradient(
@@ -1107,7 +1088,7 @@
 .more-sim-product {
   position: relative;
 
-  height: 95px;
+  height: 200px;
 
   display: flex;
 
@@ -1116,12 +1097,10 @@
 }
 
 .more-sim-product img {
-  width: 125px;
-  max-height: 85px;
-
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-
-  filter: drop-shadow(0 12px 15px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 12px 15px rgba(245, 241, 241, 0.275));
 }
 
 /* =========================================================
@@ -1129,19 +1108,31 @@
 ========================================================= */
 
 .more-sim-content {
-  padding: 10px 10px;
+  padding: 1rem 0 2rem 2rem;
 }
 
 .more-sim-eyebrow {
-  display: none;
+  display: block;
+
+  margin-bottom: 0.6rem;
+
+  font-family: var(--secondary-font);
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.7px;
+
+  color: var(--dark);
 }
 
 .more-sim-content h2 {
-  margin: 0 0 4px;
+  margin: 0 0 1rem;
 
-  font-family: "Sora", sans-serif;
+  font-family: var(--primary-font);
 
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
 
   line-height: 1;
@@ -1152,11 +1143,11 @@
 .more-sim-content p {
   max-width: 290px;
 
-  margin: 0 0 7px;
+  margin: 0 0 1rem;
 
-  font-family: "Inter", sans-serif;
+  font-family: var(--secondary-font);
 
-  font-size: 6px;
+  font-size: 12px;
   line-height: 1.4;
 
   color: #aaa;
@@ -1169,18 +1160,18 @@
 
   gap: 5px;
 
-  padding: 5px 11px;
+  padding: 8px 15px;
 
   border-radius: 50px;
 
-  background: #7b1730;
+  background: var(--dark);
 
   color: #fff;
 
-  font-family: "Inter", sans-serif;
+  font-family: var(--secondary-font);
 
-  font-size: 5.5px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
 
   text-decoration: none;
 
@@ -1196,7 +1187,7 @@
 }
 
 .more-sim-button i {
-  font-size: 5px;
+  font-size: 10px;
 }
 
 /* =========================================================
@@ -1227,11 +1218,11 @@
 
   text-align: center;
 
-  gap: 5px;
+  gap: 0.8rem;
 
-  font-family: "Inter", sans-serif;
+  font-family: var(--secondary-font);
 
-  font-size: 5px;
+  font-size: 10px;
 
   line-height: 1.2;
 
@@ -1239,8 +1230,8 @@
 }
 
 .more-feature-icon {
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
 
   display: flex;
 
@@ -1255,7 +1246,7 @@
 }
 
 .more-feature-icon i {
-  font-size: 8px;
+  font-size: 16px;
 }
 
 @media (max-width: 768px) {
@@ -1557,10 +1548,6 @@
     right: 5px;
   }
 
-  .popular-sims-pagination {
-    display: none;
-  }
-
   .why-xeloos-section {
     padding-bottom: 18px;
   }
@@ -1580,8 +1567,6 @@
     flex-direction: column;
 
     min-height: 0;
-
-    border-radius: 0;
   }
 
   /* IMAGE FIRST */
@@ -1589,9 +1574,10 @@
   .why-xeloos-image {
     width: 100%;
 
-    height: 145px;
+    height: 100%;
 
     order: 1;
+    border-radius: 0;
   }
 
   .why-xeloos-image img {
@@ -1614,7 +1600,7 @@
   .section-eyebrow {
     margin-bottom: 8px;
 
-    font-size: 7px;
+    font-size: 10px;
 
     letter-spacing: 0.7px;
   }
@@ -1636,7 +1622,7 @@
 
     flex-direction: column;
 
-    gap: 10px;
+    gap: 1.5rem;
 
     width: 100%;
   }
@@ -1644,7 +1630,8 @@
   .why-item {
     gap: 9px;
 
-    font-size: 9px;
+    font-size: 12px;
+    font-weight: 500;
 
     line-height: 1.2;
   }
@@ -1655,7 +1642,7 @@
   }
 
   .why-icon i {
-    font-size: 8px;
+    font-size: 12px;
   }
 
   /* =====================================================
@@ -1695,38 +1682,22 @@
   }
 
   .more-sim-eyebrow {
-    display: block;
-
-    margin-bottom: 5px;
-
-    font-family: "Inter", sans-serif;
-
-    font-size: 7px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.7px;
-
-    color: #7b1730;
+    display: none;
   }
 
   .more-sim-content h2 {
     margin-bottom: 8px;
-
     font-size: 16px;
-
+    color: var(--dark);
+    text-transform: uppercase;
     line-height: 1.05;
   }
 
   .more-sim-content p {
     max-width: 205px;
-
     margin-bottom: 12px;
-
-    font-size: 8px;
-
+    font-size: 12px;
     line-height: 1.45;
-
     color: #aaa;
   }
 
@@ -1736,6 +1707,7 @@
     font-size: 7px;
 
     gap: 7px;
+    order: 3;
   }
 
   .more-sim-button i {
@@ -1761,9 +1733,9 @@
   }
 
   .more-sim-product img {
-    width: 150px;
+    width: 100%;
 
-    max-height: 115px;
+    max-height: 100%;
 
     object-fit: contain;
   }
@@ -1791,20 +1763,15 @@
   }
 
   .more-feature {
-    gap: 5px;
+    gap: 0.8rem;
 
     font-size: 6px;
 
     color: #ddd;
   }
 
-  .more-feature-icon {
-    width: 25px;
-    height: 25px;
-  }
-
   .more-feature-icon i {
-    font-size: 9px;
+    font-size: 16px;
   }
 }
 
@@ -1861,11 +1828,13 @@
     font-weight: 500;
     gap: 2px;
   }
+
+
 }
 
 @media (max-width: 380px) {
   .why-xeloos-image {
-    height: 135px;
+    height: 100%;
   }
 
   .why-xeloos-content {
@@ -1877,7 +1846,7 @@
   }
 
   .why-item {
-    font-size: 8px;
+    font-size: 12px;
   }
 
   .more-than-sim {
@@ -1886,26 +1855,28 @@
     margin-left: 0;
     margin-right: 0;
 
-    padding: 16px 12px 13px;
+    padding: 1rem 1rem 2rem;
   }
 
   .more-sim-content h2 {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .more-sim-content p {
-    font-size: 7px;
+    font-size: 16px;
   }
 
   .more-sim-product {
-    height: 125px;
+    width: 100%;
+    height: 100%;
   }
 
   .more-sim-product img {
-    width: 140px;
+    width: 100%;
+    width: 100%;
   }
 
   .more-feature {
-    font-size: 5.5px;
+    font-size: 10px;
   }
 }
