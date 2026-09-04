@@ -371,7 +371,7 @@
 }
 
 .collections-header span {
-  font-family: "Sora", sans-serif;
+  font-family: var(--primary-font);
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -382,11 +382,11 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-family: "Sora", sans-serif;
+  font-family: var(--primary-font);
   font-size: 14px;
   font-weight: 500;
-  text-decoration: none;
   color: var(--dark);
+  text-decoration: none;
   text-transform: capitalize;
 }
 
@@ -1190,10 +1190,6 @@
   font-size: 10px;
 }
 
-/* =========================================================
-   MORE SIM FEATURES
-========================================================= */
-
 .more-sim-features {
   height: 65%;
 
@@ -1249,11 +1245,423 @@
   font-size: 16px;
 }
 
-@media (max-width: 768px) {
-  .index-main h2 {
-    font-size: 20px;
-  }
+.catalogue-section {
+  width: 100%;
+  padding: 2rem 0;
+  background: #fff;
+  border: 1px solid #000;
+}
 
+.catalogue-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.catalogue-title {
+  font-family: var(--primary-font);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--dark);
+}
+
+.catalogue-view-all {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--primary-font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark);
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.catalogue-view-all i {
+  font-size: 6px;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.catalogue-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  gap: 7px;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.catalogue-card {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  height: 92px;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+
+  text-decoration: none;
+
+  background-color: #eef0f1;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.catalogue-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.13);
+}
+
+/* =========================================================
+   BACKGROUND IMAGES
+========================================================= */
+
+.catalogue-europe {
+  background-image: url("{% static 'store/img/catalogue/europe.jpg' %}");
+}
+
+.catalogue-asia {
+  background-image: url("{% static 'store/img/catalogue/asia.jpg' %}");
+}
+
+.catalogue-uae {
+  background-image: url("{% static 'store/img/catalogue/uae.jpg' %}");
+}
+
+.catalogue-new-zealand {
+  background-image: url("{% static 'store/img/catalogue/new-zealand.jpg' %}");
+}
+
+.catalogue-africa {
+  background-image: url("{% static 'store/img/catalogue/africa.jpg' %}");
+}
+
+.catalogue-canada {
+  background-image: url("{% static 'store/img/catalogue/canada.jpg' %}");
+}
+
+.catalogue-uk {
+  background-image: url("{% static 'store/img/catalogue/uk.jpg' %}");
+}
+
+.catalogue-australia {
+  background-image: url("{% static 'store/img/catalogue/australia.jpg' %}");
+}
+
+.catalogue-middle-east {
+  background-image: url("{% static 'store/img/catalogue/middle-east.jpg' %}");
+}
+
+.catalogue-card {
+  background-size: cover;
+  background-position: center;
+}
+
+/* =========================================================
+   WHITE FADE OVER IMAGE
+========================================================= */
+
+.catalogue-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(255, 255, 255, 0.72) 37%,
+    rgba(255, 255, 255, 0.08) 78%
+  );
+}
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.catalogue-info {
+  position: absolute;
+
+  z-index: 4;
+
+  left: 9px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 55%;
+
+  pointer-events: none;
+}
+
+.catalogue-info h3 {
+  margin: 0 0 4px;
+
+  font-family: "Sora", sans-serif;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  color: #111;
+}
+
+.catalogue-info p {
+  margin: 0 0 7px;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 6.5px;
+
+  color: #777;
+
+  line-height: 1.2;
+}
+
+.catalogue-info span {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 6.5px;
+  font-weight: 600;
+
+  color: #7b1730;
+}
+
+.catalogue-info span i {
+  font-size: 5px;
+  transition: transform 0.25s ease;
+}
+
+.catalogue-card:hover .catalogue-info span i {
+  transform: translateX(3px);
+}
+
+.catalogue-product {
+  position: absolute;
+
+  z-index: 3;
+
+  width: 58%;
+
+  height: 100%;
+
+  right: -4%;
+
+  bottom: 0;
+
+  object-fit: contain;
+
+  object-position: center bottom;
+
+  filter: drop-shadow(7px 10px 10px rgba(0, 0, 0, 0.18));
+
+  transition: transform 0.35s ease;
+}
+
+.catalogue-card:hover .catalogue-product {
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   CONNECTION CTA
+========================================================= */
+
+.connection-cta {
+  position: relative;
+
+  width: calc(100% - 50px);
+
+  margin: 5px auto 25px;
+  padding: 2rem 0;
+
+  overflow: hidden;
+
+  border-radius: 1rem;
+
+  background:
+    radial-gradient(
+      circle at 92% 45%,
+      rgba(180, 35, 75, 0.45),
+      transparent 28%
+    ),
+    linear-gradient(105deg, #8d1532 0%, #720d27 45%, #5d0920 100%);
+}
+
+/* Decorative curved glow */
+
+.connection-cta::before {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 110px;
+
+  right: -35px;
+  top: -65px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  border-radius: 50%;
+
+  transform: rotate(-20deg);
+}
+
+/* Second decorative curve */
+
+.connection-cta::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 100px;
+
+  right: -5px;
+  top: -48px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 50%;
+
+  transform: rotate(-25deg);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.connection-cta-content {
+  position: relative;
+
+  z-index: 2;
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.connection-cta h2 {
+  font-family: var(--primary-font);
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+}
+
+.connection-cta p {
+  font-family: var(--secondary-font);
+  font-size: 18px;
+  font-weight: 400;
+  color: #e7e6e6;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.connection-cta-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 105px;
+  height: 19px;
+  padding: 1.5rem 2rem;
+  border-radius: 50px;
+  font-family: var(--secondary-font);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.cta-btn i {
+  font-size: 16px;
+}
+
+/* White button */
+
+.cta-btn-primary {
+  background: #fff;
+
+  color: #111;
+
+  border: 1px solid #fff;
+}
+
+.cta-btn-primary:hover {
+  background: #f2f2f2;
+
+  color: #111;
+
+  transform: translateY(-2px);
+}
+
+/* Outline button */
+
+.cta-btn-outline {
+  background: transparent;
+
+  color: #fff;
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.cta-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #fff;
+
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
   .xeloos-sim-category {
     grid-template-columns: repeat(2, 1fr);
     gap: 50px;
@@ -1320,8 +1728,9 @@
   }
 
   .collections-header span {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
+    letter-spacing: 0;
   }
 
   .collections-header a {
@@ -1429,7 +1838,6 @@
   .duration-glow {
     width: 65px;
     height: 65px;
-
     bottom: -22px;
   }
 
@@ -1456,11 +1864,14 @@
   }
 
   .popular-sims-title {
-    font-size: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
   .popular-sims-view {
-    font-size: 7px;
+    font-size: 12px;
+    font-weight: 500;
   }
 
   .popular-sims-view i {
@@ -1686,7 +2097,7 @@
   }
 
   .more-sim-content h2 {
-    margin-bottom: 8px;
+    margin-bottom: 1rem;
     font-size: 16px;
     color: var(--dark);
     text-transform: uppercase;
@@ -1695,7 +2106,7 @@
 
   .more-sim-content p {
     max-width: 205px;
-    margin-bottom: 12px;
+    margin-bottom: 1rem;
     font-size: 12px;
     line-height: 1.45;
     color: #aaa;
@@ -1704,14 +2115,13 @@
   .more-sim-button {
     padding: 8px 15px;
 
-    font-size: 7px;
+    font-size: 14px;
 
     gap: 7px;
-    order: 3;
   }
 
   .more-sim-button i {
-    font-size: 6px;
+    font-size: 12px;
   }
 
   /* PRODUCT */
@@ -1773,6 +2183,138 @@
   .more-feature-icon i {
     font-size: 16px;
   }
+
+
+
+  /* =====================================================
+       HEADER
+    ===================================================== */
+
+  .catalogue-header {
+
+    margin-bottom: 12px;
+  }
+
+  .catalogue-title {
+    font-size: 8px;
+  }
+
+  .catalogue-view-all {
+    font-size: 7px;
+  }
+
+  /* =====================================================
+       TWO COLUMN GRID
+    ===================================================== */
+
+  .catalogue-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+
+    padding: 0;
+  }
+
+  /* =====================================================
+       TALL MOBILE CARDS
+    ===================================================== */
+
+  .catalogue-card {
+    height: 145px;
+
+    border-radius: 6px;
+  }
+
+  /* =====================================================
+       STRONGER MOBILE FADE
+    ===================================================== */
+
+  .catalogue-card::before {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.76) 42%,
+      rgba(255, 255, 255, 0.08) 90%
+    );
+  }
+
+  /* =====================================================
+       TEXT
+    ===================================================== */
+
+  .catalogue-info {
+    left: 8px;
+
+    width: 48%;
+
+    top: 50%;
+  }
+
+  .catalogue-info h3 {
+    font-size: 9px;
+
+    margin-bottom: 5px;
+
+    line-height: 1.05;
+  }
+
+  .catalogue-info p {
+    font-size: 7px;
+
+    margin-bottom: 8px;
+
+    line-height: 1.2;
+  }
+
+  .catalogue-info span {
+    font-size: 7px;
+
+    gap: 5px;
+  }
+
+  .catalogue-info span i {
+    font-size: 5px;
+  }
+
+  .catalogue-product {
+    width: 65%;
+
+    right: -3%;
+
+    bottom: -2px;
+  }
+
+  .connection-cta {
+    width: calc(100% - 16px);
+    margin: 5px auto 18px;
+    border-radius: 6px;
+  }
+
+  .connection-cta h2 {
+    line-height: 1.2;
+    width: 100%;
+    max-width: 200px;
+    font-weight: 500;
+  }
+
+  .connection-cta p {
+    font-size: 16px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .connection-cta-buttons {
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .cta-btn {
+    width: 100%;
+
+    height: 18px;
+
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 425px) {
@@ -1782,57 +2324,52 @@
     row-gap: 30px;
     padding: 20px 0px;
   }
+}
+.faq-title {
+  font-size: 15px;
+}
 
-  .index-main h2 {
-    font-size: 18px;
-  }
-  .faq-title {
-    font-size: 15px;
-  }
+.features-section {
+  background: transparent;
+  padding: 2rem 0;
+}
 
-  .features-section {
-    background: transparent;
-    padding: 2rem 0;
-  }
+.features-text span {
+  font-size: 14px;
+  font-weight: 500;
+}
 
-  .features-text span {
-    font-size: 14px;
-    font-weight: 500;
-  }
+.features-icon {
+  transform: scale(0.8);
+}
 
-  .features-icon {
-    transform: scale(0.8);
-  }
+.promo-text {
+  gap: 2rem;
+}
 
-  .promo-text {
-    gap: 2rem;
-  }
+.promo-title {
+  line-height: 1.3;
+  color: #ffffff;
+}
 
-  .promo-title {
-    line-height: 1.3;
-    color: #ffffff;
-  }
-
-  .promo-description {
-    max-width: 250px;
-    color: #fff;
-  }
-
-  .collections-header span {
-    font-size: 10px;
-    font-weight: 600;
-  }
-
-  .collections-header a {
-    font-size: 10px;
-    font-weight: 500;
-    gap: 2px;
-  }
-
-
+.promo-description {
+  max-width: 250px;
+  color: #fff;
 }
 
 @media (max-width: 380px) {
+  .collections-header span {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .popular-sims-title {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
   .why-xeloos-image {
     height: 100%;
   }
@@ -1860,10 +2397,12 @@
 
   .more-sim-content h2 {
     font-size: 18px;
+    font-weight: 600;
   }
 
   .more-sim-content p {
     font-size: 16px;
+    font-weight: 400;
   }
 
   .more-sim-product {
@@ -1878,5 +2417,50 @@
 
   .more-feature {
     font-size: 10px;
+  }
+
+  .catalogue-grid {
+    gap: 7px;
+  }
+
+  .catalogue-card {
+    height: 138px;
+  }
+
+  .catalogue-info {
+    left: 7px;
+  }
+
+  .catalogue-info h3 {
+    font-size: 8px;
+  }
+
+  .catalogue-info p,
+  .catalogue-info span {
+    font-size: 6.5px;
+  }
+
+  .catalogue-product {
+    width: 66%;
+  }
+
+  .connection-cta {
+    height: 72px;
+
+    width: calc(100% - 12px);
+  }
+
+  .connection-cta h2 {
+    font-size: 12px;
+  }
+
+  .connection-cta p {
+    font-size: 5.5px;
+  }
+
+  .cta-btn {
+    min-width: 88px;
+    height: 17px;
+    font-size: 5px;
   }
 }
