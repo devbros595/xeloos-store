@@ -1320,7 +1320,7 @@
    BACKGROUND IMAGES
 ========================================================= */
 
-.catalogue-europe {
+/* .catalogue-europe {
   background-image: url("{% static 'store/img/catalogue/europe.jpg' %}");
 }
 
@@ -1354,7 +1354,7 @@
 
 .catalogue-middle-east {
   background-image: url("{% static 'store/img/catalogue/middle-east.jpg' %}");
-}
+} */
 
 .catalogue-card {
   background-size: cover;
