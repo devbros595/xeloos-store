@@ -1,121 +1,198 @@
 from django.shortcuts import render, get_object_or_404
-from .cart import Cart
-from store.models import SIMCard
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from .cart import Cart
 
-# Create your views here.
+from .cart import Cart
+from store.models import SIMCard, Product
+
+
+def render_cart_response(request, cart):
+    """
+    Render the cart HTML and return common cart data.
+    """
+    cart_items = cart.get_items()
+    cart_total = cart.get_total_price()
+
+    html = render_to_string(
+        "cart_summary.html",
+        {
+            "cart_items": cart_items,
+            "cart_total": cart_total,
+        },
+        request=request,
+    )
+
+    return html, cart_total
 
 
 def cart_summary_view(request):
     cart = Cart(request)
-    cart_items = cart.get_sims()
+
+    cart_items = cart.get_items()
     cart_total = cart.get_total_price()
 
     return render(
         request,
         "cart_summary.html",
-        {"cart_items": cart_items, "cart_total": cart_total},
+        {
+            "cart_items": cart_items,
+            "cart_total": cart_total,
+        },
     )
 
 
 def cart_add_view(request):
-    # Get the cart instance from the session
+    """
+    Add an existing physical SIM card to the cart.
+    """
+
+    if request.method != "POST" or request.POST.get("action") != "post":
+        return JsonResponse({"error": "Invalid request"}, status=400)
+
     cart = Cart(request)
 
-    # Check if the request is a POST request and the action is 'post'
-    if request.method == "POST" and request.POST.get("action") == "post":
-        try:
-            # Get the sim_id from the request
-            sim_id = request.POST.get("sim_id")
-            if not sim_id:
-                return JsonResponse({"error": "Missing sim_id"}, status=400)
+    sim_id = request.POST.get("sim_id")
 
-            # Try to convert sim_id to an integer
-            sim_id = int(sim_id)
+    if not sim_id:
+        return JsonResponse({"error": "Missing sim_id"}, status=400)
 
-            # Fetch the SIM card object from the database
-            sim = get_object_or_404(SIMCard, id=sim_id)
+    try:
+        sim_id = int(sim_id)
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Invalid sim_id"}, status=400)
 
-            # Add the SIM card to the cart
-            cart.add(sim=sim)
+    sim = get_object_or_404(SIMCard, id=sim_id)
 
-            # Get updated cart items
-            cart_items = cart.get_sims()
-            cart_total = cart.get_total_price()
+    cart.add_sim(sim)
 
-            # Render the updated cart modal HTML
-            html = render_to_string(
-                "cart_summary.html",
-                {"cart_items": cart_items, "cart_total": cart_total},
-                request=request,
-            )
+    html, cart_total = render_cart_response(request, cart)
 
-            # Return a JSON response with the updated cart content and count
-            return JsonResponse(
-                {"html": html, "sim": sim.name, "cart_count": len(cart)}
-            )
+    return JsonResponse(
+        {
+            "html": html,
+            "sim": sim.name,
+            "cart_count": len(cart),
+            "cart_total": str(cart_total),
+        }
+    )
 
-        except ValueError:
-            # Handle case where sim_id isn't a valid integer
-            return JsonResponse({"error": "Invalid sim_id"}, status=400)
 
-    # Return error response if it's not a POST request or if the action is not 'post'
-    return JsonResponse({"error": "Invalid request"}, status=400)
+def product_add_view(request):
+    """
+    Add one of the new generic Xeloos products to the cart.
+    """
+
+    if request.method != "POST" or request.POST.get("action") != "post":
+        return JsonResponse({"error": "Invalid request"}, status=400)
+
+    cart = Cart(request)
+
+    product_id = request.POST.get("product_id")
+
+    if not product_id:
+        return JsonResponse({"error": "Missing product_id"}, status=400)
+
+    try:
+        product_id = int(product_id)
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Invalid product_id"}, status=400)
+
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        is_active=True,
+    )
+
+    cart.add_product(product)
+
+    html, cart_total = render_cart_response(request, cart)
+
+    return JsonResponse(
+        {
+            "html": html,
+            "product": product.name,
+            "cart_count": len(cart),
+            "cart_total": str(cart_total),
+        }
+    )
 
 
 def cart_delete_view(request):
+    """
+    Remove either a SIM or generic Product from the cart.
+    """
+
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request"}, status=400)
+
     cart = Cart(request)
-    sim_id = request.POST.get("sim_id")
-    if not sim_id:
-        return JsonResponse({"error": "Missing sim_id"}, status=400)
-    try:
-        cart.delete(sim=sim_id)
-        cart_items = cart.get_sims()
-        cart_total = cart.get_total_price()
-        html = render_to_string(
-            "cart_summary.html",
-            {"cart_items": cart_items, "cart_total": cart_total},
-            request=request,
-        )
-        return JsonResponse({"html": html, "sim": sim_id, "cart_count": len(cart)})
-    except ValueError:
-        return JsonResponse({"error": "Invalid sim_id"}, status=400)
+
+    cart_id = request.POST.get("cart_id")
+
+    # Backwards compatibility with your existing JS
+    if not cart_id:
+        cart_id = request.POST.get("sim_id")
+
+    if not cart_id:
+        return JsonResponse({"error": "Missing cart_id"}, status=400)
+
+    cart.delete(cart_id)
+
+    html, cart_total = render_cart_response(request, cart)
+
+    return JsonResponse(
+        {
+            "html": html,
+            "cart_id": cart_id,
+            "cart_count": len(cart),
+            "cart_total": str(cart_total),
+        }
+    )
 
 
 def cart_update_view(request):
+    """
+    Update quantity for either a SIM or generic Product.
+    """
+
+    if request.method != "POST" or request.POST.get("action") != "post":
+        return JsonResponse({"error": "Invalid request"}, status=400)
+
     cart = Cart(request)
-    if request.method == "POST" and request.POST.get("action") == "post":
-        sim_id = request.POST.get("sim_id")
-        quantity = request.POST.get("quantity")
 
-        if not sim_id or not quantity:
-            return JsonResponse({"error": "Missing data"}, status=400)
+    cart_id = request.POST.get("cart_id")
 
-        try:
-            sim_id = int(sim_id)
-            quantity = int(quantity)
+    # Backwards compatibility with existing JS
+    if not cart_id:
+        cart_id = request.POST.get("sim_id")
 
-            if quantity < 1 or quantity > 5:
-                return JsonResponse({"error": "Invalid quantity"}, status=400)
+    quantity = request.POST.get("quantity")
 
-            cart.update(sim_id=sim_id, quantity=quantity)
+    if not cart_id or not quantity:
+        return JsonResponse({"error": "Missing data"}, status=400)
 
-            cart_items = cart.get_sims()
-            cart_total = cart.get_total_price()
-            html = render_to_string(
-                "cart_summary.html",
-                {
-                    "cart_items": cart_items,
-                    "cart_total": cart_total,
-                },
-                request=request,
-            )
-            return JsonResponse({"html": html, "cart_count": len(cart)})
+    try:
+        quantity = int(quantity)
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Invalid quantity"}, status=400)
 
-        except ValueError:
-            return JsonResponse({"error": "Invalid input"}, status=400)
+    if quantity < 1 or quantity > 5:
+        return JsonResponse(
+            {"error": "Quantity must be between 1 and 5"},
+            status=400,
+        )
 
-    return JsonResponse({"error": "Invalid request"}, status=400)
+    cart.update(
+        cart_id=cart_id,
+        quantity=quantity,
+    )
 
+    html, cart_total = render_cart_response(request, cart)
+
+    return JsonResponse(
+        {
+            "html": html,
+            "cart_count": len(cart),
+            "cart_total": str(cart_total),
+        }
+    )

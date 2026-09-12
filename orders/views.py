@@ -1,122 +1,216 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from cart.cart import Cart
-from .models import Order, OrderItem
-from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from django.template.loader import render_to_string
-from django.conf import settings
-import random
-from django.templatetags.static import static
+
+from store.models import SIMCard, Product
+from .cart import Cart
 
 
-def generate_order_id():
-    return str(random.randint(1000000000, 9999999999))  # 10-digit number
+# =========================
+# CART SUMMARY
+# =========================
 
-
-def checkout_shipping_info_view(request):
+def cart_summary_view(request):
     cart = Cart(request)
-    if not cart.get_sims():
-        return redirect("store")
 
-    if request.method == "POST":
-        request.session["checkout_data"] = {
-            "name": request.POST.get("name"),
-            "phone": request.POST.get("phone"),
-            "email": request.POST.get("email"),
-            "address": request.POST.get("address"),
-            "city": request.POST.get("city"),
-            "state": request.POST.get("state"),
-        }
-        return redirect("orders:shipping_method")  # FIXED
-
-    initial_data = request.session.get("checkout_data", {})
-    return render(request, "checkout.html", {"initial_data": initial_data})
-
-
-def shipping_method_view(request):
-    if request.method == "POST":
-        shipping_method = request.POST.get("shipping_method")
-        if not shipping_method:
-            return render(
-                request,
-                "shipping_method.html",
-                {"error": "Please select a shipping method."},
-            )
-
-        request.session["checkout_data"]["shipping_method"] = shipping_method
-        request.session.modified = True
-        return redirect("orders:payment_info")  # FIXED
-
-    return render(request, "shipping_method.html")
-
-
-import uuid
-
-
-def payment_info_view(request):
-    # Generate a temporary unique payment reference
-    payment_reference = (
-        str(uuid.uuid4()).replace("-", "").upper()[:10]
-    )  # 10-char unique string
-    return render(request, "payment.html", {"payment_reference": payment_reference})
-
-
-def review_order_view(request):
-    checkout_data = request.session.get("checkout_data", {})
-    cart = Cart(request)
-    cart_items = cart.get_sims()
+    cart_items = cart.get_items()
     cart_total = cart.get_total_price()
-    checkout_data = request.session.get("checkout_data")
-
-    if not cart_items:
-        return redirect("cart_summary")
 
     return render(
         request,
-        "checkout_review.html",
+        "cart_summary.html",
         {
             "cart_items": cart_items,
             "cart_total": cart_total,
-            "checkout_data": checkout_data,
-            "cart": cart.cart,
         },
     )
 
 
-def place_order_view(request):
-    cart = Cart(request)
-    cart_items = cart.get_sims()
-    cart_total = cart.get_total_price()
+# =========================
+# ADD PHYSICAL SIM TO CART
+# =========================
 
-    checkout_data = request.session.get("checkout_data")
-    if not checkout_data or not cart_items:
-        return redirect("cart_summary")
-
-    order = Order.objects.create(
-        order_id=generate_order_id(),
-        name=checkout_data["name"],
-        email=checkout_data["email"],
-        phone=checkout_data["phone"],
-        address=checkout_data["address"],
-        city=checkout_data["city"],
-        state=checkout_data["state"],
-        total_price=cart_total,
-    )
-
-    for item in cart.get_sims():
-        sim = item["sim"]
-        quantity = item["quantity"]
-
-        OrderItem.objects.create(
-            order=order, sim_name=sim.name, sim_price=sim.price, quantity=quantity
+def cart_add_view(request):
+    if request.method != "POST" or request.POST.get("action") != "post":
+        return JsonResponse(
+            {"error": "Invalid request"},
+            status=400,
         )
 
-    cart.clear()
-    del request.session["checkout_data"]
+    sim_id = request.POST.get("sim_id")
 
-    return redirect("orders:payment_confirm", order_id=order.id)  # FIXED
+    if not sim_id:
+        return JsonResponse(
+            {"error": "Missing sim_id"},
+            status=400,
+        )
+
+    try:
+        sim_id = int(sim_id)
+    except (ValueError, TypeError):
+        return JsonResponse(
+            {"error": "Invalid sim_id"},
+            status=400,
+        )
+
+    sim = get_object_or_404(SIMCard, id=sim_id)
+
+    cart = Cart(request)
+    cart.add_sim(sim)
+
+    return _cart_response(
+        request,
+        cart,
+        item_name=sim.name,
+    )
 
 
-def payment_confirm_view(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    return render(request, "payment_confirm.html", {"order": order})
+# =========================
+# ADD DIGITAL PRODUCT
+# =========================
+
+def product_cart_add_view(request):
+    if request.method != "POST" or request.POST.get("action") != "post":
+        return JsonResponse(
+            {"error": "Invalid request"},
+            status=400,
+        )
+
+    product_id = request.POST.get("product_id")
+
+    if not product_id:
+        return JsonResponse(
+            {"error": "Missing product_id"},
+            status=400,
+        )
+
+    try:
+        product_id = int(product_id)
+    except (ValueError, TypeError):
+        return JsonResponse(
+            {"error": "Invalid product_id"},
+            status=400,
+        )
+
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        is_active=True,
+    )
+
+    cart = Cart(request)
+    cart.add_product(product)
+
+    return _cart_response(
+        request,
+        cart,
+        item_name=product.name,
+    )
+
+
+# =========================
+# DELETE ITEM FROM CART
+# =========================
+
+def cart_delete_view(request):
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "Invalid request"},
+            status=400,
+        )
+
+    cart_id = request.POST.get("cart_id")
+
+    # Backwards compatibility with your old JS
+    if not cart_id:
+        sim_id = request.POST.get("sim_id")
+
+        if sim_id:
+            cart_id = f"sim_{sim_id}"
+
+    if not cart_id:
+        return JsonResponse(
+            {"error": "Missing cart_id"},
+            status=400,
+        )
+
+    cart = Cart(request)
+    cart.delete(cart_id)
+
+    return _cart_response(request, cart)
+
+
+# =========================
+# UPDATE CART QUANTITY
+# =========================
+
+def cart_update_view(request):
+    if request.method != "POST" or request.POST.get("action") != "post":
+        return JsonResponse(
+            {"error": "Invalid request"},
+            status=400,
+        )
+
+    cart_id = request.POST.get("cart_id")
+
+    # Backwards compatibility
+    if not cart_id:
+        sim_id = request.POST.get("sim_id")
+
+        if sim_id:
+            cart_id = f"sim_{sim_id}"
+
+    quantity = request.POST.get("quantity")
+
+    if not cart_id or not quantity:
+        return JsonResponse(
+            {"error": "Missing data"},
+            status=400,
+        )
+
+    try:
+        quantity = int(quantity)
+    except (ValueError, TypeError):
+        return JsonResponse(
+            {"error": "Invalid quantity"},
+            status=400,
+        )
+
+    if quantity < 1 or quantity > 5:
+        return JsonResponse(
+            {"error": "Quantity must be between 1 and 5"},
+            status=400,
+        )
+
+    cart = Cart(request)
+    cart.update(cart_id, quantity)
+
+    return _cart_response(request, cart)
+
+
+# =========================
+# HELPER
+# =========================
+
+def _cart_response(request, cart, item_name=None):
+    cart_items = cart.get_items()
+    cart_total = cart.get_total_price()
+
+    html = render_to_string(
+        "cart_summary.html",
+        {
+            "cart_items": cart_items,
+            "cart_total": cart_total,
+        },
+        request=request,
+    )
+
+    response = {
+        "html": html,
+        "cart_count": len(cart),
+    }
+
+    if item_name:
+        response["item"] = item_name
+
+    return JsonResponse(response)
