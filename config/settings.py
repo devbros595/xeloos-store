@@ -45,10 +45,7 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
 
     # Explicitly tells Django to trust requests coming from your live domains
-    CSRF_TRUSTED_ORIGINS = [
-        "https://graceglobalconsultancy.co.uk",
-        "https://www.graceglobalconsultancy.co.uk",
-    ]
+    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 
 # Application definition
