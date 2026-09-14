@@ -7,7 +7,11 @@
 {% block content %}
 <style>
     .catalogue-section {
-        margin: 5rem auto;
+        margin: 2rem auto 4rem;
+    }
+
+    .catalogue-section h5{
+        margin-bottom: 2rem;
     }
 
     .catalogue-item {
@@ -57,25 +61,51 @@
     </section>
     <section class="catalogue-section">
         <div class="container">
+            <h5>Popular Countries</h5>
             <div class="row" data-aos="fade-right" data-aos-delay="500">
-                {% for country in categories %}
+                {% for country in countries %}
                 {% if country.slug %}
-                <div class="col-sm-12 col-md-4 col-lg-3  d-flex justify-content-center">
-                    <div class="catalogue-item ">
-                        <a href="{% url 'store' country.slug %}" class="text-decoration-none">
-                            <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
-                                {% if country.image %}
-                                <img src="{{ country.image.url }}" alt="{{ country.name }}">
+
+                <div class="col-sm-12 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+                    <div class="catalogue-item">
+
+                        {% if store_type == "esim" %}
+
+                        <a href="{% url 'esim-country-store' country.slug %}" class="text-decoration-none">
+
+                            {% else %}
+
+                            <a href="{% url 'physical-sim-store' country.slug %}" class="text-decoration-none">
+
                                 {% endif %}
-                                <div class="catalogue-name">
-                                    <span>{{ country.name }} SIM Cards</span>
+
+                                <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
+
+                                    {% if country.image %}
+                                    <img src="{{ country.image.url }}" alt="{{ country.name }}">
+                                    {% endif %}
+
+                                    <div class="catalogue-name">
+                                        <span>
+                                            {{ country.name }}
+                                            
+                                        </span>
+                                    </div>
 
                                 </div>
-                            </div>
-                        </a>
+
+                            </a>
+
                     </div>
                 </div>
+
                 {% endif %}
+                {% empty %}
+
+                <div class="text-center text-muted w-100">
+                    No countries available.
+                </div>
+
                 {% endfor %}
             </div>
         </div>

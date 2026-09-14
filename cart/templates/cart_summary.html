@@ -67,6 +67,7 @@
 
 <div id="cart-modal-content">
 
+
     {% if cart_items %}
 
     <div class="cart-wrapper">
@@ -95,6 +96,7 @@
 
             </thead>
 
+
             <tbody>
 
                 {% for item in cart_items %}
@@ -102,60 +104,61 @@
                 <tr>
 
                     <!-- ITEM -->
+
                     <td class="d-flex align-items-center gap-3">
 
                         {% if item.item.image %}
 
-                        <img
-                            src="{{ item.item.image.url }}"
-                            alt="{{ item.name }}"
-                            style="
-                                width: 40px;
-                                height: 40px;
-                                object-fit: cover;
-                                border-radius: 6px;
-                            "
-                        >
+                        <img src="{{ item.item.image.url }}" alt="{{ item.name }}" style="
+                            width: 40px;
+                            height: 40px;
+                            object-fit: cover;
+                            border-radius: 6px;
+                        ">
 
                         {% endif %}
 
-                        <span>
-                            {{ item.name }}
-                        </span>
+                        <div>
+
+                            <span>
+                                {{ item.name }}
+                            </span>
+
+                            {% if item.type == "sim" %}
+
+                            <small class="d-block text-muted">
+                                Physical SIM
+                            </small>
+
+                            {% elif item.type == "product" %}
+
+                            <small class="d-block text-muted">
+                                {{ item.item.category.name }}
+                            </small>
+
+                            {% endif %}
+
+                        </div>
 
                     </td>
 
 
                     <!-- QUANTITY -->
+
                     <td class="text-center">
 
-                        <div
-                            class="quantity-wrapper"
-                            data-item-id="{{ item.cart_id }}"
-                        >
+                        <div class="quantity-wrapper" data-item-id="{{ item.cart_id }}">
 
-                            <button
-                                type="button"
-                                class="qty-btn minus"
-                                data-action="decrement"
-                            >
+                            <button type="button" class="qty-btn minus" data-action="decrement" 
+                            {% if item.quantity <= 1 %}disabled{% endif %}>
                                 −
                             </button>
 
-                            <input
-                                type="number"
-                                class="qty-input"
-                                value="{{ item.quantity }}"
-                                min="1"
-                                max="5"
-                                readonly
-                            >
+                            <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" max="5" readonly>
 
-                            <button
-                                type="button"
-                                class="qty-btn plus"
-                                data-action="increment"
-                            >
+                            <button type="button" class="qty-btn plus" data-action="increment" 
+                            {% if item.quantity >= 5 %}disabled{% endif %}
+                                >
                                 +
                             </button>
 
@@ -165,6 +168,7 @@
 
 
                     <!-- PRICE -->
+
                     <td class="text-center">
 
                         ${{ item.total_price|floatformat:2 }}
@@ -173,18 +177,15 @@
 
 
                     <!-- REMOVE -->
+
                     <td>
 
                         <div class="summary-remove-btn">
 
-                            <i
-                                class="fa-solid fa-trash-can remove-cart-item"
-                                data-item-id="{{ item.cart_id }}"
-                                style="
-                                    color: #ff0000;
-                                    cursor: pointer;
-                                "
-                            ></i>
+                            <i class="fa-solid fa-trash-can remove-cart-item" data-item-id="{{ item.cart_id }}" style="
+                                color: #ff0000;
+                                cursor: pointer;
+                            "></i>
 
                         </div>
 
@@ -208,7 +209,7 @@
             </strong>
 
             <span>
-                $ {{ cart_total|floatformat:2 }}
+                ${{ cart_total|floatformat:2 }}
             </span>
 
         </div>
@@ -220,10 +221,7 @@
 
     <div class="checkout d-flex justify-content-center align-items-center mt-3">
 
-        <a
-            href="{% url 'orders:checkout' %}"
-            class="checkout-btn text-decoration-none"
-        >
+        <a href="{% url 'orders:checkout' %}" class="checkout-btn text-decoration-none">
             Proceed to checkout
         </a>
 
@@ -248,7 +246,6 @@
 
 </div>
 
-
 <script>
 
     /*
@@ -269,7 +266,7 @@
 
                 type: "POST",
 
-                url: "{% url 'cart_remove' %}",
+                url: "{% url 'orders:cart-delete' %}",
 
                 data: {
 
@@ -381,25 +378,6 @@
 
 
             /*
-            | Update buttons
-            */
-
-            wrapper
-                .find(".qty-btn.minus")
-                .prop(
-                    "disabled",
-                    currentQty <= 1
-                );
-
-            wrapper
-                .find(".qty-btn.plus")
-                .prop(
-                    "disabled",
-                    currentQty >= 5
-                );
-
-
-            /*
             | AJAX update
             */
 
@@ -407,7 +385,7 @@
 
                 type: "POST",
 
-                url: "{% url 'cart_update' %}",
+                url: "{% url 'orders:cart-update' %}",
 
                 data: {
 
@@ -457,41 +435,5 @@
             });
 
         });
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | INITIAL QUANTITY BUTTON STATE
-    |--------------------------------------------------------------------------
-    */
-
-    $(document).ready(function () {
-
-        $(".quantity-wrapper").each(function () {
-
-            const qty =
-                parseInt(
-                    $(this)
-                        .find(".qty-input")
-                        .val()
-                );
-
-            $(this)
-                .find(".qty-btn.minus")
-                .prop(
-                    "disabled",
-                    qty <= 1
-                );
-
-            $(this)
-                .find(".qty-btn.plus")
-                .prop(
-                    "disabled",
-                    qty >= 5
-                );
-
-        });
-
-    });
 
 </script>

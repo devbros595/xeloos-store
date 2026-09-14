@@ -101,15 +101,22 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name="products"
     )
+
+    country = models.ForeignKey(
+        Country,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="products"
+    )
+
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to="products/")
     description = models.TextField()
-
     featured = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -132,7 +139,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class NewsletterEmail(models.Model):
     email = models.EmailField(max_length=100)

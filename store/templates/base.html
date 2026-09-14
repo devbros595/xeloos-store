@@ -770,7 +770,7 @@
 
               <div class="mega-menu">
                 <div class="mega-grid">
-                  <a href="{% url 'store-category' %}" class="mega-card">
+                  <a href="{% url 'store-category' %}?type=physical" class="mega-card">
                     <div class="icon purple">
                       <i class="fa-solid fa-sim-card fa-xl"></i>
                     </div>
@@ -780,7 +780,7 @@
                       <p>90+ countries SIM cards for seamless coverage.</p>
                     </div>
                   </a>
-                  <a href="#" class="mega-card">
+                  <a href="{% url 'store-category' %}?type=esim" class="mega-card">
                     <div class="icon primary">
                       <i class="fa-solid fa-microchip fa-xl"></i>
                     </div>
