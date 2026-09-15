@@ -812,7 +812,7 @@
                       <p>Buy digital gift cards from top global brands.</p>
                     </div>
                   </a>
-                  <a href="#" class="mega-card">
+                  <a href="{% url 'internet-tools' %}" class="mega-card">
                     <div class="icon orange">
                       <i class="fas fa-wifi fa-xl"></i>
                     </div>
@@ -969,7 +969,7 @@
                         </div>
                       </a>
 
-                      <a href="#" class="menu-item">
+                      <a href="{% url 'internet-tools' %}" class="menu-item">
                         <div class="icon orange">
                           <i class="fas fa-wifi fa-xl"></i>
                         </div>
@@ -1602,9 +1602,9 @@
       <div class="footer-column">
         <h4>SHOP</h4>
         <div class="footer-links">
-          <a href="#">Physical SIMs</a>
-          <a href="#">eSIMs</a>
-          <a href="#">Travel Tech</a>
+          <a href="{% url 'store-category' %}?type=physical">Physical SIMs</a>
+          <a href="{% url 'store-category' %}?type=esim">eSIMs</a>
+          <a href="{% url 'internet-tools' %}">Internet Tools</a>
           <a href="#">All Products</a>
         </div>
       </div>
@@ -1613,10 +1613,10 @@
         <h4>COMPANY</h4>
 
         <div class="footer-links">
-          <a href="#">About Us</a>
+          <a href="{% url 'about-us' %}">About Us</a>
           <!-- <a href="#">Our Story</a> -->
           <!-- <a href="#">Partnerships</a> -->
-          <a href="#">Blog</a>
+          <a href="{% url 'blog' %}">Blog</a>
         </div>
       </div>
 
