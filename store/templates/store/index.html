@@ -63,7 +63,7 @@
         </p>
 
         <div class="promo-buttons">
-          <a href="" class="btn btn-lg">
+          <a href="{% url 'store-category' %}" class="btn btn-lg">
             Explore Coverage
 
             <i class="fas fa-arrow-right ms-2"></i>
@@ -323,7 +323,7 @@
       <div class="popular-sims-header">
         <span class="popular-sims-title"> POPULAR PHYSICAL SIMS </span>
 
-        <a href="#" class="popular-sims-view">
+        <a href="{% url 'store-category' %}" class="popular-sims-view">
           View all
           <i class="fas fa-arrow-right"></i>
         </a>
@@ -576,7 +576,7 @@
       <div class="catalogue-header">
         <span class="catalogue-title"> OUR CATALOGUE </span>
 
-        <a href="#" class="catalogue-view-all">
+        <a href="{% url 'store-category' %}" class="catalogue-view-all">
           View all countries
           <i class="fas fa-arrow-right"></i>
         </a>
@@ -791,12 +791,12 @@
       <p>Premium connectivity. Everywhere you go.</p>
 
       <div class="connection-cta-buttons">
-        <a href="#" class="cta-btn cta-btn-primary">
+        <a href="{% url 'store-category' %}?type=physical" class="cta-btn cta-btn-primary">
           Shop Physical SIMs
           <i class="fas fa-arrow-right"></i>
         </a>
 
-        <a href="#" class="cta-btn cta-btn-outline">
+        <a href="{% url 'store-category' %}?type=esim" class="cta-btn cta-btn-outline">
           Browse eSIMs
           <i class="fas fa-arrow-right"></i>
         </a>

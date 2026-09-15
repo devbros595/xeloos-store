@@ -51,9 +51,9 @@
                                         style="color: #7a001f;"></i>
                                 </button>
                                 <div class="collapse mt-2 description border-bottom pb-3" id="description-{{ sim.id }}">
-                                    <ul class="card-text text-muted" style=" font-size: 13px;">
+                                    <ul class="card-text text-muted" style=" font-size: 12px;">
                                         {% for line in sim.description|splitlines %}
-                                        <li class="text-start">{{ line }}</li>
+                                        <li class="text-start" style="list-style: circle;">{{ line }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>

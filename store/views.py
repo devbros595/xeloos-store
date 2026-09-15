@@ -185,6 +185,7 @@ def eSIM_store(request, slug):
     page_obj = paginator.get_page(page_number)
 
     context = {
+        "products": products,
         "page_obj": page_obj,
         "country": country,
         "category": category,

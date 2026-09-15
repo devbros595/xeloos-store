@@ -904,7 +904,7 @@
               </div>
             </li>
             <li class="nav-item desktop-shop no-ddwn">
-              <a href="#" class="nav-link"> XEP-2 Project </a>
+              <a href="#" class="nav-link"> Install eSIMs </a>
             </li>
 
             <li class="mobile-shop">
@@ -919,7 +919,7 @@
                   <div id="productCollapse" class="accordion-collapse collapse pb-4" aria-labelledby="productHeading"
                     data-bs-parent="#mobileMenuAccordion">
                     <div class="accordion-body p-0">
-                      <a href="{% url 'store-category' %}" class="menu-item">
+                      <a href="{% url 'store-category' %}?type=physical" class="menu-item">
                         <div class="icon purple">
                           <i class="fa-solid fa-sim-card fa-xl"></i>
                         </div>
@@ -932,7 +932,7 @@
                         </div>
                       </a>
 
-                      <a href="#" class="menu-item">
+                      <a href="{% url 'store-category' %}?type=esim" class="menu-item">
                         <div class="icon primary">
                           <i class="fa-solid fa-microchip fa-xl"></i>
                         </div>
@@ -1067,7 +1067,7 @@
                   </div>
                 </div>
               </div>
-              <a href="#" class="nav-link"> XEP-2 Project </a>
+              <a href="#" class="nav-link"> Install eSIMs </a>
             </li>
           </ul>
         </div>

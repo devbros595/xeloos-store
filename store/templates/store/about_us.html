@@ -14,20 +14,20 @@
     .fixed-image {
         width: 50%;
         position: relative;
-        border-right: 2px solid black;
+        border-right: 1px solid black;
     }
 
     .image-container {
-        background-image: url('/static/store/img/Xeloos_logo_black.jpg');
+        background-image: url('/store/static/store/xeloos_assets/primary-logo.svg');
         background-size: cover;
         background-position: center;
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        height: 20%;
         z-index: -1;
         position: sticky;
         top: 0%;
         left: 0%;
-        transform: translate(50%, 20%);
+        transform: translateY(50%);
     }
 
     .about-info {
@@ -35,13 +35,9 @@
         padding: 5rem 5rem 5rem 0;
     }
 
-    @media (min-width: 320px) and (max-width: 1024px) {
+    @media (max-width: 768px) {
+        
 
-        .image-container {
-            top: 0%;
-            left: 0%;
-            transform: translate(0%, 20%);
-        }
     }
 </style>
 <main>
@@ -63,16 +59,12 @@
     <section class="about-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 p-0 d-none d-md-block fixed-image" data-aos="fade-right" data-aos-delay="500">
+                <div class=" col-md-6 d-none d-lg-block fixed-image" data-aos="fade-right" data-aos-delay="500">
                     <div class="image-container"></div>
                 </div>
 
-                <!-- Mobile image -->
-                <div class="col-12 d-block d-md-none mb-4">
-                    <img src="{% static 'store/img/Xeloos_logo_black.jpg' %}" class="img-fluid w-100" alt="Xeloos-logo">
-                </div>
-                <div class="col-md-6 offset-md-6 px-5 about-info">
-                    <h4 class="mb-4 animate__animated animate__fadeInDown" style="color: #b303ff;   ">About Xeloos</h4>
+                <div class="col-12 col-lg-6 offset-md-6 px-5 about-info">
+                    <h4 class="mb-4 animate__animated animate__fadeInDown" style="color: #7a001f;   ">About Xeloos</h4>
                     <p class="animate__animated animate__fadeInUp">
                         <strong>Xeloos</strong> is a pioneering tech solutions provider, specializing in bridging the
                         digital gap for Nigerians and foreigners alike. Our core offerings include the provision of
@@ -97,7 +89,7 @@
                         and providing digital growth strategies.
                     </p>
                     <div class="mt-5 animate__animated animate__fadeInRight">
-                        <h4 class="mb-4" style="color: #b303ff;">Why Choose Xeloos?</h4>
+                        <h4 class="mb-4" style="color: #7a001f;">Why Choose Xeloos?</h4>
                         <p>
                             With Xeloos we want to save you from the annoying hassle of arriving in a foreign country
                             and endlessly looking around for a suitable SIM Card. We make it super simple for you by

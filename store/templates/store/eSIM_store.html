@@ -1,55 +1,42 @@
 {% extends 'base.html' %}
 {% load static custom_filters %}
-
 {% block title %}
 <title>Shop eSIM Cards | Break Digital Barriers</title>
 {% endblock %}
 
 {% block content %}
-
 <main class="store-main">
 
-    <!-- HEADER -->
     <section class="sim-store-navbar">
-
         <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
 
             <div class="sim-store-header">
-
-                <h2>
-                    {{ category.name }}
-                </h2>
-
+                <h2>{{ country.name }} eSIMs</h2>
             </div>
 
             <div class="mini-navbar d-flex align-items-center gap-3">
-
                 <a href="/">
                     <span>Home</span>
                 </a>
 
                 <i class="fa-solid fa-angle-right fa-xs"></i>
 
-                <a href="{% url 'store-category' %}">
+                <a href="{% url 'store-category' %}?type=esim">
                     <span>Store Catalogue</span>
                 </a>
 
                 <i class="fa-solid fa-angle-right fa-xs"></i>
 
                 <span class="active">
-                    {{ category.name }}
+                    {{ country.name }} eSIMs
                 </span>
-
             </div>
 
         </div>
-
     </section>
 
 
-    <!-- PRODUCTS -->
     <section class="sim-store-items">
-
         <div class="container">
 
             <div class="row gy-4" data-aos="fade-right" data-aos-delay="300">
@@ -60,24 +47,15 @@
 
                     <div class="card h-100">
 
-                        <!-- IMAGE -->
-
                         <div class="text-center border-bottom">
 
                             {% if product.image %}
-
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="
-                                    height: 100px;
-                                    width: 100px;
-                                    object-fit: cover;
-                                ">
-
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
+                                style="height: 100px; width: 100px; object-fit: cover;">
                             {% endif %}
 
                         </div>
 
-
-                        <!-- DETAILS -->
 
                         <div class="card-body p-0">
 
@@ -85,9 +63,7 @@
 
                                 <div class="sim-deets">
 
-                                    <h5>
-                                        {{ product.name }}
-                                    </h5>
+                                    <h5>{{ product.name }}</h5>
 
                                     <span>
                                         ${{ product.price|floatformat:2 }}
@@ -98,39 +74,26 @@
                             </div>
 
 
-                            <!-- DESCRIPTION -->
+                            <div class="text-center">
 
-                            <div class="text-center mt-3">
-
-                                <button class="btn btn-link p-0 text-decoration-none desc-btn" type="button"
+                                <button class="btn btn-link p-0 text-decoration-none mt-3 desc-btn" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#description-{{ product.id }}"
                                     aria-expanded="false" aria-controls="description-{{ product.id }}">
-
-                                    <small>
-                                        View Details
-                                    </small>
+                                    <small>View Details</small>
 
                                     <i class="fa-solid fa-chevron-down ms-2 transition-icon"
                                         id="chevron-{{ product.id }}" style="color: #7a001f;"></i>
-
                                 </button>
 
 
                                 <div class="collapse mt-2 description border-bottom pb-3"
                                     id="description-{{ product.id }}">
 
-                                    <div class="card-text text-muted px-3" style="font-size: 13px;">
-
+                                    <ul class="card-text text-muted" style=" font-size: 12px;">
                                         {% for line in product.description|splitlines %}
-
-                                        <div class="text-start mb-1">
-                                            {{ line }}
-                                        </div>
-
+                                        <li class="text-start" style="list-style: circle;">{{ line }}</li>
                                         {% endfor %}
-
-                                    </div>
-
+                                    </ul>
                                 </div>
 
                             </div>
@@ -138,16 +101,11 @@
                         </div>
 
 
-                        <!-- CART -->
-
-                        <div class="text-center mt-auto mt-4 mb-3 cart-btn">
+                        <div class="text-center  mt-4 mb-3 cart-btn">
 
                             <button type="button" value="{{ product.id }}" class="add-product-cart">
-
                                 <i class="fa-solid fa-cart-shopping me-2"></i>
-
                                 Add to Cart
-
                             </button>
 
                         </div>
@@ -159,9 +117,7 @@
                 {% empty %}
 
                 <div class="text-center text-muted w-100">
-
-                    No available eSIM products at the moment.
-
+                    No available eSIMs in {{ country.name }} at the moment.
                 </div>
 
                 {% endfor %}
@@ -169,8 +125,7 @@
             </div>
 
 
-            <!-- PAGINATION -->
-
+            <!-- Pagination controls -->
             {% if page_obj.paginator.num_pages > 1 %}
 
             <div class="pagination mt-5">
@@ -197,11 +152,7 @@
                         {% if page_obj.number == num %}
 
                         <li class="page-item active">
-
-                            <span class="page-link">
-                                {{ num }}
-                            </span>
-
+                            <span class="page-link">{{ num }}</span>
                         </li>
 
                         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li
@@ -239,19 +190,15 @@
             {% endif %}
 
         </div>
-
     </section>
 
 </main>
 
 
-<!-- ADD PRODUCT TO CART -->
-
 <script>
-
     $(document).on(
-        "click",
-        ".add-product-cart",
+        'click',
+        '.add-product-cart',
         function (e) {
 
             e.preventDefault();
@@ -265,52 +212,26 @@
                 url: "{% url 'orders:product-cart-add' %}",
 
                 data: {
-
                     product_id: productId,
-
-                    csrfmiddlewaretoken:
-                        "{{ csrf_token }}",
-
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
                     action: "post"
-
                 },
 
                 success: function (json) {
 
                     console.log(json);
 
-
-                    /*
-                    Update cart count
-                    */
-
                     const cartCountElem =
-                        document.getElementById(
-                            "cart-count"
-                        );
+                        document.getElementById("cart-count");
 
                     if (cartCountElem) {
-
-                        cartCountElem.innerHTML =
-                            json.cart_count;
-
+                        cartCountElem.innerHTML = json.cart_count;
                     }
 
-
-                    /*
-                    Update cart modal
-                    */
-
-                    $("#cart-modal-content")
-                        .html(json.html);
-
+                    $("#cart-modal-content").html(json.html);
                 },
 
-                error: function (
-                    xhr,
-                    errmsg,
-                    err
-                ) {
+                error: function (xhr, errmsg, err) {
 
                     console.log(
                         "Product cart error:",
@@ -322,9 +243,7 @@
             });
 
         }
-
     );
-
 </script>
 
 {% endblock %}
