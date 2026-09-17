@@ -162,13 +162,20 @@ def physicalSim_store(request, slug):
 
 
 # ESIM STORE
+# ESIM STORE
 def eSIM_store(request, slug):
     country = get_object_or_404(Country, slug=slug)
 
-    category = get_object_or_404(Category, name__iexact="eSIM", is_active=True)
+    category = get_object_or_404(
+        Category,
+        name__iexact="eSIM",
+        is_active=True
+    )
 
     products = Product.objects.filter(
-        category=category, country=country, is_active=True
+        category=category,
+        country=country,
+        is_active=True
     ).order_by("-created_at")
 
     paginator = Paginator(products, 8)
@@ -184,9 +191,27 @@ def eSIM_store(request, slug):
 
     return render(request, "store/eSIM_store.html", context)
 
+def internet_tools(request, slug):
+    category = get_object_or_404(Category, slug=slug, is_active=True)
 
-def internet_tools(request):
-    category = get_object_or_404(Category, slug="internet-tools", is_active=True)
+    products = Product.objects.filter(category=category, is_active=True).order_by(
+        "-created_at"
+    )
+
+    paginator = Paginator(products, 8)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "products": products,
+        "page_obj": page_obj,
+        "category": category,
+    }
+
+    return render(request, "store/internet-tools.html", context)
+
+def privacy_tools(request, slug):
+    category = get_object_or_404(Category, slug=slug, is_active=True)
 
     products = Product.objects.filter(category=category, is_active=True).order_by(
         "-created_at"

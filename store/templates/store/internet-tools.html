@@ -5,6 +5,17 @@
 {% endblock %}
 
 {% block content %}
+
+<style>
+    .product-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.4rem 0.4rem 0 0;
+    }
+
+
+</style>
 <main class="store-main">
 
     <section class="sim-store-navbar">
@@ -44,8 +55,7 @@
                         <div class="text-center border-bottom">
 
                             {% if product.image %}
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
-                                style="height: 100px; width: 100px; object-fit: cover;">
+                            <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
                             {% endif %}
 
                         </div>

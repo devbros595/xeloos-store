@@ -6,44 +6,50 @@ urlpatterns = [
     # HOME
     # =========================================================
     path("", views.index, name="index"),
-    # =========================================================
-    # STORE
-    # =========================================================
-    # Main country/category selection page
-    path(
-        "xeloos-store/catalogue/",
-        views.store_category,
-        name="store-category",
-    ),
-    # Physical SIMs by country
-    path(
-        "xeloos-store/catalogue/<slug:slug>/",
-        views.physicalSim_store,
-        name="physical-sim-store",
-    ),
-    # eSIMs by country
-    path(
-        "xeloos-store/esim/<slug:slug>/",
-        views.eSIM_store,
-        name="esim-country-store",
-    ),
-    # Digital product categories
-    path(
-        "xeloos-store/internet-tools/",
-        views.internet_tools,
-        name="internet-tools",
-    ),
-    path(
-        "xeloos-store/<slug:slug>/",
-        views.category_products,
-        name="category-products",
-    ),
-    # Individual digital product
-    path(
-        "xeloos-store/product/<slug:slug>/",
-        views.product_detail,
-        name="product-detail",
-    ),
+   # =========================================================
+# STORE
+# =========================================================
+
+# Main country/category selection page
+path(
+    "xeloos-store/catalogue/",
+    views.store_category,
+    name="store-category",
+),
+
+# Physical SIMs by country
+path(
+    "xeloos-store/catalogue/<slug:slug>/",
+    views.physicalSim_store,
+    name="physical-sim-store",
+),
+
+# eSIMs by country
+path(
+    "xeloos-store/esims/<slug:slug>/",
+    views.eSIM_store,
+    name="esim-country-store",
+),
+
+# Digital product categories
+path(
+    "xeloos-store/category/<slug:slug>/",
+    views.internet_tools,
+    name="internet-tools",
+),
+
+path(
+    "xeloos-store/category/<slug:slug>/",
+    views.privacy_tools,
+    name="privacy-tools",
+),
+
+# Individual digital product
+path(
+    "xeloos-store/product/<slug:slug>/",
+    views.product_detail,
+    name="product-detail",
+),
     # =========================================================
     # SERVICES / STATIC PAGES
     # =========================================================

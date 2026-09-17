@@ -812,26 +812,26 @@
                       <p>Buy digital gift cards from top global brands.</p>
                     </div>
                   </a>
-                  <a href="{% url 'internet-tools' %}" class="mega-card">
+                 <a href="{% url 'internet-tools' slug='internet-tools' %}" class="mega-card">
                     <div class="icon orange">
                       <i class="fas fa-wifi fa-xl"></i>
                     </div>
 
                     <div>
-                      <p class="mega-card-heading">Internet</p>
+                      <p class="mega-card-heading">Internet Tools</p>
                       <p>
                         Stay connected with portable internet solutions on the
                         go.
                       </p>
                     </div>
                   </a>
-                  <a href="#" class="mega-card">
+                  <a href="{% url 'privacy-tools' slug='privacy-tools' %}" class="mega-card">
                     <div class="icon black">
                       <i class="fas fa-user-secret fa-xl"></i>
                     </div>
 
                     <div>
-                      <p class="mega-card-heading">Privacy</p>
+                      <p class="mega-card-heading">Privacy Tools</p>
                       <p>
                         Encrypt your data, and safeguard your online activity.
                       </p>
@@ -968,8 +968,7 @@
                           </p>
                         </div>
                       </a>
-
-                      <a href="{% url 'internet-tools' %}" class="menu-item">
+                      <a href="{% url 'internet-tools' slug='internet-tools' %}" class="mega-card"></a>
                         <div class="icon orange">
                           <i class="fas fa-wifi fa-xl"></i>
                         </div>
@@ -983,7 +982,7 @@
                         </div>
                       </a>
 
-                      <a href="#" class="menu-item">
+                      <a href="{% url 'privacy-tools' slug='privacy-tools' %}" class="menu-item">
                         <div class="icon black">
                           <i class="fas fa-user-secret fa-xl"></i>
                         </div>
@@ -1604,8 +1603,8 @@
         <div class="footer-links">
           <a href="{% url 'store-category' %}?type=physical">Physical SIMs</a>
           <a href="{% url 'store-category' %}?type=esim">eSIMs</a>
-          <a href="{% url 'internet-tools' %}">Internet Tools</a>
-          <a href="#">All Products</a>
+          <a href="{% url 'internet-tools' slug='internet-tools' %}">Internet Tools</a>
+          <a href="{% url 'privacy-tools' slug='privacy-tools' %}">Privacy Tools</a>
         </div>
       </div>
 
