@@ -78,21 +78,55 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            base_slug = slugify(self.name)
-            slug = base_slug
-            counter = 1
+        base_slug = slugify(self.name)
+        slug = base_slug
+        counter = 1
 
-            while Category.objects.filter(slug=slug).exists():
-                slug = f"{base_slug}-{counter}"
-                counter += 1
+        while Category.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+            slug = f"{base_slug}-{counter}"
+            counter += 1
 
-            self.slug = slug
+        self.slug = slug
 
         super().save(*args, **kwargs)
-
     def __str__(self):
         return self.name
+
+class StoreSettings(models.Model):
+    esim_category = models.OneToOneField(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="esim_store_setting",
+    )
+
+    physical_sim_category = models.OneToOneField(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="physical_sim_store_setting",
+    )
+
+    internet_tools_category = models.OneToOneField(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="internet_tools_store_setting",
+    )
+
+    privacy_tools_category = models.OneToOneField(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="privacy_tools_store_setting",
+    )
+
+    def __str__(self):
+        return "Store Settings"
 
 
 class Product(models.Model):

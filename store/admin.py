@@ -6,6 +6,7 @@ from .models import (
     NewsletterEmail,
     Category,
     Product,
+    StoreSettings,
 )
 
 
@@ -69,3 +70,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Country)
 admin.site.register(NewsletterEmail)
+
+@admin.register(StoreSettings)
+class StoreSettingsAdmin(admin.ModelAdmin):
+    list_display = ("esim_category", "physical_sim_category", "internet_tools_category", "privacy_tools_category")

@@ -812,7 +812,7 @@
                       <p>Buy digital gift cards from top global brands.</p>
                     </div>
                   </a>
-                 <a href="{% url 'internet-tools' slug='internet-tools' %}" class="mega-card">
+                 <a href="{% url 'category-store' slug=store_settings.internet_tools_category.slug%}" class="mega-card">
                     <div class="icon orange">
                       <i class="fas fa-wifi fa-xl"></i>
                     </div>
@@ -825,7 +825,7 @@
                       </p>
                     </div>
                   </a>
-                  <a href="{% url 'privacy-tools' slug='privacy-tools' %}" class="mega-card">
+                  <a href="{% url 'category-store' slug=store_settings.privacy_tools_category.slug%}" class="mega-card">
                     <div class="icon black">
                       <i class="fas fa-user-secret fa-xl"></i>
                     </div>
@@ -968,7 +968,7 @@
                           </p>
                         </div>
                       </a>
-                      <a href="{% url 'internet-tools' slug='internet-tools' %}" class="mega-card"></a>
+                      <a href="{% url 'category-store' slug=store_settings.internet_tools_category.slug%}" class="mega-card">
                         <div class="icon orange">
                           <i class="fas fa-wifi fa-xl"></i>
                         </div>
@@ -982,7 +982,7 @@
                         </div>
                       </a>
 
-                      <a href="{% url 'privacy-tools' slug='privacy-tools' %}" class="menu-item">
+                      <a href="{% url 'category-store' slug=store_settings.internet_tools_category.slug%}" class="menu-item">
                         <div class="icon black">
                           <i class="fas fa-user-secret fa-xl"></i>
                         </div>
@@ -1603,8 +1603,8 @@
         <div class="footer-links">
           <a href="{% url 'store-category' %}?type=physical">Physical SIMs</a>
           <a href="{% url 'store-category' %}?type=esim">eSIMs</a>
-          <a href="{% url 'internet-tools' slug='internet-tools' %}">Internet Tools</a>
-          <a href="{% url 'privacy-tools' slug='privacy-tools' %}">Privacy Tools</a>
+          <a href="{% url 'category-store' slug=store_settings.internet_tools_category.slug%}">Internet Tools</a>
+          <a href="{% url 'category-store' slug=store_settings.privacy_tools_category.slug%}">Privacy Tools</a>
         </div>
       </div>
 

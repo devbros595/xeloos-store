@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
 <title>SIM Catalogue | Break Digital Barriers</title>
 {% endblock %}
@@ -10,7 +11,7 @@
         margin: 2rem auto 4rem;
     }
 
-    .catalogue-section h5{
+    .catalogue-section h5 {
         margin-bottom: 2rem;
     }
 
@@ -44,62 +45,87 @@
         }
     }
 </style>
+
 <main>
+
     <section class="sim-store-navbar" data-aos="fade-down">
         <div class="container-fluid d-flex flex-column gap-4">
-            <div class="sim-store-header">
-                <h2>XELOOS SIM Catalogue</h2>
-            </div>
+            {% if store_type == "esim" %}
+
+                <div class="sim-store-header">
+                    <h2>XELOOS {{store_type}} Catalogue</h2>
+                </div>
+
+                {% else %}
+                <div class="sim-store-header">
+                    <h2>XELOOS SIM Catalogue</h2>
+                </div>
+            {% endif %}
+
             <div class="mini-navbar d-flex align-items-center gap-3">
                 <a href="/">
                     <span>Home</span>
                 </a>
+
                 <i class="fa-solid fa-angle-right fa-xs"></i>
+
                 <span class="active">Store Catalogue</span>
             </div>
+
         </div>
     </section>
+
+
     <section class="catalogue-section">
+
         <div class="container">
+
             <h5>Popular Countries</h5>
+
             <div class="row" data-aos="fade-right" data-aos-delay="500">
+
                 {% for country in countries %}
+
                 {% if country.slug %}
 
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+
                     <div class="catalogue-item">
 
                         {% if store_type == "esim" %}
 
-                        <a href="{% url 'esim-country-store' slug=country.slug %}" class="text-decoration-none">
+                        <a href="{% url 'esim-country-store' category_slug=esim_category.slug country_slug=country.slug %}"
+                            class="text-decoration-none">
 
-                            {% else %}
+                        {% else %}
 
-                            <a href="{% url 'physical-sim-store' country.slug %}" class="text-decoration-none">
+                        <a href="{% url 'physical-sim-store' country.slug %}"
+                            class="text-decoration-none">
 
+                        {% endif %}
+
+                            <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
+
+                                {% if country.image %}
+                                <img src="{{ country.image.url }}" alt="{{ country.name }}">
                                 {% endif %}
 
-                                <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
-
-                                    {% if country.image %}
-                                    <img src="{{ country.image.url }}" alt="{{ country.name }}">
-                                    {% endif %}
-
-                                    <div class="catalogue-name">
-                                        <span>
-                                            {{ country.name }}
-                                            
-                                        </span>
-                                    </div>
-
+                                <div class="catalogue-name">
+                                    <span>
+                                        {{ country.name }}
+                                    </span>
                                 </div>
 
-                            </a>
+                            </div>
+
+                        </a>
 
                     </div>
+
                 </div>
 
                 {% endif %}
+
                 {% empty %}
 
                 <div class="text-center text-muted w-100">
@@ -107,8 +133,13 @@
                 </div>
 
                 {% endfor %}
+
             </div>
+
         </div>
+
     </section>
+
 </main>
+
 {% endblock %}

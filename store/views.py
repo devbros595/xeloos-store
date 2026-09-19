@@ -6,6 +6,7 @@ from .models import (
     UserProfile,
     Category,
     Product,
+    StoreSettings,
 )
 
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
@@ -74,10 +75,15 @@ def store_category(request):
 
     categories = Category.objects.filter(is_active=True).order_by("ordering", "name")
 
+    store_settings = StoreSettings.objects.first()
+    esim_category = store_settings.esim_category if store_settings else None
+
     context = {
         "countries": countries,
         "categories": categories,
         "store_type": store_type,
+        "esim_category": esim_category,
+        "store_settings": store_settings,
     }
 
     return render(request, "store/store_category.html", context)
@@ -152,46 +158,63 @@ def physicalSim_store(request, slug):
 
     page_obj = paginator.get_page(page_number)
 
+    store_settings = StoreSettings.objects.first()
+
     context = {
         "page_obj": page_obj,
         "country_obj": sims,
         "country": country,
+        "store_settings": store_settings,
     }
 
     return render(request, "store/physical-sim_store.html", context)
 
 
-# ESIM STORE
-# ESIM STORE
-def eSIM_store(request, slug):
-    country = get_object_or_404(Country, slug=slug)
+def eSIM_store(request, category_slug, country_slug):
+    category = get_object_or_404(Category, slug=category_slug, is_active=True)
 
-    category = get_object_or_404(
-        Category,
-        name__iexact="eSIM",
-        is_active=True
-    )
+    country = get_object_or_404(Country, slug=country_slug)
 
     products = Product.objects.filter(
-        category=category,
-        country=country,
-        is_active=True
+        category=category, country=country, is_active=True
     ).order_by("-created_at")
 
     paginator = Paginator(products, 8)
+
     page_number = request.GET.get("page")
+
     page_obj = paginator.get_page(page_number)
+
+    store_settings = StoreSettings.objects.first()
 
     context = {
         "products": products,
         "page_obj": page_obj,
         "country": country,
         "category": category,
+        "store_settings": store_settings,
     }
 
     return render(request, "store/eSIM_store.html", context)
 
+
+def category_store(request, slug):
+
+    category = get_object_or_404(Category, slug=slug, is_active=True)
+
+    store_settings = StoreSettings.objects.first()
+
+    if store_settings and store_settings.internet_tools_category_id == category.id:
+        return internet_tools(request, slug)
+
+    if store_settings and store_settings.privacy_tools_category_id == category.id:
+        return privacy_tools(request, slug)
+
+    return get_object_or_404(Category, slug=slug, is_active=True)
+
+
 def internet_tools(request, slug):
+
     category = get_object_or_404(Category, slug=slug, is_active=True)
 
     products = Product.objects.filter(category=category, is_active=True).order_by(
@@ -199,18 +222,25 @@ def internet_tools(request, slug):
     )
 
     paginator = Paginator(products, 8)
+
     page_number = request.GET.get("page")
+
     page_obj = paginator.get_page(page_number)
+
+    store_settings = StoreSettings.objects.first()
 
     context = {
         "products": products,
         "page_obj": page_obj,
         "category": category,
+        "store_settings": store_settings,
     }
 
     return render(request, "store/internet-tools.html", context)
+
 
 def privacy_tools(request, slug):
+
     category = get_object_or_404(Category, slug=slug, is_active=True)
 
     products = Product.objects.filter(category=category, is_active=True).order_by(
@@ -218,16 +248,21 @@ def privacy_tools(request, slug):
     )
 
     paginator = Paginator(products, 8)
+
     page_number = request.GET.get("page")
+
     page_obj = paginator.get_page(page_number)
+
+    store_settings = StoreSettings.objects.first()
 
     context = {
         "products": products,
         "page_obj": page_obj,
         "category": category,
+        "store_settings": store_settings,
     }
 
-    return render(request, "store/internet-tools.html", context)
+    return render(request, "store/privacy-tools.html", context)
 
 
 # =========================================================
