@@ -1,9 +1,192 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="max-w-lg mx-auto bg-white p-6 shadow-lg rounded-lg text-center">
-    <h2 class="text-2xl font-bold">Thank You!</h2>
-    <p>Your consultation request has been received. We will contact you soon.</p>
-    <a href="/" class="text-blue-500 mt-4 inline-block">Return to Home</a>
-</div>
+
+<style>
+    .consultation-success {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        padding: 5rem 0;
+        background:
+            radial-gradient(
+                circle at top right,
+                rgba(123, 23, 48, 0.176),
+                transparent 35%
+            ),
+            #f8f9fa;
+    }
+
+    .success-wrapper {
+        max-width: 650px;
+        margin: 0 auto;
+    }
+
+    .success-card {
+        background: #ffffff;
+        border: 1px solid rgba(123, 23, 48, 0.08);
+        border-radius: 24px;
+        padding: 3.5rem 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.75rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(123, 23, 48, 0.1);
+        color: #7b1730;
+        font-size: 2rem;
+    }
+
+    .success-badge {
+        display: inline-block;
+        padding: 7px 16px;
+        margin-bottom: 1.25rem;
+        border-radius: 50px;
+        background: rgba(123, 23, 48, 0.08);
+        color: #7b1730;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .success-card h1 {
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 1rem;
+    }
+
+    .success-card p {
+        color: #6b7280;
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    .success-divider {
+        width: 60px;
+        height: 3px;
+        margin: 1.75rem auto;
+        background: #7b1730;
+        border-radius: 10px;
+    }
+
+    .success-actions {
+        margin-top: 2rem;
+    }
+
+    .xeloos-primary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 13px 25px;
+        border-radius: 50px;
+        background: #7b1730;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .xeloos-primary-btn:hover {
+        background: #5f1025;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 1.25rem;
+        color: #6b7280;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+        color: #7b1730;
+    }
+
+    @media (max-width: 576px) {
+        .consultation-success {
+            padding: 3rem 1rem;
+        }
+
+        .success-card {
+            padding: 2.5rem 1.5rem;
+        }
+
+        .success-card h1 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+
+<section class="consultation-success">
+
+    <div class="container">
+
+        <div class="success-wrapper">
+
+            <div class="success-card text-center" data-aos="fade-right" data-aos-delay="200">
+
+                <!-- Success Icon -->
+                <div class="success-icon">
+                    <i class="fa-solid fa-check fa-fade"></i>
+                </div>
+
+                <!-- Badge -->
+                <span class="success-badge">
+                    Message sent
+                </span>
+
+                <!-- Heading -->
+                <h1>
+                    Thank You!
+                </h1>
+
+                <p>
+                    Your contact request has been received successfully.
+                    Our team will review your request and contact you shortly.
+                </p>
+
+                <div class="success-divider"></div>
+
+                <p class="small">
+                    We appreciate your interest in Xeloos. We look forward to
+                    learning more about how we can help you.
+                </p>
+
+                <!-- Actions -->
+                <div class="success-actions">
+
+                    <a href="{% url 'index' %}" class="xeloos-primary-btn">
+                        <i class="fas fa-home"></i>
+                        Back to Xeloos
+                    </a>
+
+                    <br>
+
+                    <a href="{% url 'consultation' %}" class="back-link">
+                        Submit another consultation
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 {% endblock %}
