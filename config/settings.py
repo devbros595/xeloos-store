@@ -36,6 +36,9 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
+FLW_PUBLIC_KEY = os.getenv("FLW_PUBLIC_KEY")
+FLW_SECRET_KEY = os.getenv("FLW_SECRET_KEY")
+
 # --- Security Settings for Production (Render) ---
 if not DEBUG:
     # Tells Django to trust the secure HTTPS headers forwarded by Render's routing layers
@@ -95,6 +98,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "cart.context_processors.cart",
+                'store.context_processors.store_settings',
             ],
         },
     },

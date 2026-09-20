@@ -52,6 +52,7 @@ urlpatterns = [
     # =========================================================
     # SERVICES / STATIC PAGES
     # =========================================================
+    path("install-esim/", views.install_esim, name="install-esim"),
     path("xeloos-services/", views.services, name="services"),
     path("about-us/", views.about_us, name="about-us"),
     path(

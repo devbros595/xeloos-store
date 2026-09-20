@@ -53,7 +53,10 @@ def index(request):
         is_active=True, featured=True
     ).select_related("category")[:8]
 
+    store_settings = StoreSettings.objects.first()
+
     context = {
+        "store_settings": store_settings,
         "country": countries,
         "categories": categories,
         "featured_products": featured_products,
@@ -366,6 +369,9 @@ def sign_out(request):
 # STATIC PAGES
 # =========================================================
 
+
+def install_esim(request):
+    return render(request, "store/installing-esim.html")
 
 def services(request):
     return render(request, "store/services.html")
