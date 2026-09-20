@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Page Not Found | Xeloos</title>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .error-page {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    background: #fff;
+  }
+
+  .error-number {
+    font-size: clamp(7rem, 20vw, 12rem);
+    font-weight: 800;
+    line-height: 0.85;
+    color: #7b1730;
+    letter-spacing: -8px;
+  }
+
+  .error-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    background: rgba(123, 23, 48, 0.08);
+    color: #7b1730;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+  }
+
+  .error-title {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 15px;
+  }
+
+  .error-text {
+    max-width: 560px;
+    margin: 0 auto 30px;
+    color: #6b7280;
+    line-height: 1.7;
+  }
+
+  .btn-xeloos {
+    background: #7b1730;
+    border-color: #7b1730;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .btn-xeloos:hover {
+    background: #641329;
+    border-color: #641329;
+    color: #fff;
+  }
+
+  .btn-outline-xeloos {
+    border: 1px solid #7b1730;
+    color: #7b1730;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .btn-outline-xeloos:hover {
+    background: #7b1730;
+    color: #fff;
+  }
+</style>
+
+<section class="error-page">
+  <div class="container text-center">
+    <div class="error-icon">
+      <i class="fas fa-map-signs"></i>
+    </div>
+
+    <div class="error-number">404</div>
+
+    <h1 class="error-title mt-4">Looks like you’re off the grid.</h1>
+
+    <p class="error-text">
+      The page you’re looking for doesn’t exist, may have moved, or the link you
+      followed might be outdated.
+    </p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a href="{% url 'index' %}" class="btn btn-xeloos">
+        <i class="fas fa-home me-2"></i>
+        Back to Home
+      </a>
+
+      {% if store_settings %}
+      <a href="{% url 'store-category' %}" class="btn btn-outline-xeloos">
+        <i class="fas fa-sim-card me-2"></i>
+        Explore Store
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
