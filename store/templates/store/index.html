@@ -3,14 +3,13 @@
 {% endblock %} {% block content %}
 <main class="index-main">
   {% include "includes/hero.html" %}
-
-  <section class="features-section" data-aos="fade-up" data-aos-delay="100">
+  <section class="features-section border-0 shadow-sm" data-aos="fade-up" data-aos-delay="100">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-3">
           <div class="features-item">
             <div class="features-icon">
-              <i class="fa-solid fa-globe fa-2xl" style="color: #7a001f"></i>
+              <i class="fa-solid fa-globe" style="color: #7a001f"></i>
             </div>
             <div class="features-text">
               <span>90+ Countries</span>
@@ -20,7 +19,7 @@
         <div class="col-3">
           <div class="features-item">
             <div class="features-icon">
-              <i class="fa-solid fa-bolt fa-2xl" style="color: #7a001f"></i>
+              <i class="fa-solid fa-bolt" style="color: #7a001f"></i>
             </div>
             <div class="features-text">
               <span>Instant Connectivity</span>
@@ -30,7 +29,7 @@
         <div class="col-3">
           <div class="features-item">
             <div class="features-icon">
-              <i class="fa-solid fa-sim-card fa-2xl" style="color: #7a001f"></i>
+              <i class="fa-solid fa-sim-card" style="color: #7a001f"></i>
             </div>
             <div class="features-text">
               <span>Physical SIM & eSIM</span>
@@ -40,10 +39,10 @@
         <div class="col-3">
           <div class="features-item">
             <div class="features-icon">
-              <i class="fa-solid fa-shield fa-2xl" style="color: #7a001f"></i>
+              <i class="fa-solid fa-shield" style="color: #7a001f"></i>
             </div>
             <div class="features-text">
-              <span>Trusted Global Networks</span>
+              <span>Trusted Networks</span>
             </div>
           </div>
         </div>
@@ -423,7 +422,7 @@
         <div class="why-xeloos-image">
           <img
             src="{% static 'store/xeloos_assets/why-xeloos.jpeg' %}"
-            alt="Traveller using Xeloos connectivity"
+            alt="Traveller using Xeloos connectivity" loading="lazy"
           />
         </div>
 
@@ -500,7 +499,7 @@
         <div class="more-sim-product">
           <img
             src="{% static 'store/xeloos_assets/deep-connect-set.png' %}"
-            alt="Copper Connect Mini"
+            alt="Copper Connect Mini" loading="lazy"
           />
         </div>
 
@@ -804,16 +803,16 @@
     </div>
   </section>
   <section class="xeloos-art" data-aos="fade-up" data-aos-delay="100">
-    <img src="{% static 'store/xeloos_assets/xeloos-banner.jpg' %}" alt="" />
+    <img src="{% static 'store/xeloos_assets/xeloos-banner.jpg' %}" alt="xeloos-banner" loading="lazy" />
     <img
       class="d-none d-md-block"
       src="{% static 'store/xeloos_assets/xeloos-banner.jpg' %}"
-      alt=""
+      alt="xeloos-banner" loading="lazy"
     />
     <img
       class="d-none d-md-block"
       src="{% static 'store/xeloos_assets/xeloos-banner.jpg' %}"
-      alt=""
+      alt="xeloos-banner" loading="lazy"
     />
   </section>
 

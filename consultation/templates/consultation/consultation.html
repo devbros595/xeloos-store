@@ -1,830 +1,620 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <style>
-  .consultation {
-    margin: 5rem 0;
-    padding: 0 10rem;
-  }
-
-  .consultation .main-title {
-    font-family: var(--primary-font);
-    font-weight: 600;
-  }
-
-  .consultation .main-title::after {
-    background: linear-gradient(80deg, #c51f48, #000000);
-    content: "";
-    display: block;
-    height: 3px;
-    border-radius: 2rem;
-    margin-top: 0.5rem;
-    width: 10%;
-  }
-
-  .consultation .sub-title {
-    margin-top: 1rem;
-    font-size: 18px;
-    font-family: var(--primary-font);
-  }
-
-  .consult-form {
-    width: 70%;
-  }
-
-  .consult-form label {
-    color: #696969;
-    font-size: 14px;
-  }
-
-  .consult h4 {
-    font-weight: 400;
-  }
-
-  .consult p {
-    font-size: 16px;
-    font-family: var(--primary-font);
-  }
-
-  .consult-form input {
-    transition: all 0.5s ease-in-out;
-    border-radius: 5px;
-    border: 1px solid #cbcbcb;
-    outline: none;
-    padding-left: 1rem;
-    font-size: 14px;
-    font-family: var(--secondary-font);
-  }
-
-  .consult-form input:focus {
-    outline: none;
-    box-shadow: 0 0 6px 1px rgba(123, 23, 48, 0.34);
-    border-radius: 5px;
-    padding-left: 1rem;
-  }
-
-  .consult-form textarea {
-    white-space: pre-line;
-    box-sizing: border-box;
-    color: #000000;
-    font-size: 14px;
-    resize: none;
-    border: 1px dotted #cbcbcb;
-    outline: none;
-    transition: all 0.5s ease;
-    overflow: hidden;
-  }
-
-  .consult-form textarea:focus {
-    outline: none;
-    box-shadow: 0 0 6px 1px rgba(123, 23, 48, 0.34);
-    border-radius: 5px;
-    padding-left: 1rem;
-  }
-
-  .consult-form textarea::placeholder {
-    font-size: 14px;
-  }
-
-  .form-text {
-    font-size: 12px;
-  }
-
-  .checkboxes label {
-    font-size: 12px;
-  }
-
-  .privacy-policy p {
-    box-sizing: border-box;
-    font-size: 12px;
-    line-height: 1.78;
-    margin: 0;
-    padding: 0;
-  }
-
-  .consultation-btn {
-    background: linear-gradient(to right, #7b1730, #000000);
-    transition: all 0.3s ease-in-out;
-    padding: 0.7rem 2.5rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: white;
-    border: none;
-    border-radius: 2rem;
-    text-transform: capitalize;
-  }
-
-  .consultation-btn:hover {
-    background: linear-gradient(to right, #7b1730, #d62853);
-    transform: scale(1.05);
-  }
-
-  .sm-platforms {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    margin: 5rem 0;
-    background: linear-gradient(to bottom right, #7b1730, #000000);
-  }
-
-  .sm-platforms .platform-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    align-items: center;
-  }
-
-  .sm-platforms a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .sm-platforms a:hover {
-    transform: scale(0.9);
-  }
-
-  .sm-platforms svg {
-    width: 80px;
-    height: 80px;
-  }
-
-  .platform-img {
-    padding: 0;
-    margin-top: 4rem;
-    background: linear-gradient(to bottom right, #7b1730, #000000);
-  }
-
-  .platform-img-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-    padding-left: 2rem;
-  }
-
-  .platform-img-container img {
-    height: 90vh;
-  }
-
-  .platform-img-container h1 {
-    line-height: 2;
-    letter-spacing: 5px;
-    color: #fff;
-    font-weight: 600;
-    font-size: 3rem;
-  }
-
-  @media (max-width: 768.98px) {
-    .consult-form {
-      width: 100%;
+    .consultation {
+        margin: 5rem 0;
+        padding: 0 10rem;
     }
 
-    .consultation .sub-title,
+    .consultation .main-title {
+        font-family: var(--primary-font);
+        font-weight: 600;
+    }
+
+    .consultation .main-title::after {
+        background: linear-gradient(80deg, #c51f48, #000000);
+        content: "";
+        display: block;
+        height: 3px;
+        border-radius: 2rem;
+        margin-top: 0.5rem;
+        width: 10%;
+    }
+
+    .consultation .sub-title {
+        margin-top: 1rem;
+        font-size: 18px;
+        font-family: var(--primary-font);
+    }
+
+    .consult-form {
+        width: 70%;
+    }
+
+    .consult-form label {
+        color: #696969;
+        font-size: 14px;
+    }
+
+    .consult h4 {
+        font-weight: 400;
+    }
+
     .consult p {
-      font-size: 16px;
+        font-size: 16px;
+        font-family: var(--primary-font);
+    }
+
+    .consult-form input {
+        transition: all 0.5s ease-in-out;
+        border-radius: 5px;
+        border: 1px solid #cbcbcb;
+        outline: none;
+        padding-left: 1rem;
+        font-size: 14px;
+        font-family: var(--secondary-font);
+    }
+
+    .consult-form input:focus {
+        outline: none;
+        box-shadow: 0 0 6px 1px rgba(123, 23, 48, 0.34);
+        border-radius: 5px;
+        padding-left: 1rem;
+    }
+
+    .consult-form textarea {
+        white-space: pre-line;
+        box-sizing: border-box;
+        color: #000000;
+        font-size: 14px;
+        resize: none;
+        border: 1px dotted #cbcbcb;
+        outline: none;
+        transition: all 0.5s ease;
+        overflow: hidden;
+    }
+
+    .consult-form textarea:focus {
+        outline: none;
+        box-shadow: 0 0 6px 1px rgba(123, 23, 48, 0.34);
+        border-radius: 5px;
+        padding-left: 1rem;
+    }
+
+    .consult-form textarea::placeholder {
+        font-size: 14px;
+    }
+
+    .form-text {
+        font-size: 12px;
+    }
+
+    .checkboxes label {
+        font-size: 12px;
+    }
+
+    .privacy-policy p {
+        box-sizing: border-box;
+        font-size: 12px;
+        line-height: 1.78;
+        margin: 0;
+        padding: 0;
+    }
+
+    .consultation-btn {
+        background: linear-gradient(to right, #7b1730, #000000);
+        transition: all 0.3s ease-in-out;
+        padding: 0.7rem 2.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+        border: none;
+        border-radius: 2rem;
+        text-transform: capitalize;
+    }
+
+    .consultation-btn:hover {
+        background: linear-gradient(to right, #7b1730, #d62853);
+        transform: scale(1.05);
     }
 
     .sm-platforms {
-      margin: 3rem 0 5rem;
-      padding: 2rem 0.5rem;
+        display: flex;
+        justify-content: center;
+        padding: 2rem;
+        margin: 5rem 0;
+        background: linear-gradient(to bottom right, #7b1730, #000000);
+    }
+
+    .sm-platforms .platform-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        align-items: center;
     }
 
     .sm-platforms a {
-    gap: 0.5rem;
-    font-size: 14px;
-    font-weight: 500;
-  }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        font-style: italic;
+    }
+
+    .sm-platforms a:hover {
+        transform: scale(0.9);
+    }
 
     .sm-platforms svg {
-    width: 60px;
-    height: 60px;
-  }
+        width: 80px;
+        height: 80px;
+    }
 
-    .sm-platforms .platform-container {
-      width: 100%;
+    .platform-img {
+        padding: 0;
+        margin-top: 4rem;
+        background: linear-gradient(to bottom right, #7b1730, #000000);
     }
 
     .platform-img-container {
-      flex-direction: column;
-      gap: 2rem;
-      justify-content: center;
-      padding-left: 0;
-      padding-top: 3rem;
-      padding-bottom: 2rem;
-    }
-
-    .platform-img-container h1 {
-      text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 2rem;
     }
 
     .platform-img-container img {
-      border-radius: 1rem;
+        height: 90vh;
     }
-  }
 
-  @media (max-width: 425.98px) {
-    .consultation {
-      padding: 0 20px;
+    .platform-img-container h1 {
+        line-height: 2;
+        letter-spacing: 5px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 3rem;
     }
-  }
 
-  @media (min-width: 320px) and (max-width: 1024px) {
-    .consultation {
-      margin-top: 7rem;
+    @media (max-width: 768.98px) {
+        .consult-form {
+            width: 100%;
+        }
+
+        .consultation .sub-title,
+        .consult p {
+            font-size: 16px;
+        }
+
+        .sm-platforms {
+            margin: 3rem 0 5rem;
+            padding: 2rem 0.5rem;
+        }
+
+        .sm-platforms a {
+            gap: 0.5rem;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sm-platforms svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .sm-platforms .platform-container {
+            width: 100%;
+        }
+
+        .platform-img-container {
+            flex-direction: column;
+            gap: 2rem;
+            justify-content: center;
+            padding-left: 0;
+            padding-top: 3rem;
+            margin: 0;
+        }
+
+        .platform-img-container h1 {
+            text-align: center;
+        }
+
+        .platform-img-container img {
+            width: 100%;
+            height: 100%;
+        }
     }
-  }
+
+    @media (max-width: 425.98px) {
+        .consultation {
+            padding: 0 20px;
+        }
+    }
+
+    @media (min-width: 320px) and (max-width: 1024px) {
+        .consultation {
+            margin-top: 7rem;
+        }
+    }
 </style>
 <main>
-  <section class="sim-store-navbar">
-    <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
-      <div class="sim-store-header">
-        <h2>Contact Xeloos</h2>
-      </div>
-      <div class="mini-navbar d-flex align-items-center gap-3">
-        <a href="/">
-          <span>Home</span>
-        </a>
-        <i class="fa-solid fa-angle-right fa-xs"></i>
-        <span class="active">Contact us</span>
-      </div>
-    </div>
-  </section>
-  <section class="consultation">
-    <div class="container">
-      <div class="consult-header" data-aos="fade-right" data-aos-delay="100">
-        <h2 class="main-title">Get in touch!</h2>
-        <p class="sub-title">
-          Reach us through our social media pages, live chat or leave us a
-          message below.
-        </p>
-      </div>
-      <div
-        class="border-0 rounded-2 sm-platforms"
-        data-aos="fade-right"
-        data-aos-delay="2   00"
-      >
-        <div class="platform-container">
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_2950_45572)">
-                <path
-                  d="M90.1111 101H6.88889C0.32325 101 -5 95.6768 -5 89.1111V5.88889C-5 -0.67675 0.32325 -6 6.88889 -6H90.1111C96.6768 -6 102 -0.67675 102 5.88889V89.1111C102 95.6768 96.6768 101 90.1111 101Z"
-                  fill="url(#paint0_linear_2950_45572)"
-                ></path>
-                <path
-                  d="M71 70H56.5051L25 25H39.4949L71 70ZM58.2322 66.184H64.0036L37.7678 28.816H31.9964L58.2322 66.184Z"
-                  fill="white"
-                ></path>
-                <path
-                  d="M29.6402 70L46 51.7342L43.8605 49L25 70H29.6402Z"
-                  fill="white"
-                ></path>
-                <path
-                  d="M49 42.1387L50.9796 45L68 25H63.6251L49 42.1387Z"
-                  fill="white"
-                ></path>
-              </g>
-              <defs>
-                <linearGradient
-                  id="paint0_linear_2950_45572"
-                  x1="-9.93983"
-                  y1="-53.722"
-                  x2="93.0358"
-                  y2="124.641"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#4B4B4B"></stop>
-                  <stop offset="0.247" stop-color="#3E3E3E"></stop>
-                  <stop offset="0.686" stop-color="#2B2B2B"></stop>
-                  <stop offset="1" stop-color="#252525"></stop>
-                </linearGradient>
-                <clipPath id="clip0_2950_45572">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            X
-          </a>
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_2950_45578)">
-                <path
-                  d="M48 -23C8.7867 -23 -23 8.92912 -23 48.3181C-23 84.077 3.19545 113.685 37.3642 118.841C40.8325 119.365 44.3861 108.939 48 108.939C51.2625 108.939 54.4752 119.415 57.6241 118.987C92.2862 114.27 119 84.43 119 48.3181C119 8.92912 87.2133 -23 48 -23Z"
-                  fill="url(#paint0_linear_2950_45578)"
-                ></path>
-                <path
-                  opacity="0.05"
-                  d="M55.2509 47.1685C55.2509 43.9981 55.9322 40.2198 59.1757 40.2198H68.7431L68.7409 27.714L68.6292 25.8171L66.7394 25.5633C65.3812 25.3807 62.5555 25 57.344 25C44.9039 25 38.0529 32.3806 38.0529 45.7814V51.3431H27V67.5024H38.0529V97.1094C40.9345 97.6905 43.9166 98 46.9702 98C49.8027 98 52.5637 97.7083 55.2509 97.2052V67.5002H66.4937L69 51.3408H55.2509V47.1685Z"
-                  fill="black"
-                ></path>
-                <path
-                  opacity="0.05"
-                  d="M53.6368 47.0885C53.6368 44.0714 54.2818 39.0139 58.6048 39.0139H66.9318V27.668L66.8745 26.6868L65.9214 26.5553C64.6073 26.3746 61.8757 26 56.8021 26C45.0853 26 38.8935 32.8124 38.8935 45.6992V52.3845H28V66.3394H38.8913V97.2775C41.3918 97.7235 43.9495 98 46.5777 98C48.9858 98 51.3322 97.7503 53.6368 97.3734V66.3372H64.8715L67 52.3823H53.6346V47.0885H53.6368Z"
-                  fill="black"
-                ></path>
-                <path
-                  d="M52.6075 65.1691H64.0843L65.8869 53.4251H52.6075V47.0059C52.6075 42.1278 54.1907 37.8014 58.7206 37.8014H66V27.5539C64.7206 27.3797 62.0155 27 56.9047 27C46.2306 27 39.9734 32.6777 39.9734 45.6144V53.4273H29V65.1713H39.9712V97.5019C42.1441 97.828 44.3459 98 46.6053 98C48.6474 98 50.6408 97.8615 52.6075 97.5935V65.1691Z"
-                  fill="white"
-                ></path>
-              </g>
-              <defs>
-                <linearGradient
-                  id="paint0_linear_2950_45578"
-                  x1="-1.72485"
-                  y1="-1.62953"
-                  x2="107.469"
-                  y2="107.077"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#2AA4F4"></stop>
-                  <stop offset="1" stop-color="#007AD9"></stop>
-                </linearGradient>
-                <clipPath id="clip0_2950_45578">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            Facebook
-          </a>
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_2950_45584)">
-                <path
-                  d="M79.7053 104.94L16.4054 105C2.47945 105.013 -8.92403 93.6313 -8.93985 79.7053L-8.99999 16.4054C-9.01265 2.47945 2.36868 -8.92403 16.2947 -8.93985L79.5946 -8.99999C93.5205 -9.01265 104.924 2.36868 104.94 16.2947L105 79.5946C105.016 93.5237 93.6313 104.927 79.7053 104.94Z"
-                  fill="url(#paint0_radial_2950_45584)"
-                ></path>
-                <path
-                  d="M79.7053 104.94L16.4054 105C2.47945 105.013 -8.92403 93.6313 -8.93985 79.7053L-8.99999 16.4054C-9.01265 2.47945 2.36868 -8.92403 16.2947 -8.93985L79.5946 -8.99999C93.5205 -9.01265 104.924 2.36868 104.94 16.2947L105 79.5946C105.016 93.5237 93.6313 104.927 79.7053 104.94Z"
-                  fill="url(#paint1_radial_2950_45584)"
-                ></path>
-                <path
-                  d="M47.9998 63.0771C39.6881 63.0771 32.9229 56.314 32.9229 48.0001C32.9229 39.6863 39.6881 32.9232 47.9998 32.9232C56.3115 32.9232 63.0767 39.6863 63.0767 48.0001C63.0767 56.314 56.3115 63.0771 47.9998 63.0771ZM47.9998 37.2309C42.0616 37.2309 37.2305 42.062 37.2305 48.0001C37.2305 53.9383 42.0616 58.7694 47.9998 58.7694C53.9379 58.7694 58.769 53.9383 58.769 48.0001C58.769 42.062 53.9379 37.2309 47.9998 37.2309Z"
-                  fill="white"
-                ></path>
-                <path
-                  d="M64.1536 35.0769C65.9379 35.0769 67.3844 33.6304 67.3844 31.8461C67.3844 30.0618 65.9379 28.6154 64.1536 28.6154C62.3693 28.6154 60.9229 30.0618 60.9229 31.8461C60.9229 33.6304 62.3693 35.0769 64.1536 35.0769Z"
-                  fill="white"
-                ></path>
-                <path
-                  d="M60.9231 76H35.0769C26.7652 76 20 69.2369 20 60.9231V35.0769C20 26.7631 26.7652 20 35.0769 20H60.9231C69.2348 20 76 26.7631 76 35.0769V60.9231C76 69.2369 69.2348 76 60.9231 76ZM35.0769 24.3077C29.1388 24.3077 24.3077 29.1388 24.3077 35.0769V60.9231C24.3077 66.8612 29.1388 71.6923 35.0769 71.6923H60.9231C66.8612 71.6923 71.6923 66.8612 71.6923 60.9231V35.0769C71.6923 29.1388 66.8612 24.3077 60.9231 24.3077H35.0769Z"
-                  fill="white"
-                ></path>
-              </g>
-              <defs>
-                <radialGradient
-                  id="paint0_radial_2950_45584"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientUnits="userSpaceOnUse"
-                  gradientTransform="translate(33.3793 105.082) scale(142.105 142.105)"
-                >
-                  <stop stop-color="#FFDD55"></stop>
-                  <stop offset="0.328" stop-color="#FF543F"></stop>
-                  <stop offset="0.348" stop-color="#FC5245"></stop>
-                  <stop offset="0.504" stop-color="#E64771"></stop>
-                  <stop offset="0.643" stop-color="#D53E91"></stop>
-                  <stop offset="0.761" stop-color="#CC39A4"></stop>
-                  <stop offset="0.841" stop-color="#C837AB"></stop>
-                </radialGradient>
-                <radialGradient
-                  id="paint1_radial_2950_45584"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientUnits="userSpaceOnUse"
-                  gradientTransform="translate(9.34432 -10.4233) scale(94.358 62.8707)"
-                >
-                  <stop stop-color="#4168C9"></stop>
-                  <stop
-                    offset="0.999"
-                    stop-color="#4168C9"
-                    stop-opacity="0"
-                  ></stop>
-                </radialGradient>
-                <clipPath id="clip0_2950_45584">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            Instagram
-          </a>
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_2950_45592)">
-                <path
-                  d="M94.2338 99.9104L1.86734 100C-1.30755 100.003 -3.90755 97.4087 -3.91044 94.2338L-4 1.86734C-4.00289 -1.30755 -1.40866 -3.90755 1.76622 -3.91044L94.1327 -4C97.3076 -4.00289 99.9076 -1.40866 99.9104 1.76622L100 94.1327C100.003 97.3076 97.4087 99.9076 94.2338 99.9104Z"
-                  fill="url(#paint0_linear_2950_45592)"
-                ></path>
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M59.0254 40.281C62.4738 42.7448 66.699 44.1932 71.2611 44.1932V35.417C70.3968 35.417 69.5369 35.3272 68.6923 35.1478V42.0555C64.1302 42.0555 59.9072 40.6048 56.4567 38.1433V56.0503C56.4567 65.0082 49.1901 72.2704 40.2278 72.2704C36.8845 72.2704 33.7753 71.2595 31.1934 69.5266C34.1407 72.5373 38.2498 74.4059 42.7966 74.4059C51.7589 74.4059 59.0254 67.1438 59.0254 58.1859V40.281ZM62.1959 31.4281C60.4346 29.5048 59.2771 27.017 59.0254 24.2666V23.1376H56.5901C57.2028 26.6319 59.2946 29.6186 62.1959 31.4281ZM36.8626 62.6539C35.878 61.3629 35.3463 59.7853 35.3485 58.1618C35.3485 54.0636 38.6721 50.7421 42.7726 50.7421C43.5362 50.7421 44.2954 50.8581 45.0241 51.09V42.119C44.1729 42.003 43.3152 41.9527 42.4553 41.9702V48.9523C41.7267 48.7203 40.9674 48.6044 40.2016 48.6044C36.1012 48.6044 32.7775 51.9258 32.7775 56.0241C32.7797 58.9232 34.4404 61.433 36.8626 62.6539Z"
-                  fill="#EC407A"
-                ></path>
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M56.4568 38.1433C59.9051 40.607 64.1303 42.0555 68.6924 42.0555V35.1478C66.1455 34.6052 63.8918 33.2748 62.196 31.4259C59.2947 29.6164 57.2051 26.6319 56.5924 23.1376H50.1967V58.1859C50.1814 62.271 46.8643 65.5793 42.7726 65.5793C40.3614 65.5793 38.2193 64.4306 36.8627 62.6517C34.4405 61.4308 32.7798 58.9211 32.7798 56.0241C32.7798 51.9258 36.1034 48.6044 40.2039 48.6044C40.9894 48.6044 41.7464 48.7269 42.4576 48.9523V41.9724C33.6528 42.154 26.5723 49.3439 26.5723 58.1881C26.5723 62.6036 28.3358 66.6055 31.1978 69.5288C33.7797 71.2617 36.889 72.2726 40.2323 72.2726C49.1946 72.2726 56.4611 65.0104 56.4611 56.0525L56.4568 38.1433Z"
-                  fill="white"
-                ></path>
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M68.6933 35.1502V33.2816C66.3958 33.2859 64.1465 32.6427 62.1969 31.4261C63.9211 33.3144 66.1923 34.6163 68.6933 35.1502ZM56.5911 23.1377C56.532 22.803 56.4883 22.4682 56.4576 22.129V21H47.6266V56.0505C47.6135 60.1356 44.2942 63.4439 40.2026 63.4439C39.0013 63.4439 37.8679 63.1595 36.8636 62.6519C38.2202 64.4307 40.3623 65.5795 42.7735 65.5795C46.8652 65.5795 50.1823 62.2711 50.1976 58.186V23.1377H56.5911ZM42.4563 41.9725V39.9836C41.7189 39.8829 40.975 39.8326 40.2288 39.8326C31.2644 39.8326 24 47.0948 24 56.0527C24 61.6694 26.8554 66.6188 31.1943 69.5289C28.3324 66.6057 26.5688 62.6037 26.5688 58.1882C26.5688 49.3441 33.6515 42.1541 42.4563 41.9725Z"
-                  fill="#81D4FA"
-                ></path>
-              </g>
-              <defs>
-                <linearGradient
-                  id="paint0_linear_2950_45592"
-                  x1="47.9336"
-                  y1="-3.54066"
-                  x2="47.9336"
-                  y2="100.133"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#4C4C4C"></stop>
-                  <stop offset="1" stop-color="#343434"></stop>
-                </linearGradient>
-                <clipPath id="clip0_2950_45592">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            TikTok
-          </a>
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_5145_23435)">
-                <path
-                  d="M94.2338 99.9104L1.86734 100C-1.30755 100.003 -3.90755 97.4087 -3.91044 94.2338L-4 1.86734C-4.00289 -1.30755 -1.40866 -3.90755 1.76622 -3.91044L94.1327 -4C97.3076 -4.00289 99.9076 -1.40866 99.9104 1.76622L100 94.1327C100.003 97.3076 97.4087 99.9076 94.2338 99.9104Z"
-                  fill="#51BF66"
-                ></path>
-                <path
-                  d="M48 20C32.536 20 20 32.536 20 48C20 53.7339 21.7302 59.0607 24.6876 63.4998L20 76L32.5002 71.3124C36.9392 74.2697 42.2661 76 48 76C63.464 76 76 63.4639 76 48C76 32.536 63.464 20 48 20Z"
-                  fill="#31B34A"
-                ></path>
-                <path
-                  d="M61.3483 52.7863C61.3483 52.7863 58.4909 51.3826 56.6999 50.4621C54.6821 49.4264 52.2975 51.3724 51.1742 52.4821C50.1579 52.0868 48.1401 51.1571 46.4915 49.5085C44.8429 47.8599 43.9132 45.8421 43.5179 44.8258C44.6287 43.7036 46.577 41.3247 45.5379 39.3001C44.6174 37.5091 43.2137 34.6517 43.2137 34.6517C43.0177 34.2529 42.611 34 42.1667 34H39.8333C37.2072 34 34 37.23 34 41C34 44.6641 38.3853 51.7017 41.3418 54.6582C44.2983 57.6147 51.3359 62 55 62C58.77 62 62 58.7928 62 56.1667V53.8333C62 53.389 61.7471 52.9823 61.3483 52.7863Z"
-                  fill="#F8F8F9"
-                ></path>
-                <path
-                  opacity="0.2"
-                  d="M48 20.5833C63.3656 20.5833 75.8272 32.9636 75.9853 48.2917C75.9863 48.1934 76 48.0984 76 48C76 32.536 63.464 20 48 20C32.536 20 20 32.536 20 48C20 48.1125 20.0113 48.2222 20.0125 48.3343C20.1478 32.9863 32.6201 20.5833 48 20.5833Z"
-                  fill="white"
-                ></path>
-                <path
-                  opacity="0.1"
-                  d="M48 75.4167C42.2661 75.4167 36.9392 73.6864 32.5002 70.7291L20.2545 75.3213L20 76L32.5002 71.3124C36.9392 74.2697 42.2661 76 48 76C63.464 76 76 63.4639 76 48C76 47.9016 75.9863 47.8066 75.9853 47.7084C75.8272 63.0364 63.3656 75.4167 48 75.4167Z"
-                  fill="#010101"
-                ></path>
-                <path
-                  opacity="0.2"
-                  d="M46.4922 50.0917C48.1408 51.7403 50.1585 52.67 51.1748 53.0653C52.2982 51.9556 54.6828 50.0097 56.7005 51.0453C58.4915 51.9659 61.349 53.3695 61.349 53.3695C61.7477 53.5655 62.0007 53.9722 62.0007 54.4166V53.8333C62.0007 53.3889 61.7477 52.9822 61.349 52.7862C61.349 52.7862 58.4915 51.3826 56.7005 50.462C54.6828 49.4264 52.2982 51.3723 51.1748 52.482C50.1585 52.0867 48.1408 51.157 46.4922 49.5084C45.0212 48.0374 44.148 46.311 43.6907 45.226C43.6339 45.2855 43.572 45.3553 43.5186 45.4091C43.9139 46.4254 44.8436 48.4431 46.4922 50.0917Z"
-                  fill="white"
-                ></path>
-                <path
-                  opacity="0.2"
-                  d="M45.5379 39.3001C44.6173 37.5091 43.2137 34.6517 43.2137 34.6517C43.0177 34.2529 42.611 34 42.1667 34H39.8333C37.2072 34 34 37.23 34 41C34 41.0786 34.0293 41.1789 34.0333 41.2606C34.2118 37.6334 37.2838 34.5833 39.8333 34.5833H42.1667C42.611 34.5833 43.0177 34.8363 43.2137 35.235C43.2137 35.235 44.6173 38.0924 45.5379 39.8835C45.7124 40.2236 45.7785 40.5743 45.8025 40.9267C45.8699 40.3794 45.8088 39.8279 45.5379 39.3001Z"
-                  fill="white"
-                ></path>
-                <path
-                  opacity="0.1"
-                  d="M41.3418 54.6583C44.2983 57.6148 51.3359 62.0001 55 62.0001C58.77 62.0001 62 58.7929 62 56.1668V55.5834C62 58.2096 58.77 61.4168 55 61.4168C51.3359 61.4168 44.2983 57.0315 41.3418 54.075C38.4488 51.1819 34.2149 44.4012 34.0333 40.6774C34.0279 40.7863 34 40.8901 34 41.0001C34 44.6641 38.3853 51.7017 41.3418 54.6583Z"
-                  fill="#010101"
-                ></path>
-                <path
-                  d="M43.0455 34.4009L43.0379 34.457C43.0942 34.5255 43.1739 34.5701 43.2141 34.6517C43.2141 34.6517 44.6177 37.5091 45.5383 39.3001C46.5774 41.3247 44.6291 43.7036 43.5183 44.8258C43.9136 45.8421 44.8433 47.8598 46.4919 49.5084C48.1405 51.157 50.1582 52.0867 51.1745 52.4821C52.2979 51.3724 54.6825 49.4264 56.7002 50.4621C58.4913 51.3826 61.3487 52.7863 61.3487 52.7863C61.7474 52.9822 62.0004 53.389 62.0004 53.8333V56.1666C62.0004 58.7928 58.7704 62 55.0004 62C51.4979 62 44.9523 58.0051 41.7959 55.0692C45.4369 58.7992 55.4602 69.0444 59.8804 73.3268C64.7128 71.0556 68.784 67.4561 71.6271 62.9825L43.0455 34.4009Z"
-                  fill="url(#paint0_linear_5145_23435)"
-                ></path>
-                <path
-                  d="M48 20C32.536 20 20 32.536 20 48C20 53.7339 21.7302 59.0607 24.6876 63.4998L20 76L32.5002 71.3124C36.9392 74.2697 42.2661 76 48 76C63.464 76 76 63.4639 76 48C76 32.536 63.464 20 48 20Z"
-                  fill="url(#paint1_linear_5145_23435)"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                ></path>
-              </g>
-              <defs>
-                <linearGradient
-                  id="paint0_linear_5145_23435"
-                  x1="37.512"
-                  y1="39.9336"
-                  x2="66.569"
-                  y2="68.9883"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#010101" stop-opacity="0.1"></stop>
-                  <stop offset="1" stop-color="#010101" stop-opacity="0"></stop>
-                </linearGradient>
-                <linearGradient
-                  id="paint1_linear_5145_23435"
-                  x1="20.672"
-                  y1="40.335"
-                  x2="71.4383"
-                  y2="64.0067"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="white" stop-opacity="0.2"></stop>
-                  <stop offset="1" stop-color="white" stop-opacity="0"></stop>
-                </linearGradient>
-                <clipPath id="clip0_5145_23435">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            Whatsapp
-          </a>
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_2950_45598)">
-                <path
-                  d="M48 -21C9.8913 -21 -21 9.8913 -21 48C-21 86.1087 9.8913 117 48 117C86.1087 117 117 86.1087 117 48C117 9.8913 86.1087 -21 48 -21Z"
-                  fill="#0078D4"
-                ></path>
-                <path
-                  opacity="0.05"
-                  d="M60.6957 73V53.0435C60.6957 50.5977 58.7066 48.6087 56.2609 48.6087C53.8151 48.6087 51.8261 50.5977 51.8261 53.0435V73H38.5217V35.3043H51.8261V37.5816C54.1322 36.1004 56.8197 35.3043 59.587 35.3043C67.5341 35.3043 74 41.7703 74 49.7174V73H60.6957ZM23 73V35.3043H29.5768C25.7651 35.3043 23 32.506 23 28.65C23 24.7961 25.8094 22 29.6766 22C33.4373 22 36.2245 24.7762 36.3043 28.6056C36.3043 32.4949 33.4949 35.3043 29.6256 35.3043H36.3043V73H23Z"
-                  fill="black"
-                ></path>
-                <path
-                  opacity="0.07"
-                  d="M61.8636 72V53.0682C61.8636 49.999 59.3669 47.5 56.2955 47.5C53.224 47.5 50.7273 49.999 50.7273 53.0682V72H39.5909V36.3636H50.7273V39.7803C53.155 37.6042 56.3222 36.3636 59.6364 36.3636C67.0064 36.3636 73 42.3572 73 49.7273V72H61.8636ZM24 72V36.3636H35.1364V72H24ZM29.4925 34.1364C26.3097 34.1364 24 31.7933 24 28.566C24 25.3409 26.352 23 29.5927 23C32.791 23 35.0695 25.2785 35.1364 28.5437C35.1364 31.7933 32.7821 34.1364 29.5415 34.1364H29.4925Z"
-                  fill="black"
-                ></path>
-                <path
-                  d="M25 37.4286H33.9524V71H25V37.4286ZM29.4493 32.9524H29.4001C26.7278 32.9524 25 30.9605 25 28.474C25 25.9337 26.7815 24 29.5008 24C32.2246 24 33.9009 25.9337 33.9524 28.474C33.9524 30.9605 32.2246 32.9524 29.4493 32.9524ZM72 49.7381C72 42.9388 66.4898 37.4286 59.6905 37.4286C55.5231 37.4286 51.846 39.5055 49.619 42.6747V37.4286H40.6667V71H49.619V53.0952C49.619 49.3867 52.6248 46.381 56.3333 46.381C60.0419 46.381 63.0476 49.3867 63.0476 53.0952V71H72C72 71 72 50.6803 72 49.7381Z"
-                  fill="white"
-                ></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_2950_45598">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            Linkedin
-          </a>
-          <a href="" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="96"
-              height="96"
-              viewBox="0 0 96 96"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_2950_45566)">
-                <path
-                  d="M118 48C118 86.6575 86.6575 118 48 118C9.3425 118 -22 86.6575 -22 48C-22 9.3425 9.3425 -22 48 -22C86.6575 -22 118 9.3425 118 48Z"
-                  fill="url(#paint0_linear_2950_45566)"
-                ></path>
-                <path
-                  opacity="0.05"
-                  d="M18.722 46.198C37.4607 37.7076 59.4692 28.4956 62.8585 27.1629C70.331 24.224 73.5893 27.2272 73.0792 32.0182C72.4519 37.8891 69.4785 54.9734 67.6495 67.2139C66.5787 74.3762 62.7 76.5706 58.3226 73.7926C55.0023 71.6855 43.5867 64.2107 40.5834 61.6555C38.5361 59.9137 37.1091 57.9606 38.5614 55.9707C38.9865 55.3893 40.0733 54.2174 40.6776 53.6338C43.7085 50.6972 43.2995 50.0653 39.6344 52.6871C39.1978 52.9996 36.6657 54.8356 35.6247 55.5295C33.0742 57.2299 30.7281 57.3218 26.7506 55.9707C23.4968 54.8654 20.3718 54.0129 18.4003 53.1604C15.6774 51.9817 14.6342 48.0501 18.722 46.198Z"
-                  fill="black"
-                ></path>
-                <path
-                  opacity="0.07"
-                  d="M20.3689 46.4853C37.768 38.7072 59.1653 29.794 62.295 28.5325C69.795 25.5039 72.5547 27.3008 71.7482 33.1534C70.9991 38.5716 68.3405 55.3365 66.477 66.5752C65.3786 73.1906 62.1709 74.6474 57.9934 71.9452C55.3762 70.2586 44.843 63.3191 42.2878 61.2994C40.3117 59.7391 38.2644 57.9377 40.6564 55.3296C41.456 54.4588 45.8724 50.1963 49.1744 47.0253C51.0885 45.1848 50.406 44.2771 48.0967 45.858C43.8618 48.7602 36.9339 53.3535 35.6977 54.1876C33.3424 55.7731 31.1296 56.1545 27.2785 54.9436C24.2431 53.9877 21.311 53.0617 19.783 52.4665C16.3684 51.143 16.3225 48.2937 20.3689 46.4853Z"
-                  fill="black"
-                ></path>
-                <path
-                  d="M22.0169 46.7748C38.0787 39.709 58.8625 31.0945 61.7324 29.9019C69.2578 26.7815 71.5671 27.3789 70.4159 34.2908C69.5887 39.2587 67.2036 55.7042 65.301 65.9409C64.1727 72.0118 61.6405 72.731 57.6607 70.1046C55.7466 68.8408 46.0843 62.4506 43.9864 60.9501C42.0723 59.5829 39.4321 57.9376 42.7433 54.6977C43.922 53.5442 51.645 46.1682 57.663 40.4283C58.4512 39.6746 57.4608 38.436 56.5509 39.0404C48.4396 44.4196 37.194 51.8852 35.7625 52.8572C33.6002 54.3255 31.523 54.9987 27.7959 53.9279C24.9788 53.1191 22.2283 52.154 21.1575 51.7864C17.033 50.3709 18.0118 48.5373 22.0169 46.7748Z"
-                  fill="white"
-                ></path>
-              </g>
-              <defs>
-                <linearGradient
-                  id="paint0_linear_2950_45566"
-                  x1="-1.497"
-                  y1="-1.497"
-                  x2="97.497"
-                  y2="97.497"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#33BEF0"></stop>
-                  <stop offset="1" stop-color="#0A85D9"></stop>
-                </linearGradient>
-                <clipPath id="clip0_2950_45566">
-                  <rect width="96" height="96" rx="48" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            Telegram
-          </a>
-          <a href="" target="_blank">
-            <svg
-              width="96px"
-              height="96px"
-              viewBox="0 0 512 512"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              aria-hidden="true"
-              role="img"
-              class="iconify iconify--fxemoji"
-              preserveAspectRatio="xMidYMid meet"
-              fill="#000000"
-            >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></g>
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  fill="#96A9B2"
-                  d="M511.824 425.007c1.941-5.245-220.916-173.519-220.916-173.519c-27.9-20.589-42.574-20.913-70.164 0c0 0-222.532 168.138-220.659 173.311l-.045.038c.023.045.06.076.091.117a48.482 48.482 0 0 0 8.119 14.157c1.473 1.786 3.248 3.282 4.955 4.837l-.083.064c.136.121.317.177.453.298c7.235 6.454 16.359 10.634 26.495 11.827c.159.019.287.102.446.121h.612c1.541.147 3.006.517 4.584.517h420.721c20.717 0 38.269-13.028 45.241-31.291c.083-.136.211-.234.287-.374l-.137-.103z"
-                ></path>
-                <path
-                  fill="#B9C5C6"
-                  d="M256.133 232.176L1.216 423.364V152.515c0-26.4 21.397-47.797 47.797-47.797h414.24c26.4 0 47.797 21.397 47.797 47.797v270.849L256.133 232.176z"
-                ></path>
-                <path
-                  fill="#EDECE6"
-                  d="M4.189 135.896l217.645 170.949c27.47 20.271 41.918 20.591 69.083 0L508.22 136.167c-3.77-6.834-9.414-12.233-15.869-16.538l2.989-2.342c-7.295-6.641-16.62-10.946-26.971-12.058l-424.455.015c-10.322 1.097-19.662 5.417-26.942 12.043l2.967 2.313c-6.38 4.245-11.972 9.551-15.75 16.296z"
-                ></path>
-                <path
-                  fill="#DCE2E2"
-                  d="M4.118 136.254C2.207 141.419 221.63 307.099 221.63 307.099c27.47 20.271 41.918 20.591 69.083 0c0 0 219.103-165.546 217.258-170.64l.045-.037c-.022-.045-.059-.074-.089-.115a47.732 47.732 0 0 0-7.994-13.939c-1.45-1.759-3.198-3.231-4.878-4.763l.082-.063c-.134-.119-.312-.175-.446-.294c-7.124-6.354-16.107-10.47-26.086-11.645c-.156-.019-.283-.1-.439-.119h-.602c-1.517-.145-2.96-.509-4.514-.509H48.81c-20.398 0-37.68 12.828-44.543 30.809c-.082.134-.208.231-.283.368l.134.102z"
-                ></path>
-                <path
-                  fill="#597B91"
-                  d="M291.401 154.645h-38.632a6.155 6.155 0 0 0-6.155 6.155v21.722a6.155 6.155 0 0 0 6.155 6.155h31.415a6.155 6.155 0 0 1 6.155 6.155v11.616a6.155 6.155 0 0 1-6.155 6.155h-31.415a6.155 6.155 0 0 0-6.155 6.155v23.578a6.155 6.155 0 0 0 6.155 6.155h41.316a6.155 6.155 0 0 1 6.155 6.155v12.441a6.155 6.155 0 0 1-6.155 6.155h-75.76a6.155 6.155 0 0 1-6.155-6.155V136.461a6.155 6.155 0 0 1 6.155-6.155h74.81c3.749 0 6.627 3.322 6.092 7.033l-1.733 12.028a6.156 6.156 0 0 1-6.093 5.278z"
-                ></path>
-              </g>
-            </svg>
-            Email
-          </a>
+    <section class="sim-store-navbar">
+        <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
+            <div class="sim-store-header">
+                <h2>Contact Xeloos</h2>
+            </div>
+            <div class="mini-navbar d-flex align-items-center gap-3">
+                <a href="/">
+                    <span>Home</span>
+                </a>
+                <i class="fa-solid fa-angle-right fa-xs"></i>
+                <span class="active">Contact us</span>
+            </div>
         </div>
-      </div>
-      <div class="consult mt-5" data-aos="fade-right" data-aos-delay="200">
-        <h4>Leave a message</h4>
-        <p>Kindly leave us a message by filling out the form below.</p>
-        <div class="consult-form mt-5">
-          <form method="post" action="{% url 'consultation' %}">
-            {% csrf_token %}
-            <div class="row mb-3">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">* Name</label>
-                <input type="text" name="name" class="form-control" required />
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="form-label">* Subject</label>
-                <input
-                  type="text"
-                  name="subject"
-                  class="form-control"
-                  required
-                />
-              </div>
+    </section>
+    <section class="consultation">
+        <div class="container">
+            <div class="consult-header" data-aos="fade-right" data-aos-delay="100">
+                <h2 class="main-title">Get in touch!</h2>
+                <p class="sub-title">
+                    Reach us through our social media pages, live chat or leave us a
+                    message below.
+                </p>
             </div>
-
-            <div class="row mb-3">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">* Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  class="form-control"
-                  required
-                />
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="form-label">* Phone Number</label>
-                <input type="text" name="phone" class="form-control" required />
-              </div>
+            <div class="border-0 rounded-2 sm-platforms" data-aos="fade-right" data-aos-delay="2   00">
+                <div class="platform-container">
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_2950_45572)">
+                                <path
+                                    d="M90.1111 101H6.88889C0.32325 101 -5 95.6768 -5 89.1111V5.88889C-5 -0.67675 0.32325 -6 6.88889 -6H90.1111C96.6768 -6 102 -0.67675 102 5.88889V89.1111C102 95.6768 96.6768 101 90.1111 101Z"
+                                    fill="url(#paint0_linear_2950_45572)"></path>
+                                <path
+                                    d="M71 70H56.5051L25 25H39.4949L71 70ZM58.2322 66.184H64.0036L37.7678 28.816H31.9964L58.2322 66.184Z"
+                                    fill="white"></path>
+                                <path d="M29.6402 70L46 51.7342L43.8605 49L25 70H29.6402Z" fill="white"></path>
+                                <path d="M49 42.1387L50.9796 45L68 25H63.6251L49 42.1387Z" fill="white"></path>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_2950_45572" x1="-9.93983" y1="-53.722" x2="93.0358"
+                                    y2="124.641" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#4B4B4B"></stop>
+                                    <stop offset="0.247" stop-color="#3E3E3E"></stop>
+                                    <stop offset="0.686" stop-color="#2B2B2B"></stop>
+                                    <stop offset="1" stop-color="#252525"></stop>
+                                </linearGradient>
+                                <clipPath id="clip0_2950_45572">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        X
+                    </a>
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_2950_45578)">
+                                <path
+                                    d="M48 -23C8.7867 -23 -23 8.92912 -23 48.3181C-23 84.077 3.19545 113.685 37.3642 118.841C40.8325 119.365 44.3861 108.939 48 108.939C51.2625 108.939 54.4752 119.415 57.6241 118.987C92.2862 114.27 119 84.43 119 48.3181C119 8.92912 87.2133 -23 48 -23Z"
+                                    fill="url(#paint0_linear_2950_45578)"></path>
+                                <path opacity="0.05"
+                                    d="M55.2509 47.1685C55.2509 43.9981 55.9322 40.2198 59.1757 40.2198H68.7431L68.7409 27.714L68.6292 25.8171L66.7394 25.5633C65.3812 25.3807 62.5555 25 57.344 25C44.9039 25 38.0529 32.3806 38.0529 45.7814V51.3431H27V67.5024H38.0529V97.1094C40.9345 97.6905 43.9166 98 46.9702 98C49.8027 98 52.5637 97.7083 55.2509 97.2052V67.5002H66.4937L69 51.3408H55.2509V47.1685Z"
+                                    fill="black"></path>
+                                <path opacity="0.05"
+                                    d="M53.6368 47.0885C53.6368 44.0714 54.2818 39.0139 58.6048 39.0139H66.9318V27.668L66.8745 26.6868L65.9214 26.5553C64.6073 26.3746 61.8757 26 56.8021 26C45.0853 26 38.8935 32.8124 38.8935 45.6992V52.3845H28V66.3394H38.8913V97.2775C41.3918 97.7235 43.9495 98 46.5777 98C48.9858 98 51.3322 97.7503 53.6368 97.3734V66.3372H64.8715L67 52.3823H53.6346V47.0885H53.6368Z"
+                                    fill="black"></path>
+                                <path
+                                    d="M52.6075 65.1691H64.0843L65.8869 53.4251H52.6075V47.0059C52.6075 42.1278 54.1907 37.8014 58.7206 37.8014H66V27.5539C64.7206 27.3797 62.0155 27 56.9047 27C46.2306 27 39.9734 32.6777 39.9734 45.6144V53.4273H29V65.1713H39.9712V97.5019C42.1441 97.828 44.3459 98 46.6053 98C48.6474 98 50.6408 97.8615 52.6075 97.5935V65.1691Z"
+                                    fill="white"></path>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_2950_45578" x1="-1.72485" y1="-1.62953" x2="107.469"
+                                    y2="107.077" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#2AA4F4"></stop>
+                                    <stop offset="1" stop-color="#007AD9"></stop>
+                                </linearGradient>
+                                <clipPath id="clip0_2950_45578">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Facebook
+                    </a>
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_2950_45584)">
+                                <path
+                                    d="M79.7053 104.94L16.4054 105C2.47945 105.013 -8.92403 93.6313 -8.93985 79.7053L-8.99999 16.4054C-9.01265 2.47945 2.36868 -8.92403 16.2947 -8.93985L79.5946 -8.99999C93.5205 -9.01265 104.924 2.36868 104.94 16.2947L105 79.5946C105.016 93.5237 93.6313 104.927 79.7053 104.94Z"
+                                    fill="url(#paint0_radial_2950_45584)"></path>
+                                <path
+                                    d="M79.7053 104.94L16.4054 105C2.47945 105.013 -8.92403 93.6313 -8.93985 79.7053L-8.99999 16.4054C-9.01265 2.47945 2.36868 -8.92403 16.2947 -8.93985L79.5946 -8.99999C93.5205 -9.01265 104.924 2.36868 104.94 16.2947L105 79.5946C105.016 93.5237 93.6313 104.927 79.7053 104.94Z"
+                                    fill="url(#paint1_radial_2950_45584)"></path>
+                                <path
+                                    d="M47.9998 63.0771C39.6881 63.0771 32.9229 56.314 32.9229 48.0001C32.9229 39.6863 39.6881 32.9232 47.9998 32.9232C56.3115 32.9232 63.0767 39.6863 63.0767 48.0001C63.0767 56.314 56.3115 63.0771 47.9998 63.0771ZM47.9998 37.2309C42.0616 37.2309 37.2305 42.062 37.2305 48.0001C37.2305 53.9383 42.0616 58.7694 47.9998 58.7694C53.9379 58.7694 58.769 53.9383 58.769 48.0001C58.769 42.062 53.9379 37.2309 47.9998 37.2309Z"
+                                    fill="white"></path>
+                                <path
+                                    d="M64.1536 35.0769C65.9379 35.0769 67.3844 33.6304 67.3844 31.8461C67.3844 30.0618 65.9379 28.6154 64.1536 28.6154C62.3693 28.6154 60.9229 30.0618 60.9229 31.8461C60.9229 33.6304 62.3693 35.0769 64.1536 35.0769Z"
+                                    fill="white"></path>
+                                <path
+                                    d="M60.9231 76H35.0769C26.7652 76 20 69.2369 20 60.9231V35.0769C20 26.7631 26.7652 20 35.0769 20H60.9231C69.2348 20 76 26.7631 76 35.0769V60.9231C76 69.2369 69.2348 76 60.9231 76ZM35.0769 24.3077C29.1388 24.3077 24.3077 29.1388 24.3077 35.0769V60.9231C24.3077 66.8612 29.1388 71.6923 35.0769 71.6923H60.9231C66.8612 71.6923 71.6923 66.8612 71.6923 60.9231V35.0769C71.6923 29.1388 66.8612 24.3077 60.9231 24.3077H35.0769Z"
+                                    fill="white"></path>
+                            </g>
+                            <defs>
+                                <radialGradient id="paint0_radial_2950_45584" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(33.3793 105.082) scale(142.105 142.105)">
+                                    <stop stop-color="#FFDD55"></stop>
+                                    <stop offset="0.328" stop-color="#FF543F"></stop>
+                                    <stop offset="0.348" stop-color="#FC5245"></stop>
+                                    <stop offset="0.504" stop-color="#E64771"></stop>
+                                    <stop offset="0.643" stop-color="#D53E91"></stop>
+                                    <stop offset="0.761" stop-color="#CC39A4"></stop>
+                                    <stop offset="0.841" stop-color="#C837AB"></stop>
+                                </radialGradient>
+                                <radialGradient id="paint1_radial_2950_45584" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(9.34432 -10.4233) scale(94.358 62.8707)">
+                                    <stop stop-color="#4168C9"></stop>
+                                    <stop offset="0.999" stop-color="#4168C9" stop-opacity="0"></stop>
+                                </radialGradient>
+                                <clipPath id="clip0_2950_45584">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_2950_45592)">
+                                <path
+                                    d="M94.2338 99.9104L1.86734 100C-1.30755 100.003 -3.90755 97.4087 -3.91044 94.2338L-4 1.86734C-4.00289 -1.30755 -1.40866 -3.90755 1.76622 -3.91044L94.1327 -4C97.3076 -4.00289 99.9076 -1.40866 99.9104 1.76622L100 94.1327C100.003 97.3076 97.4087 99.9076 94.2338 99.9104Z"
+                                    fill="url(#paint0_linear_2950_45592)"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M59.0254 40.281C62.4738 42.7448 66.699 44.1932 71.2611 44.1932V35.417C70.3968 35.417 69.5369 35.3272 68.6923 35.1478V42.0555C64.1302 42.0555 59.9072 40.6048 56.4567 38.1433V56.0503C56.4567 65.0082 49.1901 72.2704 40.2278 72.2704C36.8845 72.2704 33.7753 71.2595 31.1934 69.5266C34.1407 72.5373 38.2498 74.4059 42.7966 74.4059C51.7589 74.4059 59.0254 67.1438 59.0254 58.1859V40.281ZM62.1959 31.4281C60.4346 29.5048 59.2771 27.017 59.0254 24.2666V23.1376H56.5901C57.2028 26.6319 59.2946 29.6186 62.1959 31.4281ZM36.8626 62.6539C35.878 61.3629 35.3463 59.7853 35.3485 58.1618C35.3485 54.0636 38.6721 50.7421 42.7726 50.7421C43.5362 50.7421 44.2954 50.8581 45.0241 51.09V42.119C44.1729 42.003 43.3152 41.9527 42.4553 41.9702V48.9523C41.7267 48.7203 40.9674 48.6044 40.2016 48.6044C36.1012 48.6044 32.7775 51.9258 32.7775 56.0241C32.7797 58.9232 34.4404 61.433 36.8626 62.6539Z"
+                                    fill="#EC407A"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M56.4568 38.1433C59.9051 40.607 64.1303 42.0555 68.6924 42.0555V35.1478C66.1455 34.6052 63.8918 33.2748 62.196 31.4259C59.2947 29.6164 57.2051 26.6319 56.5924 23.1376H50.1967V58.1859C50.1814 62.271 46.8643 65.5793 42.7726 65.5793C40.3614 65.5793 38.2193 64.4306 36.8627 62.6517C34.4405 61.4308 32.7798 58.9211 32.7798 56.0241C32.7798 51.9258 36.1034 48.6044 40.2039 48.6044C40.9894 48.6044 41.7464 48.7269 42.4576 48.9523V41.9724C33.6528 42.154 26.5723 49.3439 26.5723 58.1881C26.5723 62.6036 28.3358 66.6055 31.1978 69.5288C33.7797 71.2617 36.889 72.2726 40.2323 72.2726C49.1946 72.2726 56.4611 65.0104 56.4611 56.0525L56.4568 38.1433Z"
+                                    fill="white"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M68.6933 35.1502V33.2816C66.3958 33.2859 64.1465 32.6427 62.1969 31.4261C63.9211 33.3144 66.1923 34.6163 68.6933 35.1502ZM56.5911 23.1377C56.532 22.803 56.4883 22.4682 56.4576 22.129V21H47.6266V56.0505C47.6135 60.1356 44.2942 63.4439 40.2026 63.4439C39.0013 63.4439 37.8679 63.1595 36.8636 62.6519C38.2202 64.4307 40.3623 65.5795 42.7735 65.5795C46.8652 65.5795 50.1823 62.2711 50.1976 58.186V23.1377H56.5911ZM42.4563 41.9725V39.9836C41.7189 39.8829 40.975 39.8326 40.2288 39.8326C31.2644 39.8326 24 47.0948 24 56.0527C24 61.6694 26.8554 66.6188 31.1943 69.5289C28.3324 66.6057 26.5688 62.6037 26.5688 58.1882C26.5688 49.3441 33.6515 42.1541 42.4563 41.9725Z"
+                                    fill="#81D4FA"></path>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_2950_45592" x1="47.9336" y1="-3.54066" x2="47.9336"
+                                    y2="100.133" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#4C4C4C"></stop>
+                                    <stop offset="1" stop-color="#343434"></stop>
+                                </linearGradient>
+                                <clipPath id="clip0_2950_45592">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        TikTok
+                    </a>
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_5145_23435)">
+                                <path
+                                    d="M94.2338 99.9104L1.86734 100C-1.30755 100.003 -3.90755 97.4087 -3.91044 94.2338L-4 1.86734C-4.00289 -1.30755 -1.40866 -3.90755 1.76622 -3.91044L94.1327 -4C97.3076 -4.00289 99.9076 -1.40866 99.9104 1.76622L100 94.1327C100.003 97.3076 97.4087 99.9076 94.2338 99.9104Z"
+                                    fill="#51BF66"></path>
+                                <path
+                                    d="M48 20C32.536 20 20 32.536 20 48C20 53.7339 21.7302 59.0607 24.6876 63.4998L20 76L32.5002 71.3124C36.9392 74.2697 42.2661 76 48 76C63.464 76 76 63.4639 76 48C76 32.536 63.464 20 48 20Z"
+                                    fill="#31B34A"></path>
+                                <path
+                                    d="M61.3483 52.7863C61.3483 52.7863 58.4909 51.3826 56.6999 50.4621C54.6821 49.4264 52.2975 51.3724 51.1742 52.4821C50.1579 52.0868 48.1401 51.1571 46.4915 49.5085C44.8429 47.8599 43.9132 45.8421 43.5179 44.8258C44.6287 43.7036 46.577 41.3247 45.5379 39.3001C44.6174 37.5091 43.2137 34.6517 43.2137 34.6517C43.0177 34.2529 42.611 34 42.1667 34H39.8333C37.2072 34 34 37.23 34 41C34 44.6641 38.3853 51.7017 41.3418 54.6582C44.2983 57.6147 51.3359 62 55 62C58.77 62 62 58.7928 62 56.1667V53.8333C62 53.389 61.7471 52.9823 61.3483 52.7863Z"
+                                    fill="#F8F8F9"></path>
+                                <path opacity="0.2"
+                                    d="M48 20.5833C63.3656 20.5833 75.8272 32.9636 75.9853 48.2917C75.9863 48.1934 76 48.0984 76 48C76 32.536 63.464 20 48 20C32.536 20 20 32.536 20 48C20 48.1125 20.0113 48.2222 20.0125 48.3343C20.1478 32.9863 32.6201 20.5833 48 20.5833Z"
+                                    fill="white"></path>
+                                <path opacity="0.1"
+                                    d="M48 75.4167C42.2661 75.4167 36.9392 73.6864 32.5002 70.7291L20.2545 75.3213L20 76L32.5002 71.3124C36.9392 74.2697 42.2661 76 48 76C63.464 76 76 63.4639 76 48C76 47.9016 75.9863 47.8066 75.9853 47.7084C75.8272 63.0364 63.3656 75.4167 48 75.4167Z"
+                                    fill="#010101"></path>
+                                <path opacity="0.2"
+                                    d="M46.4922 50.0917C48.1408 51.7403 50.1585 52.67 51.1748 53.0653C52.2982 51.9556 54.6828 50.0097 56.7005 51.0453C58.4915 51.9659 61.349 53.3695 61.349 53.3695C61.7477 53.5655 62.0007 53.9722 62.0007 54.4166V53.8333C62.0007 53.3889 61.7477 52.9822 61.349 52.7862C61.349 52.7862 58.4915 51.3826 56.7005 50.462C54.6828 49.4264 52.2982 51.3723 51.1748 52.482C50.1585 52.0867 48.1408 51.157 46.4922 49.5084C45.0212 48.0374 44.148 46.311 43.6907 45.226C43.6339 45.2855 43.572 45.3553 43.5186 45.4091C43.9139 46.4254 44.8436 48.4431 46.4922 50.0917Z"
+                                    fill="white"></path>
+                                <path opacity="0.2"
+                                    d="M45.5379 39.3001C44.6173 37.5091 43.2137 34.6517 43.2137 34.6517C43.0177 34.2529 42.611 34 42.1667 34H39.8333C37.2072 34 34 37.23 34 41C34 41.0786 34.0293 41.1789 34.0333 41.2606C34.2118 37.6334 37.2838 34.5833 39.8333 34.5833H42.1667C42.611 34.5833 43.0177 34.8363 43.2137 35.235C43.2137 35.235 44.6173 38.0924 45.5379 39.8835C45.7124 40.2236 45.7785 40.5743 45.8025 40.9267C45.8699 40.3794 45.8088 39.8279 45.5379 39.3001Z"
+                                    fill="white"></path>
+                                <path opacity="0.1"
+                                    d="M41.3418 54.6583C44.2983 57.6148 51.3359 62.0001 55 62.0001C58.77 62.0001 62 58.7929 62 56.1668V55.5834C62 58.2096 58.77 61.4168 55 61.4168C51.3359 61.4168 44.2983 57.0315 41.3418 54.075C38.4488 51.1819 34.2149 44.4012 34.0333 40.6774C34.0279 40.7863 34 40.8901 34 41.0001C34 44.6641 38.3853 51.7017 41.3418 54.6583Z"
+                                    fill="#010101"></path>
+                                <path
+                                    d="M43.0455 34.4009L43.0379 34.457C43.0942 34.5255 43.1739 34.5701 43.2141 34.6517C43.2141 34.6517 44.6177 37.5091 45.5383 39.3001C46.5774 41.3247 44.6291 43.7036 43.5183 44.8258C43.9136 45.8421 44.8433 47.8598 46.4919 49.5084C48.1405 51.157 50.1582 52.0867 51.1745 52.4821C52.2979 51.3724 54.6825 49.4264 56.7002 50.4621C58.4913 51.3826 61.3487 52.7863 61.3487 52.7863C61.7474 52.9822 62.0004 53.389 62.0004 53.8333V56.1666C62.0004 58.7928 58.7704 62 55.0004 62C51.4979 62 44.9523 58.0051 41.7959 55.0692C45.4369 58.7992 55.4602 69.0444 59.8804 73.3268C64.7128 71.0556 68.784 67.4561 71.6271 62.9825L43.0455 34.4009Z"
+                                    fill="url(#paint0_linear_5145_23435)"></path>
+                                <path
+                                    d="M48 20C32.536 20 20 32.536 20 48C20 53.7339 21.7302 59.0607 24.6876 63.4998L20 76L32.5002 71.3124C36.9392 74.2697 42.2661 76 48 76C63.464 76 76 63.4639 76 48C76 32.536 63.464 20 48 20Z"
+                                    fill="url(#paint1_linear_5145_23435)" stroke="white" stroke-width="2"
+                                    stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_5145_23435" x1="37.512" y1="39.9336" x2="66.569"
+                                    y2="68.9883" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#010101" stop-opacity="0.1"></stop>
+                                    <stop offset="1" stop-color="#010101" stop-opacity="0"></stop>
+                                </linearGradient>
+                                <linearGradient id="paint1_linear_5145_23435" x1="20.672" y1="40.335" x2="71.4383"
+                                    y2="64.0067" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="white" stop-opacity="0.2"></stop>
+                                    <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+                                </linearGradient>
+                                <clipPath id="clip0_5145_23435">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Whatsapp
+                    </a>
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_2950_45598)">
+                                <path
+                                    d="M48 -21C9.8913 -21 -21 9.8913 -21 48C-21 86.1087 9.8913 117 48 117C86.1087 117 117 86.1087 117 48C117 9.8913 86.1087 -21 48 -21Z"
+                                    fill="#0078D4"></path>
+                                <path opacity="0.05"
+                                    d="M60.6957 73V53.0435C60.6957 50.5977 58.7066 48.6087 56.2609 48.6087C53.8151 48.6087 51.8261 50.5977 51.8261 53.0435V73H38.5217V35.3043H51.8261V37.5816C54.1322 36.1004 56.8197 35.3043 59.587 35.3043C67.5341 35.3043 74 41.7703 74 49.7174V73H60.6957ZM23 73V35.3043H29.5768C25.7651 35.3043 23 32.506 23 28.65C23 24.7961 25.8094 22 29.6766 22C33.4373 22 36.2245 24.7762 36.3043 28.6056C36.3043 32.4949 33.4949 35.3043 29.6256 35.3043H36.3043V73H23Z"
+                                    fill="black"></path>
+                                <path opacity="0.07"
+                                    d="M61.8636 72V53.0682C61.8636 49.999 59.3669 47.5 56.2955 47.5C53.224 47.5 50.7273 49.999 50.7273 53.0682V72H39.5909V36.3636H50.7273V39.7803C53.155 37.6042 56.3222 36.3636 59.6364 36.3636C67.0064 36.3636 73 42.3572 73 49.7273V72H61.8636ZM24 72V36.3636H35.1364V72H24ZM29.4925 34.1364C26.3097 34.1364 24 31.7933 24 28.566C24 25.3409 26.352 23 29.5927 23C32.791 23 35.0695 25.2785 35.1364 28.5437C35.1364 31.7933 32.7821 34.1364 29.5415 34.1364H29.4925Z"
+                                    fill="black"></path>
+                                <path
+                                    d="M25 37.4286H33.9524V71H25V37.4286ZM29.4493 32.9524H29.4001C26.7278 32.9524 25 30.9605 25 28.474C25 25.9337 26.7815 24 29.5008 24C32.2246 24 33.9009 25.9337 33.9524 28.474C33.9524 30.9605 32.2246 32.9524 29.4493 32.9524ZM72 49.7381C72 42.9388 66.4898 37.4286 59.6905 37.4286C55.5231 37.4286 51.846 39.5055 49.619 42.6747V37.4286H40.6667V71H49.619V53.0952C49.619 49.3867 52.6248 46.381 56.3333 46.381C60.0419 46.381 63.0476 49.3867 63.0476 53.0952V71H72C72 71 72 50.6803 72 49.7381Z"
+                                    fill="white"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_2950_45598">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Linkedin
+                    </a>
+                    <a href="" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                            <g clip-path="url(#clip0_2950_45566)">
+                                <path
+                                    d="M118 48C118 86.6575 86.6575 118 48 118C9.3425 118 -22 86.6575 -22 48C-22 9.3425 9.3425 -22 48 -22C86.6575 -22 118 9.3425 118 48Z"
+                                    fill="url(#paint0_linear_2950_45566)"></path>
+                                <path opacity="0.05"
+                                    d="M18.722 46.198C37.4607 37.7076 59.4692 28.4956 62.8585 27.1629C70.331 24.224 73.5893 27.2272 73.0792 32.0182C72.4519 37.8891 69.4785 54.9734 67.6495 67.2139C66.5787 74.3762 62.7 76.5706 58.3226 73.7926C55.0023 71.6855 43.5867 64.2107 40.5834 61.6555C38.5361 59.9137 37.1091 57.9606 38.5614 55.9707C38.9865 55.3893 40.0733 54.2174 40.6776 53.6338C43.7085 50.6972 43.2995 50.0653 39.6344 52.6871C39.1978 52.9996 36.6657 54.8356 35.6247 55.5295C33.0742 57.2299 30.7281 57.3218 26.7506 55.9707C23.4968 54.8654 20.3718 54.0129 18.4003 53.1604C15.6774 51.9817 14.6342 48.0501 18.722 46.198Z"
+                                    fill="black"></path>
+                                <path opacity="0.07"
+                                    d="M20.3689 46.4853C37.768 38.7072 59.1653 29.794 62.295 28.5325C69.795 25.5039 72.5547 27.3008 71.7482 33.1534C70.9991 38.5716 68.3405 55.3365 66.477 66.5752C65.3786 73.1906 62.1709 74.6474 57.9934 71.9452C55.3762 70.2586 44.843 63.3191 42.2878 61.2994C40.3117 59.7391 38.2644 57.9377 40.6564 55.3296C41.456 54.4588 45.8724 50.1963 49.1744 47.0253C51.0885 45.1848 50.406 44.2771 48.0967 45.858C43.8618 48.7602 36.9339 53.3535 35.6977 54.1876C33.3424 55.7731 31.1296 56.1545 27.2785 54.9436C24.2431 53.9877 21.311 53.0617 19.783 52.4665C16.3684 51.143 16.3225 48.2937 20.3689 46.4853Z"
+                                    fill="black"></path>
+                                <path
+                                    d="M22.0169 46.7748C38.0787 39.709 58.8625 31.0945 61.7324 29.9019C69.2578 26.7815 71.5671 27.3789 70.4159 34.2908C69.5887 39.2587 67.2036 55.7042 65.301 65.9409C64.1727 72.0118 61.6405 72.731 57.6607 70.1046C55.7466 68.8408 46.0843 62.4506 43.9864 60.9501C42.0723 59.5829 39.4321 57.9376 42.7433 54.6977C43.922 53.5442 51.645 46.1682 57.663 40.4283C58.4512 39.6746 57.4608 38.436 56.5509 39.0404C48.4396 44.4196 37.194 51.8852 35.7625 52.8572C33.6002 54.3255 31.523 54.9987 27.7959 53.9279C24.9788 53.1191 22.2283 52.154 21.1575 51.7864C17.033 50.3709 18.0118 48.5373 22.0169 46.7748Z"
+                                    fill="white"></path>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_2950_45566" x1="-1.497" y1="-1.497" x2="97.497"
+                                    y2="97.497" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#33BEF0"></stop>
+                                    <stop offset="1" stop-color="#0A85D9"></stop>
+                                </linearGradient>
+                                <clipPath id="clip0_2950_45566">
+                                    <rect width="96" height="96" rx="48" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Telegram
+                    </a>
+                    <a href="" target="_blank">
+                        <svg width="96px" height="96px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                            class="iconify iconify--fxemoji" preserveAspectRatio="xMidYMid meet" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill="#96A9B2"
+                                    d="M511.824 425.007c1.941-5.245-220.916-173.519-220.916-173.519c-27.9-20.589-42.574-20.913-70.164 0c0 0-222.532 168.138-220.659 173.311l-.045.038c.023.045.06.076.091.117a48.482 48.482 0 0 0 8.119 14.157c1.473 1.786 3.248 3.282 4.955 4.837l-.083.064c.136.121.317.177.453.298c7.235 6.454 16.359 10.634 26.495 11.827c.159.019.287.102.446.121h.612c1.541.147 3.006.517 4.584.517h420.721c20.717 0 38.269-13.028 45.241-31.291c.083-.136.211-.234.287-.374l-.137-.103z">
+                                </path>
+                                <path fill="#B9C5C6"
+                                    d="M256.133 232.176L1.216 423.364V152.515c0-26.4 21.397-47.797 47.797-47.797h414.24c26.4 0 47.797 21.397 47.797 47.797v270.849L256.133 232.176z">
+                                </path>
+                                <path fill="#EDECE6"
+                                    d="M4.189 135.896l217.645 170.949c27.47 20.271 41.918 20.591 69.083 0L508.22 136.167c-3.77-6.834-9.414-12.233-15.869-16.538l2.989-2.342c-7.295-6.641-16.62-10.946-26.971-12.058l-424.455.015c-10.322 1.097-19.662 5.417-26.942 12.043l2.967 2.313c-6.38 4.245-11.972 9.551-15.75 16.296z">
+                                </path>
+                                <path fill="#DCE2E2"
+                                    d="M4.118 136.254C2.207 141.419 221.63 307.099 221.63 307.099c27.47 20.271 41.918 20.591 69.083 0c0 0 219.103-165.546 217.258-170.64l.045-.037c-.022-.045-.059-.074-.089-.115a47.732 47.732 0 0 0-7.994-13.939c-1.45-1.759-3.198-3.231-4.878-4.763l.082-.063c-.134-.119-.312-.175-.446-.294c-7.124-6.354-16.107-10.47-26.086-11.645c-.156-.019-.283-.1-.439-.119h-.602c-1.517-.145-2.96-.509-4.514-.509H48.81c-20.398 0-37.68 12.828-44.543 30.809c-.082.134-.208.231-.283.368l.134.102z">
+                                </path>
+                                <path fill="#597B91"
+                                    d="M291.401 154.645h-38.632a6.155 6.155 0 0 0-6.155 6.155v21.722a6.155 6.155 0 0 0 6.155 6.155h31.415a6.155 6.155 0 0 1 6.155 6.155v11.616a6.155 6.155 0 0 1-6.155 6.155h-31.415a6.155 6.155 0 0 0-6.155 6.155v23.578a6.155 6.155 0 0 0 6.155 6.155h41.316a6.155 6.155 0 0 1 6.155 6.155v12.441a6.155 6.155 0 0 1-6.155 6.155h-75.76a6.155 6.155 0 0 1-6.155-6.155V136.461a6.155 6.155 0 0 1 6.155-6.155h74.81c3.749 0 6.627 3.322 6.092 7.033l-1.733 12.028a6.156 6.156 0 0 1-6.093 5.278z">
+                                </path>
+                            </g>
+                        </svg>
+                        Email
+                    </a>
+                </div>
             </div>
+            <div class="consult mt-5" data-aos="fade-right" data-aos-delay="200">
+                <h4>Leave a message</h4>
+                <p>Kindly leave us a message by filling out the form below.</p>
+                <div class="consult-form mt-5">
+                    <form method="post" action="{% url 'consultation' %}">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Name</label>
+                                <input type="text" name="name" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Subject</label>
+                                <input type="text" name="subject" class="form-control" required />
+                            </div>
+                        </div>
 
-            <div class="mb-3">
-              <label for="message" class="form-label">* Write a Message</label>
-              <textarea
-                id="message"
-                name="message"
-                class="form-control"
-                rows="4"
-                placeholder="How can we help you?"
-                required
-                maxlength="500"
-                oninput="
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Email</label>
+                                <input type="email" name="email" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">* Phone Number</label>
+                                <input type="text" name="phone" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message" class="form-label">* Write a Message</label>
+                            <textarea id="message" name="message" class="form-control" rows="4"
+                                placeholder="How can we help you?" required maxlength="500" oninput="
                   autoExpand(this);
                   updateCharCount(this);
-                "
-              ></textarea>
-              <div class="form-text" id="charCount">0 / 500 characters</div>
+                "></textarea>
+                            <div class="form-text" id="charCount">0 / 500 characters</div>
+                        </div>
+                        <div class="my-5 checkboxes">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="agreeTerms" required />
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to the terms and conditions
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="" id="agreeTerms" required />
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to have Xeloos Tech. contact me via email, phone,
+                                    messengers.
+                                </label>
+                            </div>
+                        </div>
+                        <div class="text-left mt-3" data-aos="fade-right" data-aos-delay="200">
+                            <button type="submit" class="btn btn-primary consultation-btn">
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="my-5 checkboxes">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="agreeTerms"
-                  required
-                />
-                <label class="form-check-label" for="agreeTerms">
-                  I agree to the terms and conditions
-                </label>
-              </div>
-              <div class="form-check mb-2">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="agreeTerms"
-                  required
-                />
-                <label class="form-check-label" for="agreeTerms">
-                  I agree to have Xeloos Tech. contact me via email, phone,
-                  messengers.
-                </label>
-              </div>
+            <div class="border-0 rounded-4 platform-img" data-aos="fade-right" data-aos-delay="400">
+                <div class="platform-img-container">
+                    <h1>
+                        Break <br />Digital <br />
+                        Barriers
+                    </h1>
+                    <img src="{% static 'store/xeloos_assets/why-xeloos.jpg' %}" alt="why-xeloos" loading="lazy" />
+                </div>
             </div>
-            <div
-              class="text-left mt-3"
-              data-aos="fade-right"
-              data-aos-delay="200"
-            >
-              <button type="submit" class="btn btn-primary consultation-btn">
-                Send
-              </button>
-            </div>
-          </form>
         </div>
-      </div>
-      <div
-        class="border-0 rounded-4 platform-img"
-        data-aos="fade-right"
-        data-aos-delay="400"
-      >
-        <div class="platform-img-container">
-          <h1>
-            Break <br />Digital <br />
-            Barriers
-          </h1>
-          <img src="{% static 'store/xeloos_assets/why-xeloos.jpg' %}" alt="" />
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </main>
 <script>
-  function autoExpand(textarea) {
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
-  }
+    function autoExpand(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+    }
 
-  function updateCharCount(textarea) {
-    const count = textarea.value.length;
-    const max = textarea.getAttribute("maxlength");
-    document.getElementById("charCount").textContent =
-      `${count} / ${max} characters`;
-  }
+    function updateCharCount(textarea) {
+        const count = textarea.value.length;
+        const max = textarea.getAttribute("maxlength");
+        document.getElementById("charCount").textContent =
+            `${count} / ${max} characters`;
+    }
 </script>
 
 {% endblock %}

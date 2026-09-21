@@ -41,7 +41,7 @@
 
     @media (min-width: 320px) and (max-width: 1024px) {
         .catalogue-section {
-            padding: 0rem 3rem;
+            padding: 3rem 0;
         }
     }
 </style>
@@ -52,14 +52,14 @@
         <div class="container-fluid d-flex flex-column gap-4">
             {% if store_type == "esim" %}
 
-                <div class="sim-store-header">
-                    <h2>XELOOS {{store_type}} Catalogue</h2>
-                </div>
+            <div class="sim-store-header">
+                <h2>XELOOS {{store_type}} Catalogue</h2>
+            </div>
 
-                {% else %}
-                <div class="sim-store-header">
-                    <h2>XELOOS SIM Catalogue</h2>
-                </div>
+            {% else %}
+            <div class="sim-store-header">
+                <h2>XELOOS SIM Catalogue</h2>
+            </div>
             {% endif %}
 
             <div class="mini-navbar d-flex align-items-center gap-3">
@@ -97,28 +97,27 @@
                         <a href="{% url 'esim-country-store' category_slug=esim_category.slug country_slug=country.slug %}"
                             class="text-decoration-none">
 
-                        {% else %}
+                            {% else %}
 
-                        <a href="{% url 'physical-sim-store' country.slug %}"
-                            class="text-decoration-none">
+                            <a href="{% url 'physical-sim-store' country.slug %}" class="text-decoration-none">
 
-                        {% endif %}
-
-                            <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
-
-                                {% if country.image %}
-                                <img src="{{ country.image.url }}" alt="{{ country.name }}">
                                 {% endif %}
 
-                                <div class="catalogue-name">
-                                    <span>
-                                        {{ country.name }}
-                                    </span>
+                                <div class="d-flex flex-column align-items-center gap-3 p-3 catalogue-content">
+
+                                    {% if country.image %}
+                                    <img src="{{ country.image.url }}" alt="{{ country.name }}">
+                                    {% endif %}
+
+                                    <div class="catalogue-name">
+                                        <span>
+                                            {{ country.name }}
+                                        </span>
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                        </a>
+                            </a>
 
                     </div>
 

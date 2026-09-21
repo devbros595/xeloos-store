@@ -67,7 +67,11 @@
 }
 
 .features-section {
-  background: #ebebeb;
+  background: linear-gradient(
+    to bottom,
+    rgba(230, 0, 61, 0.203),
+        rgba(123, 23, 48, 0)
+  );
   padding: 2rem 0;
 }
 
@@ -77,8 +81,12 @@
 }
 
 .features-text span {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.features-icon i {
+  font-size: 1.5rem;
 }
 
 .newsletter-container {
@@ -256,7 +264,7 @@
   z-index: 2;
 }
 
-.overview-img{
+.overview-img {
   width: 30%;
   height: auto;
 }
@@ -267,7 +275,7 @@
 }
 .xeloos-overview-text {
   background: rgba(255, 255, 255, 0.82);
-  padding: 0 2rem; 
+  padding: 0 2rem;
 }
 
 .xeloos-overview-text p {
@@ -1991,13 +1999,14 @@
 }
 
 .blog-section {
+  padding-top: 3rem;
 }
 
-.blog-header{
+.blog-header {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
   text-align: center;
 }
 
@@ -2009,7 +2018,7 @@
   text-transform: uppercase;
 }
 
-.blog-header h2{
+.blog-header h2 {
   color: #000;
   font-weight: 500;
 }
@@ -2033,7 +2042,7 @@
   margin: 1rem 0 0;
 }
 
-.blog-content h5{
+.blog-content h5 {
   font-family: var(--primary-font);
   font-size: 18px;
 }
@@ -2096,21 +2105,34 @@
     display: none;
   }
 
+  
+
   .features-item {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
   }
+
+  .features-section{
+    padding: 2rem 0 1rem;
+  }
+
+  .features-icon i{
+    font-size: 1.5rem;
+  }
+
+  .features-text span {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+ 
 
   .features-text {
     text-align: center;
   }
 
-  .features-text span {
-    font-size: 14px;
-    font-weight: 500;
-  }
 
   .featured-collections {
     padding: 3rem 0;
@@ -2754,6 +2776,12 @@
   .faq-text {
     font-size: 16px;
   }
+
+  .xeloos-overview-text p{
+    font-size: 14px;
+  }
+
+  
 }
 
 @media (max-width: 425px) {
@@ -2764,19 +2792,6 @@
     padding: 20px 0px;
   }
 
-  .features-section {
-    background: transparent;
-    padding: 2rem 0;
-  }
-
-  .features-text span {
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .features-icon {
-    transform: scale(0.8);
-  }
 
   .promo-text {
     gap: 2rem;
@@ -2800,9 +2815,13 @@
     height: 40vh;
   }
 
-  .overview-img{
+  .overview-img {
     width: 40%;
   }
+
+  .blog-header .sub-title {
+  letter-spacing: 0.1rem;
+}
 }
 
 @media (max-width: 380px) {
