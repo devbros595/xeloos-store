@@ -1617,7 +1617,7 @@
     <div class="footer-main">
       <div class="footer-brand">
         <a href="/" class="footer-logo">
-          <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" loading="lazy"/>
+          <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" loading="lazy" />
         </a>
 
         <p class="footer-tagline">Break Digital Barriers</p>
@@ -1770,7 +1770,7 @@
 
     <div class="footer-mobile-brand">
       <a href="/" class="footer-logo">
-        <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" loading="lazy"/>
+        <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" loading="lazy" />
       </a>
 
       <p>Break Digital Barriers</p>
@@ -2116,6 +2116,32 @@
         });
 
     });
+    document.addEventListener("DOMContentLoaded", function () {
+      new Swiper(".popularSimsSwiper", {
+        slidesPerView: 2,
+        spaceBetween: 20,
+
+        navigation: {
+          nextEl: ".popular-sims-next",
+          prevEl: ".popular-sims-prev",
+        },
+
+        pagination: {
+          el: ".popular-sims-pagination",
+          clickable: true,
+        },
+
+        breakpoints: {
+          576: {
+            slidesPerView: 2,
+          },
+          992: {
+            slidesPerView: 4,
+          },
+        },
+      });
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
       const toggles = document.querySelectorAll(".mobile-footer-toggle");
 
