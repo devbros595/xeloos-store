@@ -4,6 +4,90 @@
 {% endblock %}
 
 {% block content %}
+
+<style>
+    .icon-bg-circle {
+        width: 45px;
+        height: 45px;
+        background: #7B1730;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .btn {
+        background: rgb(255, 255, 255);
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        padding: 0.7rem 2rem;
+        border-radius: 50px;
+        color: #000000;
+        font-family: var(--primary-font);
+        font-size: 16px;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+    .btn:hover {
+        background: #9f1e3e;
+        transform: translateY(-2px);
+        color: #fff;
+    }
+
+    .stay-connected {
+        position: relative;
+        color: #fff;
+        width: calc(100% - 50px);
+        margin: 5px auto 0;
+        border-radius: 1rem;
+        overflow: hidden;
+        background: radial-gradient(circle at 92% 45%, rgba(180, 35, 75, 0.45), transparent 28%), linear-gradient(105deg, #8d1532 0%, #720d27 45%, #5d0920 100%);
+    }
+
+    .stay-connected::before {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 110px;
+        right: -35px;
+        top: -65px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 50%;
+        transform: rotate(-20deg);
+    }
+
+    .stay-connected::after {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 100px;
+        right: -5px;
+        top: -48px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        transform: rotate(-25deg);
+    }
+
+    .stay-connected p {
+        color: #c9c8c8;
+    }
+
+    @media (max-width: 756px) {
+        .stay-connected {
+            padding: 1rem 2rem;
+        }
+
+        .stay-connected .btn{
+            margin-top: 2rem;
+        }
+
+    }
+</style>
+
 <main class="store-main">
     <section class="sim-store-navbar">
         <div class="container-fluid d-flex flex-column gap-4" data-aos="fade-down">
@@ -22,10 +106,10 @@
     </section>
 
     <section class="py-5 bg-light">
-        <div class="container py-lg-5">
+        <div class="container py-5">
 
             <!-- Header -->
-            <div class="text-center mb-5">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">
                 <span class="badge px-3 py-2 mb-3" style="background: rgba(123, 23, 48, 0.1); color: #7B1730;">
                     eSIM INSTALLATION GUIDE
                 </span>
@@ -42,12 +126,11 @@
 
 
             <!-- Before You Start -->
-             <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card border-0 shadow-sm rounded-4 mb-5" data-aos="fade-right" data-aos-delay="200">
                 <div class="card-body p-4 p-lg-5">
 
                     <div class="d-flex align-items-center mb-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                            style="width: 48px; height: 48px; background: #7B1730; color: white;">
+                        <div class="me-3 icon-bg-circle">
                             <i class="fa-solid fa-microchip"></i>
                         </div>
 
@@ -60,18 +143,25 @@
                     </div>
 
                     <div class="">
-                        <p>An eSIM, short for embedded SIM, is a revolutionary technology that aims to simplify the way we use mobile devices. Unlike traditional physical SIM cards, which require a physical swap when changing carriers or devices, eSIMs are built directly into the device. This means there's no need to struggle anymore with tiny cards or worry about losing them. An eSIM is a simple QR code which just need to be scanned to be install.</p>
-                        <p>Additionally, eSIM technology offers robust security measures that are on par with or even superior to traditional physical SIM cards. eSIMs support remote provisioning and management, which means that the activation and deactivation processes can be securely controlled by the network operator. This reduces the risk of SIM swapping attacks and unauthorized SIM transfers.</p>
+                        <p>An eSIM, short for embedded SIM, is a revolutionary technology that aims to simplify the way
+                            we use mobile devices. Unlike traditional physical SIM cards, which require a physical swap
+                            when changing carriers or devices, eSIMs are built directly into the device. This means
+                            there's no need to struggle anymore with tiny cards or worry about losing them. An eSIM is a
+                            simple QR code which just need to be scanned to be install.</p>
+                        <p>Additionally, eSIM technology offers robust security measures that are on par with or even
+                            superior to traditional physical SIM cards. eSIMs support remote provisioning and
+                            management, which means that the activation and deactivation processes can be securely
+                            controlled by the network operator. This reduces the risk of SIM swapping attacks and
+                            unauthorized SIM transfers.</p>
 
                     </div>
                 </div>
             </div>
-            <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card border-0 shadow-sm rounded-4 mb-5" data-aos="fade-up" data-aos-delay="100">
                 <div class="card-body p-4 p-lg-5">
 
                     <div class="d-flex align-items-center mb-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                            style="width: 48px; height: 48px; background: #7B1730; color: white;">
+                        <div class="me-3 icon-bg-circle">
                             <i class="fas fa-check"></i>
                         </div>
 
@@ -146,12 +236,11 @@
 
 
             <!-- iPhone Installation -->
-            <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card border-0 shadow-sm rounded-4 mb-5" data-aos="fade-right" data-aos-delay="200">
                 <div class="card-body p-4 p-lg-5">
 
                     <div class="d-flex align-items-center mb-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                            style="width: 48px; height: 48px; background: #7B1730; color: white;">
+                        <div class="me-3 icon-bg-circle">
                             <i class="fab fa-apple"></i>
                         </div>
 
@@ -274,12 +363,11 @@
 
 
             <!-- Android Installation -->
-            <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card border-0 shadow-sm rounded-4 mb-5" data-aos="fade-up" data-aos-delay="100">
                 <div class="card-body p-4 p-lg-5">
 
                     <div class="d-flex align-items-center mb-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                            style="width: 48px; height: 48px; background: #7B1730; color: white;">
+                        <div class="me-3 icon-bg-circle">
                             <i class="fab fa-android"></i>
                         </div>
 
@@ -399,7 +487,7 @@
 
 
             <!-- Activation -->
-            <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card border-0 shadow-sm rounded-4 mb-5" data-aos="fade-right" data-aos-delay="200">
                 <div class="card-body p-4 p-lg-5">
 
                     <div class="text-center mb-5">
@@ -477,7 +565,7 @@
 
 
             <!-- Important Note -->
-            <div class="alert border-0 rounded-4 shadow-sm mb-5" style="background: rgba(123, 23, 48, 0.06);">
+            <div class="p-4 border-0 rounded-4 shadow-sm mb-5" data-aos="fade-up" data-aos-delay="100" style="background: rgba(123, 23, 48, 0.06);">
 
                 <div class="d-flex">
                     <i class="fas fa-info-circle fs-4 me-3" style="color: #7B1730;"></i>
@@ -497,7 +585,7 @@
 
 
             <!-- Troubleshooting -->
-            <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card border-0 shadow-sm rounded-4 mb-5" data-aos="fade-right" data-aos-delay="200">
                 <div class="card-body p-4 p-lg-5">
 
                     <h2 class="h3 fw-bold mb-4">
@@ -572,20 +660,19 @@
 
 
             <!-- CTA -->
-            <div class="text-center py-4">
+            <div class="text-center py-4 stay-connected" data-aos="fade-up" data-aos-delay="300">
 
                 <h3 class="fw-bold mb-3">
                     Ready to stay connected?
                 </h3>
 
-                <p class="text-muted mb-4">
+                <p class="mb-4">
                     Explore Xeloos eSIM plans and find the right connectivity
                     option for your destination.
                 </p>
 
-                <a href="{% url 'store-category' %}?type=esim" class="btn btn-lg px-4 py-3 rounded-pill text-white"
-                    style="background: #7B1730;">
-                    <i class="fas fa-sim-card me-2"></i>
+                <a href="{% url 'store-category' %}?type=esim" class="btn px-4 py-3">
+                    <i class=" fas fa-sim-card me-2"></i>
                     Browse eSIMs
                 </a>
 
