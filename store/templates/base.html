@@ -1194,8 +1194,8 @@
     /* Cart items area */
 
     .cart-wrapper {
-    display: block;
-}
+      display: block;
+    }
 
 
     /* Cart header and close button */
@@ -1244,16 +1244,13 @@
       .overlay {
         justify-content: center;
         align-items: flex-start;
-
         padding: 4.5rem 1rem 1rem;
       }
 
       .cart-modal {
-        /* width: 100%;
+        width: 100%;
         max-width: none;
-
-        max-height: calc(100vh - 5.5rem); */
-
+        max-height: calc(100vh - 5.5rem);
         overflow-y: auto;
       }
     }
@@ -1620,7 +1617,7 @@
     <div class="footer-main">
       <div class="footer-brand">
         <a href="/" class="footer-logo">
-          <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" />
+          <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" loading="lazy"/>
         </a>
 
         <p class="footer-tagline">Break Digital Barriers</p>
@@ -1641,6 +1638,7 @@
         <h4>COMPANY</h4>
 
         <div class="footer-links">
+          <a href="{% url 'services' %}">Our Services</a>
           <a href="{% url 'about-us' %}">About Us</a>
           <!-- <a href="#">Our Story</a> -->
           <!-- <a href="#">Partnerships</a> -->
@@ -1654,10 +1652,10 @@
         <h4>SUPPORT</h4>
 
         <div class="footer-links">
-          <a href="#">Help Center</a>
+          <a href="{% url 'consultation' %}">Help Center</a>
           <!-- <a href="#">Shipping</a> -->
           <!-- <a href="#">Returns</a> -->
-          <a href="#">FAQ</a>
+          <a href="{% url 'faqs' %}">FAQ</a>
         </div>
       </div>
 
@@ -1713,10 +1711,10 @@
         </button>
 
         <div class="mobile-footer-links">
-          <a href="#">Physical SIMs</a>
-          <a href="#">eSIMs</a>
-          <a href="#">Travel Tech</a>
-          <a href="#">All Products</a>
+          <a href="{% url 'store-category' %}?type=physical">Physical SIMs</a>
+          <a href="{% url 'store-category' %}?type=esim">eSIMs</a>
+          <a href="{% url 'category-store' slug=store_settings.internet_tools_category.slug%}">Internet Tools</a>
+          <a href="{% url 'category-store' slug=store_settings.privacy_tools_category.slug%}">Privacy Tools</a>
         </div>
       </div>
 
@@ -1729,10 +1727,11 @@
         </button>
 
         <div class="mobile-footer-links">
-          <a href="#">About Us</a>
-          <!-- <a href="#">Our Story</a>
-              <a href="#">Partnerships</a> -->
-          <a href="#">Blog</a>
+          <a href="{% url 'services' %}">Our Services</a>
+          <a href="{% url 'about-us' %}">About Us</a>
+          <!-- <a href="#">Our Story</a> -->
+          <!-- <a href="#">Partnerships</a> -->
+          <a href="{% url 'blog' %}">Blog</a>
         </div>
       </div>
 
@@ -1745,10 +1744,10 @@
         </button>
 
         <div class="mobile-footer-links">
-          <a href="#">Help Center</a>
-          <!-- <a href="#">Shipping</a>
-              <a href="#">Returns</a> -->
-          <a href="#">FAQ</a>
+          <a href="{% url 'consultation' %}">Help Center</a>
+          <!-- <a href="#">Shipping</a> -->
+          <!-- <a href="#">Returns</a> -->
+          <a href="{% url 'faqs' %}">FAQ</a>
         </div>
       </div>
 
@@ -1771,7 +1770,7 @@
 
     <div class="footer-mobile-brand">
       <a href="/" class="footer-logo">
-        <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" />
+        <img src="{% static 'store/xeloos_assets/primary-logo.svg' %}" alt="Xeloos" loading="lazy"/>
       </a>
 
       <p>Break Digital Barriers</p>
@@ -2117,7 +2116,6 @@
         });
 
     });
-
     document.addEventListener("DOMContentLoaded", function () {
       const toggles = document.querySelectorAll(".mobile-footer-toggle");
 
