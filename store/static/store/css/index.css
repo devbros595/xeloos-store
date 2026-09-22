@@ -70,7 +70,7 @@
   background: linear-gradient(
     to bottom,
     rgba(230, 0, 61, 0.203),
-        rgba(123, 23, 48, 0)
+    rgba(123, 23, 48, 0)
   );
   padding: 2rem 0;
 }
@@ -2105,8 +2105,6 @@
     display: none;
   }
 
-  
-
   .features-item {
     flex-direction: column;
     justify-content: center;
@@ -2114,11 +2112,11 @@
     gap: 0.5rem;
   }
 
-  .features-section{
+  .features-section {
     padding: 2rem 0 1rem;
   }
 
-  .features-icon i{
+  .features-icon i {
     font-size: 1.5rem;
   }
 
@@ -2127,12 +2125,9 @@
     font-weight: 600;
   }
 
- 
-
   .features-text {
     text-align: center;
   }
-
 
   .featured-collections {
     padding: 3rem 0;
@@ -2773,15 +2768,14 @@
     font-size: 19px;
   }
 
-  .faq-text {
-    font-size: 16px;
-  }
 
-  .xeloos-overview-text p{
+  .xeloos-overview-text p {
     font-size: 14px;
   }
 
-  
+  .blog-header .sub-title {
+    letter-spacing: 0.1rem;
+  }
 }
 
 @media (max-width: 425px) {
@@ -2791,7 +2785,6 @@
     row-gap: 30px;
     padding: 20px 0px;
   }
-
 
   .promo-text {
     gap: 2rem;
@@ -2819,9 +2812,7 @@
     width: 40%;
   }
 
-  .blog-header .sub-title {
-  letter-spacing: 0.1rem;
-}
+  
 }
 
 @media (max-width: 380px) {

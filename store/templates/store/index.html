@@ -3,7 +3,7 @@
 {% endblock %} {% block content %}
 <main class="index-main">
   {% include "includes/hero.html" %}
-  <section class="features-section border-0 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+  <section class="features-section border-0 shadow-sm" data-aos="fade-right" data-aos-delay="100">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-3">
@@ -49,7 +49,7 @@
       </div>
     </div>
   </section>
-  <section class="promo-banner1">
+  <section class="promo-banner1" data-aos="fade-right" data-aos-delay="200">
     <div class="container">
       <div class="promo-text">
         <span class="promo-badge"> GLOBAL BY DESIGN </span>
@@ -71,7 +71,7 @@
       </div>
     </div>
   </section>
-  <section class="service-provider-section">
+  <section class="service-provider-section" data-aos="fade-up" data-aos-delay="100">
     <div class="carousel-wrapper">
       <div class="carousel-slider">
         <img src="{% static 'store/img/Lyca_Logo.png' %}" alt="Lyca_Logo" />
@@ -102,7 +102,7 @@
       }
     </script>
   </section>
-  <section class="featured-collections">
+  <section class="featured-collections" data-aos="fade-right" data-aos-delay="200">
     <div class="container">
       <div class="collections-header">
         <span>Featured Collections</span>
@@ -203,7 +203,7 @@
     </div>
   </section>
 
-  <section class="esim-duration-section">
+  <section class="esim-duration-section" data-aos="fade-up" data-aos-delay="100">
     <div class="container-fluid">
       <div class="esim-duration-banner">
         <div class="esim-duration-intro">
@@ -316,7 +316,7 @@
     </div>
   </section>
 
-  <section class="popular-sims-section">
+  <section class="popular-sims-section" data-aos="fade-right" data-aos-delay="200">
     <div class="container">
       <!-- SECTION HEADER -->
       <div class="popular-sims-header">
@@ -415,7 +415,7 @@
     </div>
   </section>
 
-  <section class="why-xeloos-section">
+  <section class="why-xeloos-section" data-aos="fade-up" data-aos-delay="100">
     <div class="container-fluid">
       <div class="why-xeloos">
         <!-- IMAGE -->
@@ -492,7 +492,7 @@
     </div>
   </section>
 
-  <section class="xeloos-more-section" data-aos="fade-up" data-aos-delay="100">
+  <section class="xeloos-more-section" data-aos="fade-right" data-aos-delay="200">
     <div class="container-fluid">
       <div class="more-than-sim">
         <!-- PRODUCT IMAGE -->
@@ -570,7 +570,7 @@
     </div>
   </section>
 
-  <section class="catalogue-section" data-aos="fade-up" data-aos-delay="100">
+  <section class="catalogue-section" data-aos="fade-up" data-aos-delay="200">
     <div class="container">
       <div class="catalogue-header">
         <span class="catalogue-title"> OUR CATALOGUE </span>
@@ -783,7 +783,7 @@
     </div>
   </section>
 
-  <section class="connection-cta" data-aos="fade-up" data-aos-delay="100">
+  <section class="connection-cta" data-aos="fade-up" data-aos-delay="300">
     <div class="connection-cta-content">
       <h2>Ready to Stay Connected Anywhere?</h2>
 
@@ -802,7 +802,7 @@
       </div>
     </div>
   </section>
-  <section class="xeloos-art" data-aos="fade-up" data-aos-delay="100">
+  <section class="xeloos-art" data-aos="fade-right" data-aos-delay="200">
     <img src="{% static 'store/xeloos_assets/xeloos-banner.jpg' %}" alt="xeloos-banner" loading="lazy" />
     <img
       class="d-none d-md-block"
@@ -851,7 +851,7 @@
     </div>
   </section>
 
-  <section class="newsletter-section" data-aos="fade-up" data-aos-delay="100">
+  <section class="newsletter-section" data-aos="fade-right" data-aos-delay="200">
     <div class="newsletter-card">
       <div class="newsletter-content">
         <div class="newsletter-text">
@@ -956,7 +956,7 @@
       </div>
     </div>
   </section>
-  <section class="blog-section" data-aos="fade-up" data-aos-delay="100">
+  <section class="blog-section" data-aos="fade-right" data-aos-delay="200">
     <div class="featured-blog-container">
       <div class="blog-header">
         <div class="sub-title">Travel Smarter. Stay Connected. Go Further.</div>
@@ -964,7 +964,7 @@
       </div>
       <div class="row g-4 p-3 blog-content">
         {% for post in recent_posts %}
-        <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="col-lg-4 col-md-6 col-sm-12" data-aos="fade-up" data-aos-delay="200">
           <a
             href="{% url 'blog_detail' post.slug %}"
             class="card h-100 text-decoration-none"
@@ -993,14 +993,14 @@
       </div>
     </div>
   </section>
-  <section class="about-section" data-aos="fade-up" data-aos-delay="100">
+  <section class="about-section" data-aos="fade-right" data-aos-delay="100">
     <div class="container">
       <div class="overview-wrapper">
         <div class="xeloos-overview-content">
           <div class="overview-img">
             <img
               src="{% static 'store/xeloos_assets/logo-black.svg' %}"
-              alt=""
+              alt="xeloos-bg" loading="lazy"
             />
           </div>
           <div class="xeloos-overview-text">
