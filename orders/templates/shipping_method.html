@@ -1,121 +1,564 @@
-{% extends 'base_2.html' %}
+{% extends "base_2.html" %}
+{% load static %}
+
+{% block title %}Delivery Method | Xeloos{% endblock %}
+
 {% block content %}
 
-
 <style>
-    input[type="text"],
-    input[type="tel"],
-    input[type="email"] {
-        border-radius: 1rem;
-        padding-left: 1rem;
+    .delivery-page {
+        background: #f7f7f9;
+        min-height: 100vh;
+        padding: 50px 0 80px;
+    }
+
+    .delivery-header {
+        margin-bottom: 30px;
+    }
+
+    .delivery-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #171717;
+        letter-spacing: -0.5px;
+    }
+
+    .delivery-header p {
+        color: #777;
+        margin-bottom: 0;
+    }
+
+    .back-link {
+        color: #7B1730;
+        text-decoration: none;
         font-size: 14px;
-        outline: none;
-        transition: all 0.3s ease;
-    }
-
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="tel"]:focus {
-        outline: none;
-        box-shadow: 0 0 8px rgba(179, 3, 255, 0.5);
-        /* soft glow */
-        border-radius: 5px;
-        padding-left: 1rem;
-        border: none;
-        border-bottom: 1px solid transparent;
-    }
-
-    label {
-        font-size: 15px;
-        margin-left: 0.75rem;
-    }
-
-
-    .checkout-wrapper {
-        border-radius: 1rem;
-    }
-
-    .pay-btn {
-        background: linear-gradient(to right, #bb30f6, #000000);
-        transition: all 0.3s ease-in-out;
-        padding: 0.6rem 5rem;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: white;
-        border: none;
-        border-radius: 2rem;
-    }
-
-    .pay-btn:hover {
-        background: linear-gradient(to right, #8523ae, #7800ac);
-    }
-
-    small {
         font-weight: 600;
     }
+
+    .back-link:hover {
+        color: #5d1025;
+    }
+
+    .step-indicator {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    .step {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        color: #aaa;
+        white-space: nowrap;
+    }
+
+    .step.active {
+        color: #7B1730;
+        font-weight: 700;
+    }
+
+    .step.completed {
+        color: #555;
+    }
+
+    .step-number {
+        width: 27px;
+        height: 27px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eee;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .step.active .step-number {
+        background: #7B1730;
+        color: #fff;
+    }
+
+    .step.completed .step-number {
+        background: #e9e9e9;
+        color: #555;
+    }
+
+    .step-line {
+        height: 1px;
+        width: 35px;
+        background: #ddd;
+    }
+
+    .delivery-card {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+        font-size: 19px;
+        font-weight: 700;
+        color: #171717;
+        margin-bottom: 7px;
+    }
+
+    .section-subtitle {
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .delivery-option {
+        position: relative;
+        margin-bottom: 14px;
+    }
+
+    .delivery-option input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .delivery-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 18px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .delivery-label:hover {
+        border-color: #7B1730;
+        background: #fffafb;
+    }
+
+    .delivery-option input:checked+.delivery-label {
+        border-color: #7B1730;
+        background: #faf4f6;
+        box-shadow: 0 0 0 2px rgba(123, 23, 48, 0.08);
+    }
+
+    .delivery-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .delivery-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+        background: #f4f4f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7B1730;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .delivery-option input:checked+.delivery-label .delivery-icon {
+        background: #7B1730;
+        color: #fff;
+    }
+
+    .delivery-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 3px;
+    }
+
+    .delivery-description {
+        font-size: 12px;
+        color: #888;
+        margin: 0;
+    }
+
+    .delivery-price {
+        font-size: 14px;
+        font-weight: 600;
+        color: #7B1730;
+        white-space: nowrap;
+    }
+
+    .radio-circle {
+        width: 19px;
+        height: 19px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .delivery-option input:checked+.delivery-label .radio-circle {
+        border-color: #7B1730;
+    }
+
+    .delivery-option input:checked+.delivery-label .radio-circle::after {
+        content: "";
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background: #7B1730;
+        border-radius: 50%;
+        top: 3px;
+        left: 3px;
+    }
+
+    .error-message {
+        background: #fff1f1;
+        color: #a33;
+        border: 1px solid #f0caca;
+        border-radius: 9px;
+        padding: 12px 14px;
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .delivery-info {
+        display: flex;
+        gap: 1rem;
+        background: #faf4f6;
+        border-radius: 10px;
+        padding: 14px;
+        margin-top: 22px;
+        font-size: 13px;
+        color: #6d3c49;
+    }
+
+    .continue-btn {
+        width: 100%;
+        min-height: 52px;
+        border: 0;
+        border-radius: 10px;
+        background: #171717;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        margin-top: 22px;
+    }
+
+    .continue-btn:hover {
+        background: #7B1730;
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    .delivery-summary {
+        margin-top: 25px;
+    }
+
+    .summary-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 12px;
+    }
+
+    .summary-item {
+        display: flex;
+        gap: 10px;
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .summary-item i {
+        width: 16px;
+        color: #7B1730;
+    }
+
+    @media (max-width: 575px) {
+        .delivery-page {
+            padding: 30px 0 60px;
+        }
+
+        .delivery-card {
+            padding: 20px 17px;
+            border-radius: 13px;
+        }
+
+        .delivery-header h1 {
+            font-size: 27px;
+        }
+
+        .step {
+            font-size: 11px;
+        }
+
+        .step-line {
+            width: 15px;
+        }
+
+        .delivery-label {
+            padding: 14px;
+        }
+
+        .delivery-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .delivery-description {
+            font-size: 11px;
+        }
+
+        .delivery-price {
+            font-size: 13px;
+        }
+    }
 </style>
-<div class="container p-5">
-    <div class="row bg-light checkout-wrapper">
-        <div class="p-3">
-            <a href="{% url 'orders:checkout' %}" class="text-decoration-none">
-                <i class="fa-solid fa-angle-left fa-sm" style="color: #8523ae;"></i>
-                <span style="color: #8523ae; font-size: 17px; font-weight: 500; ">Back</span>
+
+
+<section class="delivery-page">
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="delivery-header">
+
+            <a href="{% url 'orders:checkout' %}" class="back-link">
+                <i class="fas fa-arrow-left me-1"></i>
+                Back to Checkout
             </a>
+
+            <h1 class="mt-3 mb-2">
+                Delivery Method
+            </h1>
+
+            <p>
+                Choose how you'd like your order delivered.
+            </p>
+
         </div>
-        <!-- Customer Info Form -->
-        <div class="col-md-7 p-5 pt-3">
-            <div class="container mt-4">
-                <div class="d-flex align-items-center gap-2 mb-5">
-                    <i class="fa-solid fa-truck-fast fa-lg"></i>
-                    <h4 class="m-0 p-0">Delivery Method</h4>
-                </div>
-                <form method="post" action="{% url 'orders:shipping_method' %}">
-                    {% csrf_token %}
+
+
+        <!-- STEPS -->
+
+        <div class="step-indicator">
+
+            <div class="step completed">
+                <span class="step-number">
+                    <i class="fas fa-check"></i>
+                </span>
+                Details
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step active">
+                <span class="step-number">2</span>
+                Delivery
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                Payment
+            </div>
+
+        </div>
+
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="delivery-card">
+
+                    <h2 class="section-title">
+                        Select Delivery Method
+                    </h2>
+
+                    <p class="section-subtitle">
+                        Select your preferred delivery option below.
+                    </p>
+
 
                     {% if error %}
-                    <div class="alert alert-danger">{{ error }}</div>
+
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle me-1"></i>
+                        {{ error }}
+                    </div>
+
                     {% endif %}
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="shipping_method" value="standard" checked>
-                        <label class="form-check-label">Standard Delivery (<small>within 7 working days</small>)</label>
-                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="shipping_method" value="express">
-                        <label class="form-check-label">Express Delivery
-                            (<small>within 48hrs. ₦10,000</small>)</label>
-                    </div>
+                    <form method="POST" action="{% url 'orders:checkout_review' %}">
 
-                    <div class="text-start">
-                        <button type="submit" class="btn btn-success pay-btn mt-4">Next</button>
-                    </div>
-                </form>
+                        {% csrf_token %}
+
+
+                        <!-- STANDARD DELIVERY -->
+
+                        <div class="delivery-option">
+
+                            <input type="radio" name="shipping_method" id="standard_delivery" value="standard" required>
+
+                            <label for="standard_delivery" class="delivery-label">
+
+                                <div class="delivery-left">
+
+                                    <div class="delivery-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <div class="delivery-name">
+                                            Standard Delivery
+                                        </div>
+
+                                        <p class="delivery-description">
+                                            Reliable delivery to your address.
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="delivery-price">
+                                        Free ( 5 - 7 days)
+                                    </div>
+
+                                    <div class="radio-circle"></div>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- EXPRESS DELIVERY -->
+
+                        <div class="delivery-option">
+
+                            <input type="radio" name="shipping_method" id="express_delivery" value="express">
+
+                            <label for="express_delivery" class="delivery-label">
+
+                                <div class="delivery-left">
+
+                                    <div class="delivery-icon">
+                                        <i class="fas fa-shipping-fast"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <div class="delivery-name">
+                                            Express Delivery
+                                        </div>
+
+                                        <p class="delivery-description">
+                                            Faster delivery for urgent orders.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="delivery-price">
+                                        8,500 NGN ( 1 - 3 days)
+                                    </div>
+
+                                    <div class="radio-circle"></div>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- DELIVERY INFO -->
+
+                        <div class="delivery-info">
+                            <i class="fas fa-info-circle"></i>
+                            <p>
+                            Delivery charges are based on your selected delivery method. The applicable fee will be included in your order total.</p>
+                        </div>
+
+
+                        <!-- CUSTOMER SUMMARY -->
+
+                        {% if checkout_data %}
+
+                        <div class="delivery-summary">
+
+                            <div class="summary-title">
+                                Delivery To
+                            </div>
+
+                            <div class="summary-item">
+                                <i class="fas fa-user"></i>
+                                <span>
+                                    {{ checkout_data.name }}
+                                </span>
+                            </div>
+
+                            <div class="summary-item">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span>
+                                    {{ checkout_data.email }}
+                                </span>
+                            </div>
+
+                            <div class="summary-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>
+                                    {{ checkout_data.address }},
+                                    {{ checkout_data.city }},
+                                    {{ checkout_data.state }}
+                                </span>
+                            </div>
+
+                            <div class="summary-item">
+                                <i class="fas fa-phone"></i>
+                                <span>
+                                    {{ checkout_data.phone }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <!-- CONTINUE -->
+
+                        <button type="submit" class="continue-btn">
+                            Continue to Payment
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+
+                    </form>
+
+                </div>
 
             </div>
+
         </div>
 
-        <!-- Order Summary -->
-        <!-- <div class="col-md-5 mt-5 mt-md-0 p-5 order-summary">
-            <h5 class="mb-4 text-white">Order Summary</h5>
-            <ul class="list-group rounded-0 mb-3">
-                {% for item in cart_items %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="my-0">{{ item.name }}</h6>
-                        <small class="text-muted">Qty: {{ item.cart_quantity }}</small>
-                    </div>
-                    ------------
-                    <span class="text-muted">${{ item.line_total|floatformat:2 }}</span>
-                </li>
-                {% endfor %}
-                <li class="list-group-item d-flex justify-content-between">
-                    <strong>Total</strong>
-                    ------------
-                    <strong>${{ cart_total|floatformat:2 }}</strong>
-                </li>
-            </ul>
-        </div> -->
     </div>
-</div>
+
+</section>
+
 {% endblock %}

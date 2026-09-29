@@ -49,6 +49,8 @@ urlpatterns = [
         name="checkout",
     ),
 
+    
+
     path(
         "payment/",
         views.payment_info_view,

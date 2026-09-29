@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+import random
+import uuid
 
 from store.models import SIMCard, Product
 from cart.cart import Cart
@@ -195,29 +197,62 @@ def checkout_shipping_info_view(request):
 
 
 def shipping_method_view(request):
-
     checkout_data = request.session.get("checkout_data", {})
+
+    # Customer must complete checkout details first
+    if not checkout_data:
+        return redirect("orders:checkout")
+
+    # Delivery methods and their fees
+    delivery_options = {
+        "standard": {
+            "name": "Standard Delivery",
+            "fee": 0,
+            "duration": "5 - 7 days",
+        },
+        "express": {
+            "name": "Express Delivery",
+            "fee": 8500,
+            "duration": "1 - 3 days",
+        },
+    }
 
     if request.method == "POST":
 
         shipping_method = request.POST.get("shipping_method")
 
-        if not shipping_method:
-
+        # Validate selected method
+        if shipping_method not in delivery_options:
             return render(
                 request,
                 "shipping_method.html",
-                {"error": "Please select a shipping method."},
+                {
+                    "error": "Please select a valid delivery method.",
+                    "checkout_data": checkout_data,
+                },
             )
 
+        selected_delivery = delivery_options[shipping_method]
+
+        # Store delivery information in checkout session
         checkout_data["shipping_method"] = shipping_method
+        checkout_data["shipping_name"] = selected_delivery["name"]
+        checkout_data["delivery_fee"] = selected_delivery["fee"]
+        checkout_data["delivery_duration"] = selected_delivery["duration"]
 
         request.session["checkout_data"] = checkout_data
         request.session.modified = True
 
         return redirect("orders:payment_info")
 
-    return render(request, "shipping_method.html")
+    return render(
+        request,
+        "shipping_method.html",
+        {
+            "checkout_data": checkout_data,
+            "delivery_options": delivery_options,
+        },
+    )
 
 
 def payment_info_view(request):

@@ -1,111 +1,447 @@
-{% extends 'base_2.html' %}
+{% extends "base_2.html" %}
 {% load static %}
+
+{% block title %}Checkout | Xeloos{% endblock %}
 
 {% block content %}
 <style>
-    input[type="text"],
-    input[type="tel"],
-    input[type="email"] {
-        border-radius: 1rem;
-        padding-left: 1rem;
+    .checkout-page {
+        background: #f7f7f9;
+        min-height: 100vh;
+        padding: 50px 0 80px;
+    }
+
+    .checkout-header {
+        margin-bottom: 30px;
+    }
+
+    .checkout-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #171717;
+        letter-spacing: -0.5px;
+    }
+
+    .checkout-header p {
+        color: #777;
+        margin-bottom: 0;
+    }
+
+    .checkout-card {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #171717;
+        margin-bottom: 22px;
+    }
+
+    .section-title i {
+        color: #7B1730;
+        margin-right: 8px;
+    }
+
+    .form-label {
         font-size: 14px;
-        outline: none;
-        transition: all 0.3s ease;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 7px;
     }
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="tel"]:focus {
-        outline: none;
-        box-shadow: 0 0 8px rgba(179, 3, 255, 0.5);
-        /* soft glow */
-        border-radius: 5px;
-        padding-left: 1rem;
-        border: none;
-        border-bottom: 1px solid transparent;
+    .required {
+        color: #7B1730;
     }
 
-    label {
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        border: 1px solid #ddd;
+        border-radius: 9px;
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #7B1730;
+        box-shadow: 0 0 0 3px rgba(123, 23, 48, 0.08);
+    }
+
+    .checkout-btn {
+        width: 100%;
+        min-height: 52px;
+        border: 0;
+        border-radius: 10px;
+        background: #171717;
+        color: #fff;
         font-size: 15px;
-        margin-left: 0.75rem;
+        font-weight: 700;
+        transition: 0.2s ease;
     }
 
-
-    .checkout-wrapper {
-        border-radius: 1rem;
+    .checkout-btn:hover {
+        background: #7B1730;
+        color: #fff;
+        transform: translateY(-1px);
     }
 
-    .pay-btn {
-        background: linear-gradient(to right, #bb30f6, #000000);
-        transition: all 0.3s ease-in-out;
-        padding: 0.6rem 5rem;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: white;
-        border: none;
-        border-radius: 2rem;
+    .back-cart {
+        color: #7B1730;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
     }
 
-    .pay-btn:hover {
-        background: linear-gradient(to right, #8523ae, #7800ac);
+    .back-cart:hover {
+        color: #5d1025;
+    }
+
+    .checkout-info {
+        background: #faf4f6;
+        border-radius: 10px;
+        padding: 14px;
+        margin-top: 22px;
+        font-size: 13px;
+        color: #6d3c49;
+    }
+
+    .checkout-info i {
+        margin-right: 7px;
+    }
+
+    .step-indicator {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    .step {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        color: #aaa;
+        white-space: nowrap;
+    }
+
+    .step.active {
+        color: #7B1730;
+        font-weight: 700;
+    }
+
+    .step-number {
+        width: 27px;
+        height: 27px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eee;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .step.active .step-number {
+        background: #7B1730;
+        color: #fff;
+    }
+
+    .step-line {
+        height: 1px;
+        width: 35px;
+        background: #ddd;
+    }
+
+    @media (max-width: 575px) {
+        .checkout-page {
+            padding: 30px 0 60px;
+        }
+
+        .checkout-card {
+            padding: 20px 17px;
+            border-radius: 13px;
+        }
+
+        .checkout-header h1 {
+            font-size: 27px;
+        }
+
+        .step {
+            font-size: 11px;
+        }
+
+        .step-line {
+            width: 15px;
+        }
     }
 </style>
-<div class="container p-5">
-    <div class="row bg-light checkout-wrapper">
-        <div class="p-3">
-            <a href="{% url 'store-category' %}" class="text-decoration-none">
-                <i class="fa-solid fa-angle-left fa-sm" style="color: #8523ae;"></i>
-                <span style="color: #8523ae; font-size: 17px; font-weight: 500; ">Back to store</span>
+
+
+
+
+<section class="checkout-page">
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="checkout-header">
+
+            <a href="{% url 'store-category' %}" class="back-cart">
+                <i class="fas fa-arrow-left me-1"></i>
+                Back to Cart
             </a>
+
+            <h1 class="mt-3 mb-2">
+                Checkout
+            </h1>
+
+            <p>
+                Enter your delivery information to continue.
+            </p>
+
         </div>
-        <!-- Customer Info Form -->
-        <div class="col-md-7 p-5 pt-3">
-            <h4 class="mb-4">Shipping Information</h4>
 
-            <form method="post" action="{% url 'orders:checkout' %}" class="mt-5">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ initial_data.name }}"
-                        required>
-                </div>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ initial_data.email }}"
-                        required>
-                </div>
+        <!-- CHECKOUT STEPS -->
 
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ initial_data.phone }}"
-                        required>
-                </div>
+        <div class="step-indicator">
 
-                <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address"
-                        value="{{ initial_data.address }}" required>
-                </div>
+            <div class="step active">
+                <span class="step-number">1</span>
+                Details
+            </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="city" name="city" value="{{ initial_data.city }}"
-                            required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="state" class="form-label">State</label>
-                        <input type="text" class="form-control" id="state" name="state" value="{{ initial_data.state }}"
-                            required>
-                    </div>
-                </div>
+            <div class="step-line"></div>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success pay-btn mt-4">Continue</button>
-                </div>
-            </form>
+            <div class="step">
+                <span class="step-number">2</span>
+                Delivery
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                Payment
+            </div>
+
         </div>
+
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="checkout-card">
+
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i>
+                        Customer Information
+                    </h2>
+
+
+                    <form method="POST" action="{% url 'orders:checkout' %}">
+
+                        {% csrf_token %}
+
+
+                        <!-- NAME -->
+
+                        <div class="mb-3">
+
+                            <label for="name" class="form-label">
+                                Full Name
+                                <span class="required">*</span>
+                            </label>
+
+                            <input type="text" id="name" name="name" class="form-control"
+                                placeholder="Enter your full name" value="{{ initial_data.name|default:'' }}" required>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- PHONE -->
+
+                            <div class="col-md-6">
+
+                                <label for="phone" class="form-label">
+                                    Phone Number
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input type="tel" id="phone" name="phone" class="form-control"
+                                    placeholder="+234 800 000 0000" value="{{ initial_data.phone|default:'' }}"
+                                    required>
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+
+                            <div class="col-md-6">
+
+                                <label for="email" class="form-label">
+                                    Email Address
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input type="email" id="email" name="email" class="form-control"
+                                    placeholder="you@example.com" value="{{ initial_data.email|default:'' }}" required>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ADDRESS -->
+
+                        <h2 class="section-title mt-5">
+
+                            <i class="fas fa-map-marker-alt"></i>
+                            Delivery Address
+
+                        </h2>
+
+
+                        <div class="mb-3">
+
+                            <label for="address" class="form-label">
+                                Address
+                                <span class="required">*</span>
+                            </label>
+
+                            <textarea id="address" name="address" class="form-control"
+                                placeholder="Enter your complete delivery address"
+                                required>{{ initial_data.address|default:'' }}</textarea>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- CITY -->
+
+                            <div class="col-md-6">
+
+                                <label for="city" class="form-label">
+                                    City
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Lagos"
+                                    value="{{ initial_data.city|default:'' }}" required>
+
+                            </div>
+
+
+                            <!-- STATE -->
+                            <div class="col-md-6">
+
+                                <label for="state" class="form-label">
+                                    State
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select id="state" name="state" class="form-select" required>
+                                    <option value="">Select state</option>
+
+                                    <option value="Abia">Abia</option>
+                                    <option value="Adamawa">Adamawa</option>
+                                    <option value="Akwa Ibom">Akwa Ibom</option>
+                                    <option value="Anambra">Anambra</option>
+                                    <option value="Bauchi">Bauchi</option>
+                                    <option value="Bayelsa">Bayelsa</option>
+                                    <option value="Benue">Benue</option>
+                                    <option value="Borno">Borno</option>
+                                    <option value="Cross River">Cross River</option>
+                                    <option value="Delta">Delta</option>
+                                    <option value="Ebonyi">Ebonyi</option>
+                                    <option value="Edo">Edo</option>
+                                    <option value="Ekiti">Ekiti</option>
+                                    <option value="Enugu">Enugu</option>
+                                    <option value="Gombe">Gombe</option>
+                                    <option value="Imo">Imo</option>
+                                    <option value="Jigawa">Jigawa</option>
+                                    <option value="Kaduna">Kaduna</option>
+                                    <option value="Kano">Kano</option>
+                                    <option value="Katsina">Katsina</option>
+                                    <option value="Kebbi">Kebbi</option>
+                                    <option value="Kogi">Kogi</option>
+                                    <option value="Kwara">Kwara</option>
+                                    <option value="Lagos">Lagos</option>
+                                    <option value="Nasarawa">Nasarawa</option>
+                                    <option value="Niger">Niger</option>
+                                    <option value="Ogun">Ogun</option>
+                                    <option value="Ondo">Ondo</option>
+                                    <option value="Osun">Osun</option>
+                                    <option value="Oyo">Oyo</option>
+                                    <option value="Plateau">Plateau</option>
+                                    <option value="Rivers">Rivers</option>
+                                    <option value="Sokoto">Sokoto</option>
+                                    <option value="Taraba">Taraba</option>
+                                    <option value="Yobe">Yobe</option>
+                                    <option value="Zamfara">Zamfara</option>
+                                    <option value="FCT">Federal Capital Territory (Abuja)</option>
+
+                                </select>
+
+                            </div>
+
+
+
+                        </div>
+
+
+                        <!-- INFO -->
+
+                        <div class="checkout-info">
+
+                            <i class="fas fa-info-circle"></i>
+
+                            Your delivery details will be used to calculate
+                            the available delivery options on the next step.
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button type="submit" class="checkout-btn mt-4">
+
+                            Continue to Delivery
+
+                            <i class="fas fa-arrow-right ms-2"></i>
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-</div>
+
+</section>
+
 {% endblock %}

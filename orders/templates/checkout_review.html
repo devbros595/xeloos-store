@@ -1,179 +1,836 @@
-{% extends 'base_2.html' %}
+{% extends "base_2.html" %}
+{% load static %}
+
+{% block title %}Payment | Xeloos{% endblock %}
 
 {% block content %}
 
 <style>
-    .pay-btn {
-        background: linear-gradient(to right, #bb30f6, #000000);
-        transition: all 0.3s ease-in-out;
-        padding: 0.6rem 5rem;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: white;
-        border: none;
-        border-radius: 2rem;
+    :root {
+        --xeloos-primary: #7B1730;
+        --xeloos-primary-dark: #5f1025;
+        --xeloos-light: #f8f6f7;
+        --xeloos-border: #e9e1e4;
+        --xeloos-text: #222;
+        --xeloos-muted: #777;
     }
 
-    .pay-btn:hover {
-        background: linear-gradient(to right, #8523ae, #7800ac);
+    .payment-page {
+        background: #fafafa;
+        min-height: 100vh;
+        padding: 45px 0 70px;
+    }
+
+    .checkout-step {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+        gap: 0;
+    }
+
+    .step-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .step-circle {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eee;
+        color: #777;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .step-item.active .step-circle,
+    .step-item.completed .step-circle {
+        background: var(--xeloos-primary);
+        color: #fff;
+    }
+
+    .step-label {
+        margin-left: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #777;
+    }
+
+    .step-item.active .step-label,
+    .step-item.completed .step-label {
+        color: var(--xeloos-primary);
+    }
+
+    .step-line {
+        width: 55px;
+        height: 2px;
+        background: #ddd;
+        margin: 0 12px;
+    }
+
+    .step-item.completed+.step-line {
+        background: var(--xeloos-primary);
+    }
+
+    .payment-card {
+        background: #fff;
+        border: 1px solid var(--xeloos-border);
+        border-radius: 14px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-heading {
+        padding: 22px 24px;
+        border-bottom: 1px solid var(--xeloos-border);
+    }
+
+    .card-heading h5 {
+        margin: 0;
+        font-weight: 700;
+        color: var(--xeloos-text);
+    }
+
+    .card-heading p {
+        margin: 5px 0 0;
+        color: var(--xeloos-muted);
+        font-size: 14px;
+    }
+
+    .order-items {
+        padding: 0 24px;
+    }
+
+    .order-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .order-item:last-child {
+        border-bottom: 0;
+    }
+
+    .product-image {
+        width: 72px;
+        height: 72px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: #f4f4f4;
+        flex-shrink: 0;
+    }
+
+    .product-placeholder {
+        width: 72px;
+        height: 72px;
+        border-radius: 10px;
+        background: #f4f4f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        flex-shrink: 0;
+        font-size: 22px;
+    }
+
+    .product-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .product-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 5px;
+    }
+
+    .product-type {
+        font-size: 12px;
+        color: #888;
+        text-transform: capitalize;
+    }
+
+    .product-quantity {
+        font-size: 13px;
+        color: #666;
+        margin-top: 5px;
+    }
+
+    .product-price {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .product-price .unit-price {
+        font-size: 12px;
+        color: #888;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .product-price .total-price {
+        font-weight: 700;
+        color: #222;
+        font-size: 15px;
+    }
+
+    .summary-section {
+        padding: 22px 24px;
+        border-top: 1px solid var(--xeloos-border);
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 13px;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .summary-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .summary-row strong {
+        color: #222;
+    }
+
+    .delivery-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        background: #f8f1f3;
+        color: var(--xeloos-primary);
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .total-row {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--xeloos-border);
+    }
+
+    .total-row span {
+        font-size: 16px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .total-row strong {
+        color: var(--xeloos-primary);
+        font-size: 24px;
+    }
+
+    .customer-details {
+        padding: 20px 24px;
+    }
+
+    .detail-row {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .detail-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: #f8f1f3;
+        color: var(--xeloos-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .detail-content small {
+        display: block;
+        color: #999;
+        font-size: 11px;
+        margin-bottom: 2px;
+    }
+
+    .detail-content span {
+        display: block;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .payment-options {
+        padding: 20px 24px 24px;
+    }
+
+    .payment-option {
+        position: relative;
+        margin-bottom: 14px;
+    }
+
+    .payment-option:last-child {
+        margin-bottom: 0;
+    }
+
+    .payment-option input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .payment-label {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 17px;
+        border: 1px solid var(--xeloos-border);
+        border-radius: 11px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .payment-label:hover {
+        border-color: var(--xeloos-primary);
+    }
+
+    .payment-option input:checked+.payment-label {
+        border-color: var(--xeloos-primary);
+        background: #fcf7f8;
+        box-shadow: 0 0 0 1px var(--xeloos-primary);
+    }
+
+    .payment-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+        color: var(--xeloos-primary);
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .payment-details {
+        flex: 1;
+    }
+
+    .payment-name {
+        display: block;
+        font-size: 15px;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 3px;
+    }
+
+    .payment-description {
+        display: block;
+        font-size: 12px;
+        color: #888;
+        line-height: 1.5;
+    }
+
+    .payment-check {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: transparent;
+        flex-shrink: 0;
+    }
+
+    .payment-option input:checked+.payment-label .payment-check {
+        border-color: var(--xeloos-primary);
+        background: var(--xeloos-primary);
+        color: #fff;
+    }
+
+    .payment-security {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 17px;
+        color: #888;
+        font-size: 12px;
+    }
+
+    .payment-security i {
+        color: var(--xeloos-primary);
+    }
+
+    .pay-button {
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        background: var(--xeloos-primary);
+        color: #fff;
+        padding: 15px 20px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 20px;
+        transition: background 0.2s ease;
+    }
+
+    .pay-button:hover {
+        background: var(--xeloos-primary-dark);
+        color: #fff;
+    }
+
+    .payment-reference {
+        text-align: center;
+        margin-top: 13px;
+        color: #999;
+        font-size: 11px;
+    }
+
+    .section-spacing {
+        margin-bottom: 22px;
+    }
+
+    @media (max-width: 767px) {
+        .payment-page {
+            padding: 30px 0 50px;
+        }
+
+        .checkout-step {
+            margin-bottom: 30px;
+        }
+
+        .step-label {
+            display: none;
+        }
+
+        .step-line {
+            width: 35px;
+            margin: 0 7px;
+        }
+
+        .step-circle {
+            width: 34px;
+            height: 34px;
+        }
+
+        .order-items,
+        .summary-section,
+        .customer-details,
+        .payment-options,
+        .card-heading {
+            padding-left: 17px;
+            padding-right: 17px;
+        }
+
+        .product-image,
+        .product-placeholder {
+            width: 58px;
+            height: 58px;
+        }
+
+        .product-name {
+            font-size: 14px;
+        }
+
+        .product-price .total-price {
+            font-size: 14px;
+        }
+
+        .total-row strong {
+            font-size: 21px;
+        }
     }
 </style>
 
-<div class="container p-5">
+<section class="payment-page">
 
     ```
-    <div class="bg-light p-5">
+    <div class="container">
 
-        <div class="d-flex align-items-center gap-2 mb-5">
-            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-            <h4 class="m-0 p-0">Review Order</h4>
+        <!-- CHECKOUT STEPS -->
+        <div class="checkout-step">
+
+            <div class="step-item completed">
+                <div class="step-circle">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span class="step-label">Details</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-item completed">
+                <div class="step-circle">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span class="step-label">Delivery</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-item active">
+                <div class="step-circle">3</div>
+                <span class="step-label">Payment</span>
+            </div>
+
         </div>
 
-        <div class="row">
 
-            <!-- DELIVERY INFORMATION -->
-            <div class="col-md-7">
+        <div class="row g-4">
 
-                <h5 class="mt-4">Delivery Information</h5>
+            <!-- LEFT COLUMN -->
+            <div class="col-lg-7">
 
-                <ul class="list-group mb-3">
+                <!-- ORDER REVIEW -->
+                <div class="payment-card section-spacing">
 
-                    <li class="list-group-item">
-                        <strong>Name:</strong>
-                        {{ checkout_data.name }}
-                    </li>
+                    <div class="card-heading">
+                        <h5>
+                            <i class="fas fa-shopping-bag me-2" style="color: var(--xeloos-primary);"></i>
+                            Your Order
+                        </h5>
 
-                    <li class="list-group-item">
-                        <strong>Email:</strong>
-                        {{ checkout_data.email }}
-                    </li>
+                        <p>
+                            Review your items before completing payment.
+                        </p>
+                    </div>
 
-                    <li class="list-group-item">
-                        <strong>Phone:</strong>
-                        {{ checkout_data.phone }}
-                    </li>
+                    <div class="order-items">
 
-                    <li class="list-group-item">
-                        <strong>Address:</strong>
-                        {{ checkout_data.address }}
-                    </li>
+                        {% for item in cart_items %}
 
-                    <li class="list-group-item">
-                        <strong>City:</strong>
-                        {{ checkout_data.city }}
-                    </li>
+                        <div class="order-item">
 
-                    <li class="list-group-item">
-                        <strong>State:</strong>
-                        {{ checkout_data.state }}
-                    </li>
+                            {% if item.image %}
+                            <img src="{{ item.image }}" alt="{{ item.name }}" class="product-image">
+                            {% else %}
+                            <div class="product-placeholder">
+                                <i class="fas fa-sim-card"></i>
+                            </div>
+                            {% endif %}
 
-                    {% if checkout_data.shipping_method %}
-                    <li class="list-group-item">
-                        <strong>Shipping Method:</strong>
-                        {{ checkout_data.shipping_method }}
-                    </li>
-                    {% endif %}
+                            <div class="product-info">
 
-                </ul>
+                                <div class="product-name">
+                                    {{ item.name }}
+                                </div>
+
+                                <div class="product-type">
+                                    {{ item.type }}
+                                </div>
+
+                                <div class="product-quantity">
+                                    Quantity: <strong>{{ item.quantity }}</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="product-price">
+
+                                <span class="unit-price">
+                                    ₦{{ item.price|floatformat:2 }} each
+                                </span>
+
+                                <span class="total-price">
+                                    ₦{{ item.total_price|floatformat:2 }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        {% empty %}
+
+                        <div class="text-center py-5">
+                            <i class="fas fa-shopping-cart fa-2x text-muted mb-3"></i>
+                            <p class="text-muted mb-0">
+                                Your cart is empty.
+                            </p>
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- ORDER TOTALS -->
+                    <div class="summary-section">
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <strong>
+                                ₦{{ cart_total|floatformat:2 }}
+                            </strong>
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Delivery</span>
+
+                            <div class="text-end">
+
+                                <span class="delivery-badge">
+                                    <i class="fas fa-truck"></i>
+                                    {{ checkout_data.shipping_name }}
+                                </span>
+
+                                <div class="small text-muted mt-1">
+                                    {{ checkout_data.delivery_duration }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Delivery fee</span>
+
+                            {% if checkout_data.delivery_fee == 0 %}
+                            <strong>Free</strong>
+                            {% else %}
+                            <strong>
+                                ₦{{ checkout_data.delivery_fee|floatformat:2 }}
+                            </strong>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="summary-row total-row">
+
+                            <span>Total Payable</span>
+
+                            <strong>
+                                ₦{{ total_payable|floatformat:2 }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CUSTOMER / DELIVERY DETAILS -->
+                <div class="payment-card section-spacing">
+
+                    <div class="card-heading">
+                        <h5>
+                            <i class="fas fa-map-marker-alt me-2" style="color: var(--xeloos-primary);"></i>
+                            Delivery Details
+                        </h5>
+
+                        <p>
+                            Your order will be delivered to this address.
+                        </p>
+                    </div>
+
+                    <div class="customer-details">
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div class="detail-content">
+                                <small>Name</small>
+                                <span>{{ checkout_data.name }}</span>
+                            </div>
+
+                        </div>
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+
+                            <div class="detail-content">
+                                <small>Phone</small>
+                                <span>{{ checkout_data.phone }}</span>
+                            </div>
+
+                        </div>
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+
+                            <div class="detail-content">
+                                <small>Email</small>
+                                <span>{{ checkout_data.email }}</span>
+                            </div>
+
+                        </div>
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+
+                            <div class="detail-content">
+                                <small>Address</small>
+                                <span>
+                                    {{ checkout_data.address }},
+                                    {{ checkout_data.city }},
+                                    {{ checkout_data.state }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
 
-            <!-- ORDER ITEMS -->
-            <div class="col-md-5">
+            <!-- RIGHT COLUMN -->
+            <div class="col-lg-5">
 
-                <h5 class="mt-4">Items</h5>
+                <div class="payment-card">
 
-                <div class="table-responsive">
+                    <div class="card-heading">
 
-                    <table class="table table-striped align-middle">
+                        <h5>
+                            <i class="fas fa-credit-card me-2" style="color: var(--xeloos-primary);"></i>
+                            Payment Method
+                        </h5>
 
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th class="text-center">Qty</th>
-                                <th class="text-end">Price</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            {% for item in cart_items %}
-
-                            <tr>
-
-                                <td>
-                                    {{ item.name }}
-
-                                    {% if item.type == "sim" %}
-                                    <small class="d-block text-muted">
-                                        Physical SIM
-                                    </small>
-                                    {% elif item.type == "product" %}
-                                    <small class="d-block text-muted">
-                                        {{ item.item.category.name }}
-                                    </small>
-                                    {% endif %}
-                                </td>
-
-                                <td class="text-center">
-                                    {{ item.quantity }}
-                                </td>
-
-                                <td class="text-end">
-                                    ₦{{ item.total_price|floatformat:2 }}
-                                </td>
-
-                            </tr>
-
-                            {% empty %}
-
-                            <tr>
-                                <td colspan="3" class="text-center py-4">
-                                    Your cart is empty.
-                                </td>
-                            </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-
-                <!-- TOTAL -->
-
-                <div class="text-end fw-bold fs-5 mt-3 mb-5">
-                    Total: ₦{{ cart_total|floatformat:2 }}
-                </div>
-
-
-                <!-- PLACE ORDER -->
-
-                <form method="post" action="{% url 'orders:place_order' %}">
-
-                    {% csrf_token %}
-
-                    <div class="text-center">
-
-                        <button type="submit" class="btn btn-success pay-btn mt-4">
-                            Place Order
-                        </button>
+                        <p>
+                            Choose how you would like to pay.
+                        </p>
 
                     </div>
 
-                </form>
+
+                    <form method="POST" action="{% url 'orders:payment_info' %}">
+
+                        {% csrf_token %}
+
+                        <!-- FLUTTERWAVE -->
+                        <div class="payment-options">
+
+                            <div class="payment-option">
+
+                                <input type="radio" name="payment_method" id="flutterwave" value="flutterwave" checked>
+
+                                <label for="flutterwave" class="payment-label">
+
+                                    <div class="payment-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+
+                                    <div class="payment-details">
+
+                                        <span class="payment-name">
+                                            Flutterwave
+                                        </span>
+
+                                        <span class="payment-description">
+                                            Pay securely with card, bank transfer,
+                                            USSD and other supported methods.
+                                        </span>
+
+                                    </div>
+
+                                    <div class="payment-check">
+                                        <i class="fas fa-check fa-xs"></i>
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- NOWPAYMENTS -->
+                            <div class="payment-option">
+
+                                <input type="radio" name="payment_method" id="nowpayments" value="nowpayments">
+
+                                <label for="nowpayments" class="payment-label">
+
+                                    <div class="payment-icon">
+                                        <i class="fab fa-bitcoin"></i>
+                                    </div>
+
+                                    <div class="payment-details">
+
+                                        <span class="payment-name">
+                                            Cryptocurrency
+                                        </span>
+
+                                        <span class="payment-description">
+                                            Pay with supported cryptocurrencies
+                                            through NOWPayments.
+                                        </span>
+
+                                    </div>
+
+                                    <div class="payment-check">
+                                        <i class="fas fa-check fa-xs"></i>
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="payment-security">
+                                <i class="fas fa-lock"></i>
+                                <span>
+                                    Your payment information is securely processed.
+                                </span>
+                            </div>
+
+
+                            <button type="submit" class="pay-button">
+
+                                Pay
+                                ₦{{ total_payable|floatformat:2 }}
+
+                                <i class="fas fa-arrow-right ms-2"></i>
+
+                            </button>
+
+
+                            {% if payment_reference %}
+                            <div class="payment-reference">
+                                Payment Reference:
+                                <strong>{{ payment_reference }}</strong>
+                            </div>
+                            {% endif %}
+
+                        </div>
+
+                    </form>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
-    ```
 
-</div>
+</section>
 
 {% endblock %}
