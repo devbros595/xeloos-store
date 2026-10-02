@@ -458,7 +458,6 @@
 
 <section class="payment-page">
 
-    ```
     <div class="container">
 
         <!-- CHECKOUT STEPS -->
@@ -542,11 +541,11 @@
                             <div class="product-price">
 
                                 <span class="unit-price">
-                                    ₦{{ item.price|floatformat:2 }} each
+                                    ₦ {{ item.price|floatformat:2 }} each
                                 </span>
 
                                 <span class="total-price">
-                                    ₦{{ item.total_price|floatformat:2 }}
+                                    ₦ {{ item.total_price|floatformat:2 }}
                                 </span>
 
                             </div>
@@ -572,7 +571,7 @@
                         <div class="summary-row">
                             <span>Subtotal</span>
                             <strong>
-                                ₦{{ cart_total|floatformat:2 }}
+                                ₦ {{ cart_total|floatformat:2 }}
                             </strong>
                         </div>
 
@@ -584,12 +583,14 @@
 
                                 <span class="delivery-badge">
                                     <i class="fas fa-truck"></i>
-                                    {{ checkout_data.shipping_name }}
+                                    {{ shipping_name }}
                                 </span>
 
+                                {% if delivery_duration %}
                                 <div class="small text-muted mt-1">
-                                    {{ checkout_data.delivery_duration }}
+                                    {{ delivery_duration }}
                                 </div>
+                                {% endif %}
 
                             </div>
 
@@ -599,11 +600,11 @@
 
                             <span>Delivery fee</span>
 
-                            {% if checkout_data.delivery_fee == 0 %}
+                            {% if delivery_fee == 0 %}
                             <strong>Free</strong>
                             {% else %}
                             <strong>
-                                ₦{{ checkout_data.delivery_fee|floatformat:2 }}
+                                ₦{{ delivery_fee|floatformat:2 }}
                             </strong>
                             {% endif %}
 
@@ -614,7 +615,7 @@
                             <span>Total Payable</span>
 
                             <strong>
-                                ₦{{ total_payable|floatformat:2 }}
+                                ₦ {{ total_payable|floatformat:2 }}
                             </strong>
 
                         </div>
@@ -722,7 +723,7 @@
                     </div>
 
 
-                    <form method="POST" action="{% url 'orders:payment_info' %}">
+                    <form method="POST" action="{% url 'orders:flutterwave_payment' %}">
 
                         {% csrf_token %}
 
@@ -804,8 +805,7 @@
 
                             <button type="submit" class="pay-button">
 
-                                Pay
-                                ₦{{ total_payable|floatformat:2 }}
+                                Pay ₦ {{ total_payable|floatformat:2 }}
 
                                 <i class="fas fa-arrow-right ms-2"></i>
 

@@ -38,6 +38,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 FLW_PUBLIC_KEY = os.getenv("FLW_PUBLIC_KEY")
 FLW_SECRET_KEY = os.getenv("FLW_SECRET_KEY")
+FLW_ENCRYPT_KEY = os.getenv("FLW_ENCRYPT_KEY")
 
 # --- Security Settings for Production (Render) ---
 if not DEBUG:

@@ -45,9 +45,7 @@ class Cart:
                 self.cart[new_key] = {
                     "type": "sim",
                     "id": int(key),
-                    "quantity": int(
-                        value.get("quantity", 1)
-                    ),
+                    "quantity": int(value.get("quantity", 1)),
                 }
 
                 del self.cart[key]
@@ -71,10 +69,7 @@ class Cart:
     # ---------------------------------------------------------
 
     def __len__(self):
-        return sum(
-            int(item.get("quantity", 1))
-            for item in self.cart.values()
-        )
+        return sum(int(item.get("quantity", 1)) for item in self.cart.values())
 
     # ---------------------------------------------------------
     # ADD SIM
@@ -161,9 +156,7 @@ class Cart:
             item_id = cart_item.get("id")
 
             try:
-                quantity = int(
-                    cart_item.get("quantity", 1)
-                )
+                quantity = int(cart_item.get("quantity", 1))
             except (ValueError, TypeError):
                 quantity = 1
 
@@ -174,9 +167,7 @@ class Cart:
 
                 if item_type == "sim":
 
-                    item = SIMCard.objects.get(
-                        id=item_id
-                    )
+                    item = SIMCard.objects.get(id=item_id)
 
                 elif item_type == "product":
 
@@ -194,9 +185,7 @@ class Cart:
             ):
                 continue
 
-            total_price = (
-                item.price * quantity
-            )
+            total_price = item.price * quantity
 
             items.append(
                 {
@@ -208,6 +197,7 @@ class Cart:
                     "price": item.price,
                     "quantity": quantity,
                     "total_price": total_price,
+                    "image": (item.image.url if getattr(item, "image", None) else None),
                 }
             )
 

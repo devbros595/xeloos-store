@@ -1,8 +1,13 @@
+from decimal import Decimal
+
+import random
+import uuid
+import requests
+
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-import random
-import uuid
 
 from store.models import SIMCard, Product
 from cart.cart import Cart
@@ -170,7 +175,7 @@ def _cart_response(request, cart, item_name=None):
     return JsonResponse(response)
 
 
-def checkout_shipping_info_view(request):
+def checkout_view(request):
     cart = Cart(request)
 
     if not cart.get_items():
@@ -196,75 +201,66 @@ def checkout_shipping_info_view(request):
     return render(request, "checkout.html", {"initial_data": initial_data})
 
 
-def shipping_method_view(request):
+def delivery_method_view(request):
+
     checkout_data = request.session.get("checkout_data", {})
-
-    # Customer must complete checkout details first
-    if not checkout_data:
-        return redirect("orders:checkout")
-
-    # Delivery methods and their fees
-    delivery_options = {
-        "standard": {
-            "name": "Standard Delivery",
-            "fee": 0,
-            "duration": "5 - 7 days",
-        },
-        "express": {
-            "name": "Express Delivery",
-            "fee": 8500,
-            "duration": "1 - 3 days",
-        },
-    }
 
     if request.method == "POST":
 
         shipping_method = request.POST.get("shipping_method")
 
-        # Validate selected method
-        if shipping_method not in delivery_options:
+        if not shipping_method:
             return render(
                 request,
                 "shipping_method.html",
-                {
-                    "error": "Please select a valid delivery method.",
-                    "checkout_data": checkout_data,
-                },
+                {"error": "Please select a shipping method."},
             )
 
-        selected_delivery = delivery_options[shipping_method]
+        # ---------------------------------------------
+        # DELIVERY OPTIONS
+        # ---------------------------------------------
 
-        # Store delivery information in checkout session
+        delivery_options = {
+            "standard": {
+                "name": "Standard Delivery",
+                "fee": Decimal("0.00"),
+                "duration": "5–7 business days",
+            },
+            "express": {
+                "name": "Express Delivery",
+                "fee": Decimal("8500.00"),
+                "duration": "1–3 business days",
+            },
+        }
+
+        delivery = delivery_options.get(shipping_method)
+
+        if not delivery:
+            return render(
+                request,
+                "shipping_method.html",
+                {"error": "Invalid shipping method."},
+            )
+
         checkout_data["shipping_method"] = shipping_method
-        checkout_data["shipping_name"] = selected_delivery["name"]
-        checkout_data["delivery_fee"] = selected_delivery["fee"]
-        checkout_data["delivery_duration"] = selected_delivery["duration"]
+        checkout_data["shipping_name"] = delivery["name"]
+        checkout_data["delivery_fee"] = str(delivery["fee"])
+        checkout_data["delivery_duration"] = delivery["duration"]
 
         request.session["checkout_data"] = checkout_data
         request.session.modified = True
 
-        return redirect("orders:payment_info")
+        return redirect("orders:checkout_review")
 
     return render(
         request,
         "shipping_method.html",
-        {
-            "checkout_data": checkout_data,
-            "delivery_options": delivery_options,
-        },
     )
-
-
-def payment_info_view(request):
-
-    payment_reference = str(uuid.uuid4()).replace("-", "").upper()[:10]
-
-    return render(request, "payment.html", {"payment_reference": payment_reference})
 
 
 def review_order_view(request):
 
-    checkout_data = request.session.get("checkout_data")
+    checkout_data = request.session.get("checkout_data", {})
 
     cart = Cart(request)
 
@@ -274,14 +270,435 @@ def review_order_view(request):
     if not checkout_data or not cart_items:
         return redirect("orders:cart-summary")
 
+    # Delivery information saved by shipping_method_view
+    shipping_name = checkout_data.get("shipping_name", "Standard Delivery")
+
+    delivery_duration = checkout_data.get("delivery_duration", "")
+
+    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0")))
+
+    # Final amount customer will pay
+    total_payable = cart_total + delivery_fee
+
     return render(
         request,
         "checkout_review.html",
         {
             "cart_items": cart_items,
             "cart_total": cart_total,
+            # Delivery
+            "shipping_name": shipping_name,
+            "delivery_duration": delivery_duration,
+            "delivery_fee": delivery_fee,
+            # Final total
+            "total_payable": total_payable,
+            # Customer checkout information
+            "checkout_data": checkout_data,
+            # Existing cart
+            "cart": cart.cart,
+        },
+    )
+
+
+def flutterwave_payment_view(request):
+
+    if request.method != "POST":
+        return redirect("orders:checkout_review")
+
+    checkout_data = request.session.get("checkout_data", {})
+
+    cart = Cart(request)
+
+    cart_items = cart.get_items()
+    cart_total = cart.get_total_price()
+
+    if not checkout_data or not cart_items:
+        return redirect("orders:cart-summary")
+
+    # -----------------------------------------------------
+    # DELIVERY
+    # -----------------------------------------------------
+
+    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0.00")))
+
+    total_payable = cart_total + delivery_fee
+
+    shipping_method = checkout_data.get(
+        "shipping_method",
+        "standard",
+    )
+
+    shipping_name = checkout_data.get(
+        "shipping_name",
+        "Standard Delivery",
+    )
+
+    # -----------------------------------------------------
+    # CREATE PENDING ORDER
+    # -----------------------------------------------------
+
+    order = Order.objects.create(
+        name=checkout_data.get("name", ""),
+        email=checkout_data.get("email", ""),
+        phone=checkout_data.get("phone", ""),
+        address=checkout_data.get("address", ""),
+        city=checkout_data.get("city", ""),
+        state=checkout_data.get("state", ""),
+        total_price=total_payable,
+        delivery_method=shipping_name,
+        delivery_fee=delivery_fee,
+        payment_method="flutterwave",
+        status="pending",
+    )
+
+    # -----------------------------------------------------
+    # CREATE ORDER ITEMS
+    # -----------------------------------------------------
+
+    for item in cart_items:
+
+        OrderItem.objects.create(
+            order=order,
+            product_type=item["type"],
+            product_id=item["id"],
+            product_name=item["name"],
+            product_price=item["price"],
+            quantity=item["quantity"],
+        )
+
+    # -----------------------------------------------------
+    # FLUTTERWAVE TRANSACTION REFERENCE
+    # -----------------------------------------------------
+
+    tx_ref = f"XEELOOS-{order.order_id}-{uuid.uuid4().hex[:8].upper()}"
+
+    order.flutterwave_tx_ref = tx_ref
+    order.save(update_fields=["flutterwave_tx_ref"])
+
+    # -----------------------------------------------------
+    # CALLBACK URL
+    # -----------------------------------------------------
+
+    callback_url = request.build_absolute_uri("/orders/payment/flutterwave/callback/")
+
+    # -----------------------------------------------------
+    # FLUTTERWAVE PAYMENT PAYLOAD
+    # -----------------------------------------------------
+
+    payload = {
+        "tx_ref": tx_ref,
+        "amount": str(total_payable),
+        "currency": "NGN",
+        "redirect_url": callback_url,
+        "customer": {
+            "email": checkout_data.get("email", ""),
+            "name": checkout_data.get("name", ""),
+            "phonenumber": checkout_data.get("phone", ""),
+        },
+        "customizations": {
+            "title": "Xeloos",
+            "description": f"Payment for Order {order.order_id}",
+        },
+        "meta": {
+            "order_id": order.order_id,
+            "shipping_method": shipping_method,
+        },
+    }
+
+    # -----------------------------------------------------
+    # SEND REQUEST TO FLUTTERWAVE
+    # -----------------------------------------------------
+
+    try:
+
+        response = requests.post(
+            "https://api.flutterwave.com/v3/payments",
+            json=payload,
+            headers={
+                "Authorization": f"Bearer {settings.FLW_SECRET_KEY}",
+                "Content-Type": "application/json",
+            },
+            timeout=30,
+        )
+
+        response_data = response.json()
+
+    except requests.RequestException:
+
+        order.status = "cancelled"
+        order.save(update_fields=["status"])
+
+        return render(
+            request,
+            "checkout_review.html",
+            {
+                "cart_items": cart_items,
+                "cart_total": cart_total,
+                "shipping_name": shipping_name,
+                "delivery_duration": checkout_data.get(
+                    "delivery_duration",
+                    "",
+                ),
+                "delivery_fee": delivery_fee,
+                "total_payable": total_payable,
+                "checkout_data": checkout_data,
+                "cart": cart.cart,
+                "payment_error": (
+                    "Unable to connect to Flutterwave. " "Please try again."
+                ),
+            },
+        )
+
+    # -----------------------------------------------------
+    # CHECK FLUTTERWAVE RESPONSE
+    # -----------------------------------------------------
+
+    if response_data.get("status") == "success" and response_data.get("data", {}).get(
+        "link"
+    ):
+
+        payment_link = response_data["data"]["link"]
+
+        return redirect(payment_link)
+
+    # -----------------------------------------------------
+    # PAYMENT CREATION FAILED
+    # -----------------------------------------------------
+
+    order.status = "cancelled"
+    order.save(update_fields=["status"])
+
+    return render(
+        request,
+        "checkout_review.html",
+        {
+            "cart_items": cart_items,
+            "cart_total": cart_total,
+            "shipping_name": shipping_name,
+            "delivery_duration": checkout_data.get(
+                "delivery_duration",
+                "",
+            ),
+            "delivery_fee": delivery_fee,
+            "total_payable": total_payable,
             "checkout_data": checkout_data,
             "cart": cart.cart,
+            "payment_error": (
+                response_data.get(
+                    "message",
+                    "Unable to initialize payment.",
+                )
+            ),
+        },
+    )
+
+
+def flutterwave_callback_view(request):
+
+    tx_ref = request.GET.get("tx_ref")
+    transaction_id = request.GET.get("transaction_id")
+    status = request.GET.get("status")
+
+    # -----------------------------------------------------
+    # BASIC VALIDATION
+    # -----------------------------------------------------
+
+    if not tx_ref or not transaction_id:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "payment_failed": True,
+                "message": "Invalid payment response.",
+            },
+        )
+
+    # -----------------------------------------------------
+    # FIND ORDER
+    # -----------------------------------------------------
+
+    order = get_object_or_404(
+        Order,
+        flutterwave_tx_ref=tx_ref,
+    )
+
+    # -----------------------------------------------------
+    # PREVENT REPROCESSING
+    # -----------------------------------------------------
+
+    if order.status == "paid":
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_successful": True,
+            },
+        )
+
+    # -----------------------------------------------------
+    # VERIFY TRANSACTION WITH FLUTTERWAVE
+    # -----------------------------------------------------
+
+    try:
+
+        response = requests.get(
+            f"https://api.flutterwave.com/v3/transactions/" f"{transaction_id}/verify",
+            headers={
+                "Authorization": f"Bearer {settings.FLW_SECRET_KEY}",
+                "Content-Type": "application/json",
+            },
+            timeout=30,
+        )
+
+        response_data = response.json()
+
+    except requests.RequestException:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": (
+                    "We could not verify your payment. " "Please contact support."
+                ),
+            },
+        )
+
+    # -----------------------------------------------------
+    # EXTRACT VERIFIED DATA
+    # -----------------------------------------------------
+
+    transaction = response_data.get("data")
+
+    if not transaction:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": "Payment verification failed.",
+            },
+        )
+
+    verified_status = transaction.get("status")
+    verified_tx_ref = transaction.get("tx_ref")
+    verified_currency = transaction.get("currency")
+
+    verified_amount = Decimal(
+        str(
+            transaction.get(
+                "charged_amount",
+                transaction.get("amount", "0"),
+            )
+        )
+    )
+
+    # -----------------------------------------------------
+    # EXPECTED VALUES
+    # -----------------------------------------------------
+
+    expected_amount = Decimal(str(order.total_price))
+
+    expected_currency = "NGN"
+
+    # -----------------------------------------------------
+    # SECURITY CHECKS
+    # -----------------------------------------------------
+
+    if verified_tx_ref != order.flutterwave_tx_ref:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": "Transaction reference mismatch.",
+            },
+        )
+
+    if verified_currency != expected_currency:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": "Payment currency mismatch.",
+            },
+        )
+
+    if verified_status != "successful":
+
+        order.status = "cancelled"
+        order.save(update_fields=["status"])
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": "Payment was not successful.",
+            },
+        )
+
+    if verified_amount < expected_amount:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": ("The amount received does not match " "the order total."),
+            },
+        )
+
+    # -----------------------------------------------------
+    # PAYMENT VERIFIED
+    # -----------------------------------------------------
+
+    order.status = "paid"
+    order.flutterwave_transaction_id = str(transaction.get("id"))
+
+    order.save(
+        update_fields=[
+            "status",
+            "flutterwave_transaction_id",
+        ]
+    )
+
+    # -----------------------------------------------------
+    # CLEAR CART
+    # -----------------------------------------------------
+
+    cart = Cart(request)
+    cart.clear()
+
+    if "checkout_data" in request.session:
+        del request.session["checkout_data"]
+
+    request.session.modified = True
+
+    # -----------------------------------------------------
+    # SUCCESS
+    # -----------------------------------------------------
+
+    return render(
+        request,
+        "payment_confirm.html",
+        {
+            "order": order,
+            "payment_successful": True,
         },
     )
 
