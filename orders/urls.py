@@ -45,11 +45,6 @@ urlpatterns = [
         views.review_order_view,
         name="checkout_review",
     ),
-    path(
-        "checkout-confirmation/",
-        views.place_order_view,
-        name="place_order",
-    ),
     
     path(
         "payment/confirm/<int:order_id>/",

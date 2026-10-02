@@ -6,8 +6,9 @@ import requests
 
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 from django.template.loader import render_to_string
+from django.urls import reverse
 
 from store.models import SIMCard, Product
 from cart.cart import Cart
@@ -194,7 +195,7 @@ def checkout_view(request):
 
         request.session.modified = True
 
-        return redirect("orders:shipping_method")
+        return redirect("orders:delivery_method")
 
     initial_data = request.session.get("checkout_data", {})
 
@@ -308,34 +309,35 @@ def flutterwave_payment_view(request):
     checkout_data = request.session.get("checkout_data", {})
 
     cart = Cart(request)
-
     cart_items = cart.get_items()
     cart_total = cart.get_total_price()
 
     if not checkout_data or not cart_items:
         return redirect("orders:cart-summary")
 
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     # DELIVERY
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
 
-    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0.00")))
+    delivery_fee = Decimal(
+        str(checkout_data.get("delivery_fee", "0.00"))
+    )
 
     total_payable = cart_total + delivery_fee
 
     shipping_method = checkout_data.get(
         "shipping_method",
-        "standard",
+        "standard"
     )
 
     shipping_name = checkout_data.get(
         "shipping_name",
-        "Standard Delivery",
+        "Standard Delivery"
     )
 
-    # -----------------------------------------------------
-    # CREATE PENDING ORDER
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
+    # CREATE ORDER
+    # ---------------------------------------------------------
 
     order = Order.objects.create(
         name=checkout_data.get("name", ""),
@@ -351,9 +353,9 @@ def flutterwave_payment_view(request):
         status="pending",
     )
 
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     # CREATE ORDER ITEMS
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
 
     for item in cart_items:
 
@@ -366,62 +368,81 @@ def flutterwave_payment_view(request):
             quantity=item["quantity"],
         )
 
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     # FLUTTERWAVE TRANSACTION REFERENCE
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
 
-    tx_ref = f"XEELOOS-{order.order_id}-{uuid.uuid4().hex[:8].upper()}"
+    tx_ref = (
+        f"XEELOOS-{order.order_id}-"
+        f"{uuid.uuid4().hex[:8].upper()}"
+    )
 
     order.flutterwave_tx_ref = tx_ref
     order.save(update_fields=["flutterwave_tx_ref"])
 
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     # CALLBACK URL
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
 
-    callback_url = request.build_absolute_uri("/orders/payment/flutterwave/callback/")
+    callback_url = request.build_absolute_uri(
+        reverse("orders:flutterwave_callback")
+    )
 
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     # FLUTTERWAVE PAYMENT PAYLOAD
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
 
     payload = {
         "tx_ref": tx_ref,
         "amount": str(total_payable),
         "currency": "NGN",
+
         "redirect_url": callback_url,
+
         "customer": {
             "email": checkout_data.get("email", ""),
             "name": checkout_data.get("name", ""),
             "phonenumber": checkout_data.get("phone", ""),
         },
+
         "customizations": {
             "title": "Xeloos",
             "description": f"Payment for Order {order.order_id}",
         },
+
         "meta": {
             "order_id": order.order_id,
             "shipping_method": shipping_method,
         },
     }
 
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     # SEND REQUEST TO FLUTTERWAVE
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
 
     try:
 
         response = requests.post(
             "https://api.flutterwave.com/v3/payments",
+
             json=payload,
+
             headers={
-                "Authorization": f"Bearer {settings.FLW_SECRET_KEY}",
+                "Authorization": (
+                    f"Bearer {settings.FLW_SECRET_KEY}"
+                ),
                 "Content-Type": "application/json",
             },
+
             timeout=30,
         )
 
         response_data = response.json()
+
+        print("========== FLUTTERWAVE RESPONSE ==========")
+        print("STATUS CODE:", response.status_code)
+        print("RESPONSE:", response_data)
+        print("==========================================")
 
     except requests.RequestException:
 
@@ -437,33 +458,35 @@ def flutterwave_payment_view(request):
                 "shipping_name": shipping_name,
                 "delivery_duration": checkout_data.get(
                     "delivery_duration",
-                    "",
+                    ""
                 ),
                 "delivery_fee": delivery_fee,
                 "total_payable": total_payable,
                 "checkout_data": checkout_data,
                 "cart": cart.cart,
                 "payment_error": (
-                    "Unable to connect to Flutterwave. " "Please try again."
+                    "Unable to connect to Flutterwave. "
+                    "Please try again."
                 ),
             },
         )
 
-    # -----------------------------------------------------
-    # CHECK FLUTTERWAVE RESPONSE
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
+    # REDIRECT CUSTOMER TO FLUTTERWAVE
+    # ---------------------------------------------------------
 
-    if response_data.get("status") == "success" and response_data.get("data", {}).get(
-        "link"
+    if (
+        response_data.get("status") == "success"
+        and response_data.get("data", {}).get("link")
     ):
 
-        payment_link = response_data["data"]["link"]
+        return redirect(
+            response_data["data"]["link"]
+        )
 
-        return redirect(payment_link)
-
-    # -----------------------------------------------------
-    # PAYMENT CREATION FAILED
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
+    # PAYMENT INITIALIZATION FAILED
+    # ---------------------------------------------------------
 
     order.status = "cancelled"
     order.save(update_fields=["status"])
@@ -477,17 +500,15 @@ def flutterwave_payment_view(request):
             "shipping_name": shipping_name,
             "delivery_duration": checkout_data.get(
                 "delivery_duration",
-                "",
+                ""
             ),
             "delivery_fee": delivery_fee,
             "total_payable": total_payable,
             "checkout_data": checkout_data,
             "cart": cart.cart,
-            "payment_error": (
-                response_data.get(
-                    "message",
-                    "Unable to initialize payment.",
-                )
+            "payment_error": response_data.get(
+                "message",
+                "Unable to initialize payment.",
             ),
         },
     )
@@ -701,58 +722,6 @@ def flutterwave_callback_view(request):
             "payment_successful": True,
         },
     )
-
-
-def place_order_view(request):
-
-    cart = Cart(request)
-
-    cart_items = cart.get_items()
-    cart_total = cart.get_total_price()
-
-    checkout_data = request.session.get("checkout_data")
-
-    if not checkout_data or not cart_items:
-        return redirect("orders:cart-summary")
-
-    order = Order.objects.create(
-        order_id=generate_order_id(),
-        name=checkout_data.get("name", ""),
-        email=checkout_data.get("email", ""),
-        phone=checkout_data.get("phone", ""),
-        address=checkout_data.get("address", ""),
-        city=checkout_data.get("city", ""),
-        state=checkout_data.get("state", ""),
-        total_price=cart_total,
-    )
-
-    # -----------------------------------------------------
-    # CREATE ORDER ITEMS
-    # -----------------------------------------------------
-
-    for item in cart_items:
-
-        OrderItem.objects.create(
-            order=order,
-            product_type=item["type"],
-            product_id=item["id"],
-            product_name=item["name"],
-            product_price=item["price"],
-            quantity=item["quantity"],
-        )
-
-    # -----------------------------------------------------
-    # CLEAR CART
-    # -----------------------------------------------------
-
-    cart.clear()
-
-    if "checkout_data" in request.session:
-        del request.session["checkout_data"]
-
-    request.session.modified = True
-
-    return redirect("orders:payment_confirm", order_id=order.id)
 
 
 def payment_confirm_view(request, order_id):
