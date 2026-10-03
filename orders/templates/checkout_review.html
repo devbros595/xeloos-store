@@ -723,7 +723,7 @@
                     </div>
 
 
-                    <form method="POST" action="{% url 'orders:flutterwave_payment' %}" target="_blank">
+                    <form method="POST" action="{% url 'orders:flutterwave_payment' %}">
 
                         {% csrf_token %}
 

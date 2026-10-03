@@ -1,412 +1,328 @@
-{% extends 'base_2.html' %}
-
-{% block title %}
-    Payment Confirmation | Xeloos
-{% endblock %}
-
+{% extends 'base_2.html' %} 
+{% block title %} Payment Confirmation | Xeloos {% endblock %} 
 {% block content %}
 
 <style>
+  .confirmation-page {
+    min-height: 75vh;
+    padding: 60px 15px 80px;
+    background: #f7f7f9;
+  }
 
+  .confirmation-card {
+    max-width: 650px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 45px 35px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+    text-align: center;
+  }
+
+  .confirmation-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    font-size: 32px;
+  }
+
+  .success-icon {
+    background: #eaf8ef;
+    color: #198754;
+  }
+
+  .error-icon {
+    background: #fff0f0;
+    color: #7b1730;
+  }
+
+  .confirmation-title {
+    font-size: 30px;
+    font-weight: 500;
+    color: #171717;
+    margin: 3rem 0 1.5rem;
+  }
+
+  .confirmation-text {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+
+  .order-details {
+    text-align: left;
+    border: 1px solid #eeeeee;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 25px;
+    background: #fafafa;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 11px 0;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 14px;
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    color: #777;
+  }
+
+  .detail-value {
+    color: #222;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .total-row {
+    font-size: 16px;
+    padding-top: 15px;
+  }
+
+  .total-row .detail-value {
+    color: #7b1730;
+    font-size: 18px;
+  }
+
+  .delivery-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #f6e9ed;
+    color: #7b1730;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .pay-btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .pay-btn {
+    text-decoration: none;
+    display: inline-block;
+    background: linear-gradient(to right, #7b1730, #000000);
+    transition: all 0.3s ease-in-out;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
+    width: 200px;
+    white-space: nowrap;
+  }
+
+  .pay-btn:hover {
+    background: linear-gradient(to right, #7b1730, #d21f4c);
+    transform: scale(1.05);
+  }
+
+  .secondary-btn {
+    display: inline-block;
+    margin-top: 12px;
+    color: #7b1730;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .secondary-btn:hover {
+    color: #5d1025;
+  }
+
+  @media (max-width: 575px) {
     .confirmation-page {
-        min-height: 75vh;
-        padding: 60px 15px 80px;
-        background: #f7f7f9;
+      padding: 35px 12px 60px;
     }
 
     .confirmation-card {
-        max-width: 650px;
-        margin: 0 auto;
-        background: #ffffff;
-        border-radius: 18px;
-        padding: 45px 35px;
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
-        text-align: center;
-    }
-
-    .confirmation-icon {
-        width: 75px;
-        height: 75px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 22px;
-        font-size: 32px;
-    }
-
-    .success-icon {
-        background: #eaf8ef;
-        color: #198754;
-    }
-
-    .error-icon {
-        background: #fff0f0;
-        color: #dc3545;
+      padding: 35px 20px;
+      border-radius: 15px;
     }
 
     .confirmation-title {
-        font-size: 30px;
-        font-weight: 700;
-        color: #171717;
-        margin-bottom: 10px;
-    }
-
-    .confirmation-text {
-        color: #777;
-        font-size: 15px;
-        margin-bottom: 30px;
-    }
-
-    .order-details {
-        text-align: left;
-        border: 1px solid #eeeeee;
-        border-radius: 14px;
-        padding: 20px;
-        margin-top: 25px;
-        background: #fafafa;
+      font-size: 25px;
     }
 
     .detail-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 11px 0;
-        border-bottom: 1px solid #eeeeee;
-        font-size: 14px;
-    }
-
-    .detail-row:last-child {
-        border-bottom: none;
-    }
-
-    .detail-label {
-        color: #777;
-    }
-
-    .detail-value {
-        color: #222;
-        font-weight: 600;
-        text-align: right;
-    }
-
-    .total-row {
-        font-size: 16px;
-        padding-top: 15px;
+      font-size: 13px;
     }
 
     .total-row .detail-value {
-        color: #7B1730;
-        font-size: 18px;
+      font-size: 16px;
     }
 
-    .delivery-badge {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 20px;
-        background: #f6e9ed;
-        color: #7B1730;
-        font-size: 12px;
-        font-weight: 700;
+    .pay-btn-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
-
-    .pay-btn {
-        display: inline-block;
-        background: linear-gradient(to right, #bb30f6, #000000);
-        transition: all 0.3s ease-in-out;
-        padding: 0.7rem 2.5rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: white;
-        border: none;
-        border-radius: 2rem;
-        text-decoration: none;
-    }
-
-    .pay-btn:hover {
-        background: linear-gradient(to right, #8523ae, #7800ac);
-        color: white;
-        transform: translateY(-1px);
-    }
-
-    .secondary-btn {
-        display: inline-block;
-        margin-top: 12px;
-        color: #7B1730;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .secondary-btn:hover {
-        color: #5d1025;
-    }
-
-    @media (max-width: 575px) {
-
-        .confirmation-page {
-            padding: 35px 12px 60px;
-        }
-
-        .confirmation-card {
-            padding: 35px 20px;
-            border-radius: 15px;
-        }
-
-        .confirmation-title {
-            font-size: 25px;
-        }
-
-        .detail-row {
-            font-size: 13px;
-        }
-
-        .total-row .detail-value {
-            font-size: 16px;
-        }
-
-    }
-
+  }
 </style>
 
-
 <section class="confirmation-page">
+  <div class="confirmation-card">
+    {% if payment_successful %}
 
-    <div class="confirmation-card">
+    <!-- SUCCESS -->
 
-
-        {% if payment_successful %}
-
-            <!-- SUCCESS -->
-
-            <div class="confirmation-icon success-icon">
-
-                <i class="fa-solid fa-circle-check"></i>
-
-            </div>
-
-            <h1 class="confirmation-title">
-                Payment Successful
-            </h1>
-
-            <p class="confirmation-text">
-                Thank you for your payment. Your Xeloos order has been
-                successfully confirmed.
-            </p>
-
-
-            {% if order %}
-
-                <div class="order-details">
-
-                    <div class="detail-row">
-
-                        <span class="detail-label">
-                            Order ID
-                        </span>
-
-                        <span class="detail-value">
-                            {{ order.order_id }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <span class="detail-label">
-                            Payment Method
-                        </span>
-
-                        <span class="detail-value">
-                            {% if order.payment_method == "flutterwave" %}
-                                Flutterwave
-                            {% else %}
-                                {{ order.payment_method|title }}
-                            {% endif %}
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <span class="detail-label">
-                            Payment Status
-                        </span>
-
-                        <span class="detail-value text-success">
-                            Paid
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <span class="detail-label">
-                            Delivery
-                        </span>
-
-                        <span class="detail-value">
-
-                            <span class="delivery-badge">
-                                {{ order.delivery_method }}
-                            </span>
-
-                        </span>
-
-                    </div>
-
-
-                    {% if order.delivery_fee %}
-
-                        <div class="detail-row">
-
-                            <span class="detail-label">
-                                Delivery Fee
-                            </span>
-
-                            <span class="detail-value">
-                                ₦{{ order.delivery_fee|floatformat:2 }}
-                            </span>
-
-                        </div>
-
-                    {% endif %}
-
-
-                    <div class="detail-row total-row">
-
-                        <span class="detail-label">
-                            Total Paid
-                        </span>
-
-                        <span class="detail-value">
-                            ₦{{ order.total_price|floatformat:2 }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            {% endif %}
-
-
-            <div class="mt-4">
-
-                <a
-                    href="{% url 'store-category' %}"
-                    class="pay-btn"
-                >
-                    Return to Store
-                </a>
-
-            </div>
-
-
-        {% elif payment_failed %}
-
-            <!-- FAILED -->
-
-            <div class="confirmation-icon error-icon">
-
-                <i class="fa-solid fa-circle-xmark"></i>
-
-            </div>
-
-            <h1 class="confirmation-title">
-                Payment Not Completed
-            </h1>
-
-            <p class="confirmation-text">
-
-                {% if message %}
-                    {{ message }}
-                {% else %}
-                    Your payment could not be completed.
-                {% endif %}
-
-            </p>
-
-
-            {% if order %}
-
-                <div class="order-details">
-
-                    <div class="detail-row">
-
-                        <span class="detail-label">
-                            Order ID
-                        </span>
-
-                        <span class="detail-value">
-                            {{ order.order_id }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <span class="detail-label">
-                            Amount
-                        </span>
-
-                        <span class="detail-value">
-                            ₦{{ order.total_price|floatformat:2 }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            {% endif %}
-
-
-            <div class="mt-4">
-
-                <a
-                    href="{% url 'orders:checkout_review' %}"
-                    class="pay-btn"
-                >
-                    Try Payment Again
-                </a>
-
-            </div>
-
-
-        {% else %}
-
-            <!-- GENERIC / UNKNOWN STATE -->
-
-            <div class="confirmation-icon">
-
-                <i class="fa-solid fa-circle-info"></i>
-
-            </div>
-
-            <h1 class="confirmation-title">
-                Payment Status
-            </h1>
-
-            <p class="confirmation-text">
-                We are unable to determine the current payment status.
-            </p>
-
-
-            <a
-                href="{% url 'store-category' %}"
-                class="pay-btn"
-            >
-                Return to Store
-            </a>
-
-        {% endif %}
-
-
+    <div class="confirmation-icon success-icon">
+      <i class="fa-solid fa-circle-check"></i>
     </div>
 
+    <h1 class="confirmation-title">Payment Successful</h1>
+
+    <p class="confirmation-text">
+      Thank you for your payment. Your Xeloos order has been successfully
+      confirmed.
+    </p>
+
+    {% if order %}
+
+    <div class="order-details">
+      <div class="detail-row">
+        <span class="detail-label"> Order ID </span>
+
+        <span class="detail-value"> {{ order.order_id }} </span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label"> Payment Method </span>
+
+        <span class="detail-value">
+          {% if order.payment_method == "flutterwave" %} Flutterwave {% else %}
+          {{ order.payment_method|title }} {% endif %}
+        </span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label"> Payment Status </span>
+
+        <span class="detail-value text-success"> Paid </span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label"> Delivery </span>
+
+        <span class="detail-value">
+          <span class="delivery-badge"> {{ order.delivery_method }} </span>
+        </span>
+      </div>
+
+      {% if order.delivery_fee %}
+
+      <div class="detail-row">
+        <span class="detail-label"> Delivery Fee </span>
+
+        <span class="detail-value">
+          ₦{{ order.delivery_fee|floatformat:2 }}
+        </span>
+      </div>
+
+      {% endif %}
+
+      <div class="detail-row total-row">
+        <span class="detail-label"> Total Paid </span>
+
+        <span class="detail-value">
+          ₦ {{ order.total_price|floatformat:2 }}
+        </span>
+      </div>
+    </div>
+
+    {% endif %}
+
+    <div class="mt-4">
+      <a href="{% url 'index' %}" class="pay-btn">
+        Return to Home
+        <i class="fa-solid fa-house ms-2"></i>
+      </a>
+    </div>
+
+    {% elif payment_failed %}
+
+    <!-- FAILED -->
+
+    <div class="confirmation-icon error-icon">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </div>
+
+    <h1 class="confirmation-title">Payment Failed</h1>
+
+    <p class="confirmation-text">
+      {% if message %} {{ message }} {% else %} Your payment could not be
+      completed. {% endif %}
+    </p>
+
+    {% if order %}
+
+    <div class="order-details">
+      <div class="detail-row">
+        <span class="detail-label"> Order ID </span>
+
+        <span class="detail-value"> {{ order.order_id }} </span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label"> Amount </span>
+
+        <span class="detail-value">
+          ₦{{ order.total_price|floatformat:2 }}
+        </span>
+      </div>
+    </div>
+
+    {% endif %}
+
+    <div class="mt-4 pay-btn-container">
+      <a href="{% url 'orders:checkout_review' %}" class="pay-btn">
+        Retry Payment
+        <i class="fa-solid fa-rotate ms-2"></i>
+      </a>
+      <a href="{% url 'index' %}" class="pay-btn">
+        Return to Home
+        <i class="fa-solid fa-house ms-2"></i>
+      </a>
+    </div>
+    <!-- <div class="mt-4">
+      <a href="{% url 'index' %}" class="pay-btn">
+        Return to Home
+        <i class="fa-solid fa-house ms-2"></i>
+      </a>
+    </div> -->
+
+    {% else %}
+
+    <!-- GENERIC / UNKNOWN STATE -->
+
+    <div class="confirmation-icon">
+      <i class="fa-solid fa-circle-info"></i>
+    </div>
+
+    <h1 class="confirmation-title">Payment Status</h1>
+
+    <p class="confirmation-text">
+      We are unable to determine the current payment status.
+    </p>
+
+    <a href="{% url 'store-category' %}" class="pay-btn"> Return to Store </a>
+
+    {% endif %}
+  </div>
 </section>
 
 {% endblock %}

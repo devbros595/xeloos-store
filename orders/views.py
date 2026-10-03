@@ -531,7 +531,7 @@ def flutterwave_callback_view(request):
             "payment_confirm.html",
             {
                 "payment_failed": True,
-                "message": "Invalid payment response.",
+                "message": "Payment cancelled. You have not been charged.",
             },
         )
 
@@ -658,21 +658,17 @@ def flutterwave_callback_view(request):
         )
 
     if verified_status != "successful":
-
-        order.status = "cancelled"
-        order.save(update_fields=["status"])
-
         return render(
             request,
             "payment_confirm.html",
             {
                 "order": order,
                 "payment_failed": True,
-                "message": "Payment was not successful.",
+                "message": "Payment was not successful. You can try again.",
             },
         )
-
-    if verified_amount < expected_amount:
+    
+    if verified_amount != expected_amount:
 
         return render(
             request,
@@ -722,10 +718,3 @@ def flutterwave_callback_view(request):
             "payment_successful": True,
         },
     )
-
-
-def payment_confirm_view(request, order_id):
-
-    order = get_object_or_404(Order, id=order_id)
-
-    return render(request, "payment_confirm.html", {"order": order})

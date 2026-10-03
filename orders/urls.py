@@ -46,11 +46,11 @@ urlpatterns = [
         name="checkout_review",
     ),
     
-    path(
-        "payment/confirm/<int:order_id>/",
-        views.payment_confirm_view,
-        name="payment_confirm",
-    ),
+    # path(
+    #     "payment/confirmation/<int:order_id>/",
+    #     views.payment_confirm_view,
+    #     name="payment_confirm",
+    # ),
     
     path(
         "delivery-method/",
