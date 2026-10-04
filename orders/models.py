@@ -21,42 +21,25 @@ class Order(models.Model):
         blank=True,
     )
 
-    name = models.CharField(
-        max_length=100
-    )
+    name = models.CharField(max_length=100)
 
-    email = models.EmailField(
-        max_length=100
-    )
+    email = models.EmailField(max_length=100)
 
-    phone = models.CharField(
-        max_length=100
-    )
+    phone = models.CharField(max_length=100)
 
-    address = models.TextField(
-        max_length=100
-    )
+    address = models.TextField(max_length=100)
 
-    city = models.CharField(
-        max_length=100
-    )
+    city = models.CharField(max_length=100)
 
-    state = models.CharField(
-        max_length=100
-    )
+    state = models.CharField(max_length=100)
 
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # ---------------------------------------------
     # ORDER TOTAL
     # ---------------------------------------------
 
-    total_price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     # ---------------------------------------------
     # DELIVERY
@@ -116,6 +99,26 @@ class Order(models.Model):
         null=True,
     )
 
+    fez_order_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+
+    fez_tracking_id = (
+        models.CharField(
+            max_length=100,
+            blank=True,
+            null=True,
+        ),
+    )
+    
+    fez_status = models.CharField(
+        max_length=50,
+        blank=True,
+        default="",
+    )
+
     # ---------------------------------------------
     # STATUS
     # ---------------------------------------------
@@ -157,21 +160,11 @@ class OrderItem(models.Model):
 
     product_id = models.PositiveIntegerField()
 
-    product_name = models.CharField(
-        max_length=200
-    )
+    product_name = models.CharField(max_length=200)
 
-    product_price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
+    product_price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    quantity = models.PositiveIntegerField(
-        default=1
-    )
+    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return (
-            f"{self.product_name} "
-            f"x {self.quantity}"
-        )
+        return f"{self.product_name} " f"x {self.quantity}"

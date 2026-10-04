@@ -16,6 +16,7 @@ from django.urls import reverse
 from store.models import SIMCard, Product, StoreSettings
 from cart.cart import Cart
 from .models import Order, OrderItem
+from .services.fez import create_fez_delivery
 
 
 def generate_order_id():
@@ -1026,7 +1027,9 @@ def nowpayments_ipn(request):
 
         if price_amount is not None:
             try:
-                received_amount = Decimal(str(price_amount))
+                received_amount = Decimal(
+                    str(price_amount)
+                )
             except Exception:
                 return JsonResponse(
                     {"error": "Invalid payment amount"},
@@ -1047,6 +1050,12 @@ def nowpayments_ipn(request):
                 "status",
             ]
         )
+
+        # ---------------------------------------------
+        # CREATE FEZ DELIVERY AFTER PAYMENT
+        # ---------------------------------------------
+
+        create_fez_delivery(order)
 
         return JsonResponse(
             {
@@ -1378,6 +1387,8 @@ def flutterwave_callback_view(request):
             "flutterwave_transaction_id",
         ]
     )
+
+    create_fez_delivery(order)
 
     # -----------------------------------------------------
     # CLEAR CART
