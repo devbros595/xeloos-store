@@ -272,6 +272,47 @@
         font-weight: 500;
     }
 
+    .digital-delivery-notice {
+        margin-top: 5px;
+        padding: 16px;
+        border: 1px solid var(--xeloos-border);
+        border-radius: 10px;
+        background: #fcf7f8;
+    }
+
+    .digital-delivery-notice .notice-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 9px;
+        background: #f8f1f3;
+        color: var(--xeloos-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 18px;
+    }
+
+    .digital-delivery-notice h6 {
+        margin: 0 0 5px;
+        color: #222;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .digital-delivery-notice p {
+        margin: 0;
+        color: #666;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .digital-delivery-notice .delivery-email {
+        color: var(--xeloos-primary);
+        font-weight: 700;
+        word-break: break-word;
+    }
+
     .payment-options {
         padding: 20px 24px 24px;
     }
@@ -457,7 +498,6 @@
 </style>
 
 <section class="payment-page">
-
     <div class="container">
 
         <!-- CHECKOUT STEPS -->
@@ -582,7 +622,12 @@
                             <div class="text-end">
 
                                 <span class="delivery-badge">
+                                    {% if is_digital_only %}
+                                    <i class="fas fa-envelope"></i>
+                                    {% else %}
                                     <i class="fas fa-truck"></i>
+                                    {% endif %}
+
                                     {{ shipping_name }}
                                 </span>
 
@@ -629,14 +674,25 @@
                 <div class="payment-card section-spacing">
 
                     <div class="card-heading">
+
                         <h5>
+                            {% if is_digital_only %}
+                            <i class="fas fa-envelope me-2" style="color: var(--xeloos-primary);"></i>
+                            Delivery Details
+                            {% else %}
                             <i class="fas fa-map-marker-alt me-2" style="color: var(--xeloos-primary);"></i>
                             Delivery Details
+                            {% endif %}
                         </h5>
 
                         <p>
+                            {% if is_digital_only %}
+                            Your eSIM will be delivered electronically.
+                            {% else %}
                             Your order will be delivered to this address.
+                            {% endif %}
                         </p>
+
                     </div>
 
                     <div class="customer-details">
@@ -680,6 +736,44 @@
 
                         </div>
 
+                        {% if is_digital_only %}
+
+                        <div class="digital-delivery-notice">
+
+                            <div class="d-flex align-items-start gap-3">
+
+                                <div class="notice-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+
+                                <div>
+                                    <h6>
+                                        eSIM Delivery
+                                    </h6>
+
+                                    <p>
+                                        Your eSIM will be delivered electronically
+                                        to your email address.
+                                    </p>
+
+                                    <p class="mt-1">
+                                        <span class="delivery-email">
+                                            {{ checkout_data.email }}
+                                        </span>
+                                    </p>
+
+                                    <p class="mt-1">
+                                        Delivery will be initiated after your
+                                        payment has been successfully confirmed.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% else %}
+
                         <div class="detail-row">
 
                             <div class="detail-icon">
@@ -696,6 +790,8 @@
                             </div>
 
                         </div>
+
+                        {% endif %}
 
                     </div>
 
@@ -723,7 +819,7 @@
                     </div>
 
 
-                    <form method="POST" action="{% url 'orders:flutterwave_payment' %}">
+                    <form method="POST" action="{% url 'orders:payment' %}">
 
                         {% csrf_token %}
 
@@ -776,12 +872,11 @@
                                     <div class="payment-details">
 
                                         <span class="payment-name">
-                                            Cryptocurrency
+                                            NOWPayments
                                         </span>
 
                                         <span class="payment-description">
-                                            Pay with supported cryptocurrencies
-                                            through NOWPayments.
+                                            Got digital currencies, Pay with supported cryptocurrencies.
                                         </span>
 
                                     </div>
@@ -830,7 +925,6 @@
         </div>
 
     </div>
-
 </section>
 
 {% endblock %}

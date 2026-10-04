@@ -3,6 +3,9 @@ from decimal import Decimal
 import random
 import uuid
 import requests
+import hashlib
+import hmac
+import json
 
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,7 +13,7 @@ from django.http import JsonResponse, response
 from django.template.loader import render_to_string
 from django.urls import reverse
 
-from store.models import SIMCard, Product
+from store.models import SIMCard, Product, StoreSettings
 from cart.cart import Cart
 from .models import Order, OrderItem
 
@@ -176,35 +179,125 @@ def _cart_response(request, cart, item_name=None):
     return JsonResponse(response)
 
 
-def checkout_view(request):
-    cart = Cart(request)
+def cart_requires_delivery(cart_items):
+    """
+    Returns True if the cart contains at least one
+    physical item that requires delivery.
+    """
 
-    if not cart.get_items():
+    settings_obj = StoreSettings.objects.first()
+
+    esim_category_id = (
+        settings_obj.esim_category_id
+        if settings_obj and settings_obj.esim_category
+        else None
+    )
+
+    for item in cart_items:
+
+        # Physical SIMCards always require delivery.
+        if item["type"] == "sim":
+            return True
+
+        # Products require delivery unless they belong
+        # to the configured eSIM category.
+        if item["type"] == "product":
+
+            product = (
+                Product.objects.filter(id=item["id"]).select_related("category").first()
+            )
+
+            if not product:
+                continue
+
+            if product.category_id != esim_category_id:
+                return True
+
+    return False
+
+
+def checkout_view(request):
+
+    cart = Cart(request)
+    cart_items = cart.get_items()
+
+    if not cart_items:
         return redirect("orders:cart-summary")
+
+    # Determine whether this cart contains only digital/eSIM items.
+    is_digital_only = not cart_requires_delivery(cart_items)
+
+    # Existing checkout data, used to repopulate the form.
+    checkout_data = request.session.get("checkout_data", {})
 
     if request.method == "POST":
 
-        request.session["checkout_data"] = {
-            "name": request.POST.get("name"),
-            "phone": request.POST.get("phone"),
-            "email": request.POST.get("email"),
-            "address": request.POST.get("address"),
-            "city": request.POST.get("city"),
-            "state": request.POST.get("state"),
+        checkout_data = {
+            "name": request.POST.get("name", "").strip(),
+            "phone": request.POST.get("phone", "").strip(),
+            "email": request.POST.get("email", "").strip(),
+            "address": request.POST.get("address", "").strip(),
+            "city": request.POST.get("city", "").strip(),
+            "state": request.POST.get("state", "").strip(),
         }
 
+        # For eSIM/digital-only orders, physical delivery
+        # information is not required.
+        if is_digital_only:
+
+            checkout_data["address"] = ""
+            checkout_data["city"] = ""
+            checkout_data["state"] = ""
+
+            checkout_data["shipping_method"] = "digital"
+            checkout_data["shipping_name"] = "Digital Delivery"
+            checkout_data["delivery_fee"] = "0.00"
+            checkout_data["delivery_duration"] = "Instant"
+
+            request.session["checkout_data"] = checkout_data
+            request.session.modified = True
+
+            return redirect("orders:checkout_review")
+
+        # Physical or mixed cart.
+        request.session["checkout_data"] = checkout_data
         request.session.modified = True
 
         return redirect("orders:delivery_method")
 
-    initial_data = request.session.get("checkout_data", {})
-
-    return render(request, "checkout.html", {"initial_data": initial_data})
+    return render(
+        request,
+        "checkout.html",
+        {
+            "initial_data": checkout_data,
+            "is_digital_only": is_digital_only,
+        },
+    )
 
 
 def delivery_method_view(request):
 
     checkout_data = request.session.get("checkout_data", {})
+
+    # ---------------------------------------------
+    # PROTECT DELIVERY STEP
+    # ---------------------------------------------
+    # If the cart contains only eSIM/digital items,
+    # delivery is not required. Skip this page.
+    cart = Cart(request)
+    cart_items = cart.get_items()
+
+    if not cart_requires_delivery(cart_items):
+
+        checkout_data["shipping_method"] = "digital"
+        checkout_data["shipping_name"] = "Digital Delivery"
+        checkout_data["delivery_fee"] = "0.00"
+        checkout_data["delivery_duration"] = "Instant"
+
+        request.session["checkout_data"] = checkout_data
+        request.session.modified = True
+
+        return redirect("orders:checkout_review")
 
     if request.method == "POST":
 
@@ -271,14 +364,21 @@ def review_order_view(request):
     if not checkout_data or not cart_items:
         return redirect("orders:cart-summary")
 
-    # Delivery information saved by shipping_method_view
-    shipping_name = checkout_data.get("shipping_name", "Standard Delivery")
+    shipping_name = checkout_data.get(
+        "shipping_name",
+        "Digital Delivery",
+    )
 
-    delivery_duration = checkout_data.get("delivery_duration", "")
+    delivery_duration = checkout_data.get(
+        "delivery_duration",
+        "Instant",
+    )
 
-    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0")))
+    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0.00")))
 
-    # Final amount customer will pay
+    # Determine whether this is an eSIM-only order.
+    is_digital_only = checkout_data.get("shipping_method") == "digital"
+
     total_payable = cart_total + delivery_fee
 
     return render(
@@ -291,6 +391,7 @@ def review_order_view(request):
             "shipping_name": shipping_name,
             "delivery_duration": delivery_duration,
             "delivery_fee": delivery_fee,
+            "is_digital_only": is_digital_only,
             # Final total
             "total_payable": total_payable,
             # Customer checkout information
@@ -299,6 +400,22 @@ def review_order_view(request):
             "cart": cart.cart,
         },
     )
+
+
+def payment_method_view(request):
+
+    if request.method != "POST":
+        return redirect("orders:checkout_review")
+
+    payment_method = request.POST.get("payment_method")
+
+    if payment_method == "flutterwave":
+        return flutterwave_payment_view(request)
+
+    if payment_method == "nowpayments":
+        return nowpayments_payment_view(request)
+
+    return redirect("orders:checkout_review")
 
 
 def flutterwave_payment_view(request):
@@ -319,74 +436,119 @@ def flutterwave_payment_view(request):
     # DELIVERY
     # ---------------------------------------------------------
 
-    delivery_fee = Decimal(
-        str(checkout_data.get("delivery_fee", "0.00"))
-    )
+    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0.00")))
 
     total_payable = cart_total + delivery_fee
 
-    shipping_method = checkout_data.get(
-        "shipping_method",
-        "standard"
-    )
+    shipping_method = checkout_data.get("shipping_method", "standard")
 
-    shipping_name = checkout_data.get(
-        "shipping_name",
-        "Standard Delivery"
-    )
+    shipping_name = checkout_data.get("shipping_name", "Standard Delivery")
 
     # ---------------------------------------------------------
-    # CREATE ORDER
+    # GET EXISTING ORDER FROM SESSION
     # ---------------------------------------------------------
 
-    order = Order.objects.create(
-        name=checkout_data.get("name", ""),
-        email=checkout_data.get("email", ""),
-        phone=checkout_data.get("phone", ""),
-        address=checkout_data.get("address", ""),
-        city=checkout_data.get("city", ""),
-        state=checkout_data.get("state", ""),
-        total_price=total_payable,
-        delivery_method=shipping_name,
-        delivery_fee=delivery_fee,
-        payment_method="flutterwave",
-        status="pending",
-    )
+    existing_order_id = request.session.get("pending_order_id")
+
+    order = None
+
+    if existing_order_id:
+
+        order = Order.objects.filter(
+            id=existing_order_id,
+            status__in=["pending", "cancelled"],
+        ).first()
 
     # ---------------------------------------------------------
-    # CREATE ORDER ITEMS
+    # CREATE ORDER ONLY IF ONE DOES NOT EXIST
     # ---------------------------------------------------------
 
-    for item in cart_items:
+    if not order:
 
-        OrderItem.objects.create(
-            order=order,
-            product_type=item["type"],
-            product_id=item["id"],
-            product_name=item["name"],
-            product_price=item["price"],
-            quantity=item["quantity"],
+        order = Order.objects.create(
+            name=checkout_data.get("name", ""),
+            email=checkout_data.get("email", ""),
+            phone=checkout_data.get("phone", ""),
+            address=checkout_data.get("address", ""),
+            city=checkout_data.get("city", ""),
+            state=checkout_data.get("state", ""),
+            total_price=total_payable,
+            delivery_method=shipping_name,
+            delivery_fee=delivery_fee,
+            payment_method="flutterwave",
+            status="pending",
+        )
+
+        # Create order items only for a brand-new order
+        for item in cart_items:
+
+            OrderItem.objects.create(
+                order=order,
+                product_type=item["type"],
+                product_id=item["id"],
+                product_name=item["name"],
+                product_price=item["price"],
+                quantity=item["quantity"],
+            )
+
+        # Remember this order for payment retries
+        request.session["pending_order_id"] = order.id
+        request.session.modified = True
+
+    else:
+
+        # -----------------------------------------------------
+        # REUSE EXISTING ORDER
+        # -----------------------------------------------------
+
+        order.name = checkout_data.get("name", "")
+        order.email = checkout_data.get("email", "")
+        order.phone = checkout_data.get("phone", "")
+        order.address = checkout_data.get("address", "")
+        order.city = checkout_data.get("city", "")
+        order.state = checkout_data.get("state", "")
+
+        order.total_price = total_payable
+        order.delivery_method = shipping_name
+        order.delivery_fee = delivery_fee
+        order.payment_method = "flutterwave"
+        order.status = "pending"
+
+        order.save(
+            update_fields=[
+                "name",
+                "email",
+                "phone",
+                "address",
+                "city",
+                "state",
+                "total_price",
+                "delivery_method",
+                "delivery_fee",
+                "payment_method",
+                "status",
+            ]
         )
 
     # ---------------------------------------------------------
-    # FLUTTERWAVE TRANSACTION REFERENCE
+    # NEW FLUTTERWAVE TRANSACTION REFERENCE
     # ---------------------------------------------------------
+    #
+    # Every payment attempt gets a NEW tx_ref.
+    # The ORDER remains the same.
+    #
 
-    tx_ref = (
-        f"XEELOOS-{order.order_id}-"
-        f"{uuid.uuid4().hex[:8].upper()}"
-    )
+    tx_ref = f"XEELOOS-{order.order_id}-" f"{uuid.uuid4().hex[:8].upper()}"
 
     order.flutterwave_tx_ref = tx_ref
+
     order.save(update_fields=["flutterwave_tx_ref"])
 
     # ---------------------------------------------------------
     # CALLBACK URL
     # ---------------------------------------------------------
 
-    callback_url = request.build_absolute_uri(
-        reverse("orders:flutterwave_callback")
-    )
+    callback_url = request.build_absolute_uri(reverse("orders:flutterwave_callback"))
 
     # ---------------------------------------------------------
     # FLUTTERWAVE PAYMENT PAYLOAD
@@ -396,20 +558,16 @@ def flutterwave_payment_view(request):
         "tx_ref": tx_ref,
         "amount": str(total_payable),
         "currency": "NGN",
-
         "redirect_url": callback_url,
-
         "customer": {
             "email": checkout_data.get("email", ""),
             "name": checkout_data.get("name", ""),
             "phonenumber": checkout_data.get("phone", ""),
         },
-
         "customizations": {
             "title": "Xeloos",
-            "description": f"Payment for Order {order.order_id}",
+            "description": (f"Payment for Order {order.order_id}"),
         },
-
         "meta": {
             "order_id": order.order_id,
             "shipping_method": shipping_method,
@@ -424,16 +582,11 @@ def flutterwave_payment_view(request):
 
         response = requests.post(
             "https://api.flutterwave.com/v3/payments",
-
             json=payload,
-
             headers={
-                "Authorization": (
-                    f"Bearer {settings.FLW_SECRET_KEY}"
-                ),
+                "Authorization": (f"Bearer {settings.FLW_SECRET_KEY}"),
                 "Content-Type": "application/json",
             },
-
             timeout=30,
         )
 
@@ -442,11 +595,257 @@ def flutterwave_payment_view(request):
         print("========== FLUTTERWAVE RESPONSE ==========")
         print("STATUS CODE:", response.status_code)
         print("RESPONSE:", response_data)
+        print("ORDER:", order.order_id)
+        print("TX REF:", tx_ref)
+        print("==========================================")
+
+    except requests.RequestException:
+
+        # Keep the same order so it can be retried
+        order.status = "cancelled"
+
+        order.save(update_fields=["status"])
+
+        return render(
+            request,
+            "checkout_review.html",
+            {
+                "cart_items": cart_items,
+                "cart_total": cart_total,
+                "shipping_name": shipping_name,
+                "delivery_duration": checkout_data.get("delivery_duration", ""),
+                "delivery_fee": delivery_fee,
+                "total_payable": total_payable,
+                "checkout_data": checkout_data,
+                "cart": cart.cart,
+                "payment_error": (
+                    "Unable to connect to Flutterwave. " "Please try again."
+                ),
+            },
+        )
+
+    # ---------------------------------------------------------
+    # REDIRECT TO FLUTTERWAVE
+    # ---------------------------------------------------------
+
+    if response_data.get("status") == "success" and response_data.get("data", {}).get(
+        "link"
+    ):
+
+        return redirect(response_data["data"]["link"])
+
+    # ---------------------------------------------------------
+    # PAYMENT INITIALIZATION FAILED
+    # ---------------------------------------------------------
+
+    order.status = "cancelled"
+
+    order.save(update_fields=["status"])
+
+    return render(
+        request,
+        "checkout_review.html",
+        {
+            "cart_items": cart_items,
+            "cart_total": cart_total,
+            "shipping_name": shipping_name,
+            "delivery_duration": checkout_data.get("delivery_duration", ""),
+            "delivery_fee": delivery_fee,
+            "total_payable": total_payable,
+            "checkout_data": checkout_data,
+            "cart": cart.cart,
+            "payment_error": response_data.get(
+                "message",
+                "Unable to initialize payment.",
+            ),
+        },
+    )
+
+
+def nowpayments_payment_view(request):
+
+    if request.method != "POST":
+        return redirect("orders:checkout_review")
+
+    checkout_data = request.session.get("checkout_data", {})
+
+    cart = Cart(request)
+    cart_items = cart.get_items()
+    cart_total = cart.get_total_price()
+
+    if not checkout_data or not cart_items:
+        return redirect("orders:cart-summary")
+
+    # ---------------------------------------------------------
+    # DELIVERY
+    # ---------------------------------------------------------
+
+    delivery_fee = Decimal(str(checkout_data.get("delivery_fee", "0.00")))
+
+    total_payable = cart_total + delivery_fee
+
+    shipping_name = checkout_data.get(
+        "shipping_name",
+        "Standard Delivery",
+    )
+
+    shipping_method = checkout_data.get(
+        "shipping_method",
+        "standard",
+    )
+
+    # ---------------------------------------------------------
+    # GET EXISTING ORDER FROM SESSION
+    # ---------------------------------------------------------
+
+    existing_order_id = request.session.get("pending_order_id")
+
+    order = None
+
+    if existing_order_id:
+
+        order = Order.objects.filter(
+            id=existing_order_id,
+            status__in=["pending", "cancelled"],
+        ).first()
+
+    # ---------------------------------------------------------
+    # CREATE ORDER IF ONE DOES NOT EXIST
+    # ---------------------------------------------------------
+
+    if not order:
+
+        order = Order.objects.create(
+            name=checkout_data.get("name", ""),
+            email=checkout_data.get("email", ""),
+            phone=checkout_data.get("phone", ""),
+            address=checkout_data.get("address", ""),
+            city=checkout_data.get("city", ""),
+            state=checkout_data.get("state", ""),
+            total_price=total_payable,
+            delivery_method=shipping_name,
+            delivery_fee=delivery_fee,
+            payment_method="nowpayments",
+            status="pending",
+        )
+
+        # Create order items
+        for item in cart_items:
+
+            OrderItem.objects.create(
+                order=order,
+                product_type=item["type"],
+                product_id=item["id"],
+                product_name=item["name"],
+                product_price=item["price"],
+                quantity=item["quantity"],
+            )
+
+        # Remember order for payment retries
+        request.session["pending_order_id"] = order.id
+        request.session.modified = True
+
+    else:
+
+        # -----------------------------------------------------
+        # REUSE EXISTING ORDER
+        # -----------------------------------------------------
+
+        order.name = checkout_data.get("name", "")
+        order.email = checkout_data.get("email", "")
+        order.phone = checkout_data.get("phone", "")
+        order.address = checkout_data.get("address", "")
+        order.city = checkout_data.get("city", "")
+        order.state = checkout_data.get("state", "")
+
+        order.total_price = total_payable
+        order.delivery_method = shipping_name
+        order.delivery_fee = delivery_fee
+        order.payment_method = "nowpayments"
+        order.status = "pending"
+
+        order.save(
+            update_fields=[
+                "name",
+                "email",
+                "phone",
+                "address",
+                "city",
+                "state",
+                "total_price",
+                "delivery_method",
+                "delivery_fee",
+                "payment_method",
+                "status",
+            ]
+        )
+
+    # ---------------------------------------------------------
+    # NOWPAYMENTS IPN CALLBACK URL
+    # ---------------------------------------------------------
+
+    ipn_callback_url = request.build_absolute_uri(reverse("orders:nowpayments_ipn"))
+
+    # ---------------------------------------------------------
+    # PAYMENT SUCCESS / CANCEL URLS
+    # ---------------------------------------------------------
+
+    success_url = request.build_absolute_uri(
+        reverse(
+            "orders:nowpayments_success",
+            kwargs={"order_id": order.id},
+        )
+    )
+
+    cancel_url = request.build_absolute_uri(
+        reverse(
+            "orders:nowpayments_cancel",
+            kwargs={"order_id": order.id},
+        )
+    )
+
+    # ---------------------------------------------------------
+    # NOWPAYMENTS INVOICE PAYLOAD
+    # ---------------------------------------------------------
+
+    payload = {
+        "price_amount": float(total_payable),
+        "price_currency": "NGN",
+        "order_id": order.order_id,
+        "order_description": (f"Xeloos Order {order.order_id}"),
+        "ipn_callback_url": ipn_callback_url,
+        "success_url": success_url,
+        "cancel_url": cancel_url,
+    }
+
+    # ---------------------------------------------------------
+    # SEND REQUEST TO NOWPAYMENTS
+    # ---------------------------------------------------------
+
+    try:
+
+        response = requests.post(
+            "https://api.nowpayments.io/v1/invoice",
+            json=payload,
+            headers={
+                "x-api-key": settings.NOWPAYMENTS_API_KEY,
+                "Content-Type": "application/json",
+            },
+            timeout=30,
+        )
+
+        response_data = response.json()
+
+        print("========== NOWPAYMENTS RESPONSE ==========")
+        print("STATUS CODE:", response.status_code)
+        print("RESPONSE:", response_data)
+        print("ORDER:", order.order_id)
         print("==========================================")
 
     except requests.RequestException:
 
         order.status = "cancelled"
+
         order.save(update_fields=["status"])
 
         return render(
@@ -458,37 +857,51 @@ def flutterwave_payment_view(request):
                 "shipping_name": shipping_name,
                 "delivery_duration": checkout_data.get(
                     "delivery_duration",
-                    ""
+                    "",
                 ),
                 "delivery_fee": delivery_fee,
                 "total_payable": total_payable,
                 "checkout_data": checkout_data,
                 "cart": cart.cart,
                 "payment_error": (
-                    "Unable to connect to Flutterwave. "
-                    "Please try again."
+                    "Unable to connect to NOWPayments. " "Please try again."
                 ),
             },
         )
 
     # ---------------------------------------------------------
-    # REDIRECT CUSTOMER TO FLUTTERWAVE
+    # CHECK NOWPAYMENTS RESPONSE
     # ---------------------------------------------------------
 
-    if (
-        response_data.get("status") == "success"
-        and response_data.get("data", {}).get("link")
-    ):
+    if response.status_code in [200, 201] and response_data.get("invoice_url"):
 
-        return redirect(
-            response_data["data"]["link"]
+        # -----------------------------------------------------
+        # SAVE NOWPAYMENTS DETAILS
+        # -----------------------------------------------------
+
+        order.nowpayments_invoice_id = response_data.get("id")
+
+        order.nowpayments_invoice_url = response_data.get("invoice_url")
+
+        order.save(
+            update_fields=[
+                "nowpayments_invoice_id",
+                "nowpayments_invoice_url",
+            ]
         )
+
+        # -----------------------------------------------------
+        # REDIRECT CUSTOMER TO NOWPAYMENTS
+        # -----------------------------------------------------
+
+        return redirect(response_data["invoice_url"])
 
     # ---------------------------------------------------------
     # PAYMENT INITIALIZATION FAILED
     # ---------------------------------------------------------
 
     order.status = "cancelled"
+
     order.save(update_fields=["status"])
 
     return render(
@@ -500,7 +913,7 @@ def flutterwave_payment_view(request):
             "shipping_name": shipping_name,
             "delivery_duration": checkout_data.get(
                 "delivery_duration",
-                ""
+                "",
             ),
             "delivery_fee": delivery_fee,
             "total_payable": total_payable,
@@ -508,7 +921,216 @@ def flutterwave_payment_view(request):
             "cart": cart.cart,
             "payment_error": response_data.get(
                 "message",
-                "Unable to initialize payment.",
+                "Unable to initialize NOWPayments.",
+            ),
+        },
+    )
+
+
+def nowpayments_ipn(request):
+
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "Method not allowed"},
+            status=405,
+        )
+
+    received_signature = request.headers.get("x-nowpayments-sig")
+
+    if not received_signature:
+        return JsonResponse(
+            {"error": "Missing signature"},
+            status=400,
+        )
+
+    try:
+        payload = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {"error": "Invalid JSON"},
+            status=400,
+        )
+
+    # NOWPayments requires the payload to be sorted
+    # before generating the HMAC signature.
+    def sort_payload(data):
+        if isinstance(data, dict):
+            return {key: sort_payload(data[key]) for key in sorted(data)}
+
+        if isinstance(data, list):
+            return [sort_payload(item) for item in data]
+
+        return data
+
+    sorted_payload = sort_payload(payload)
+
+    payload_string = json.dumps(
+        sorted_payload,
+        separators=(",", ":"),
+    )
+
+    expected_signature = hmac.new(
+        settings.NOWPAYMENTS_IPN_SECRET.encode(),
+        payload_string.encode(),
+        hashlib.sha512,
+    ).hexdigest()
+
+    if not hmac.compare_digest(
+        expected_signature,
+        received_signature,
+    ):
+        return JsonResponse(
+            {"error": "Invalid signature"},
+            status=401,
+        )
+
+    order_id = payload.get("order_id")
+    payment_id = payload.get("payment_id")
+    payment_status = payload.get("payment_status")
+
+    if not order_id:
+        return JsonResponse(
+            {"error": "Missing order_id"},
+            status=400,
+        )
+
+    order = Order.objects.filter(
+        order_id=order_id,
+    ).first()
+
+    if not order:
+        return JsonResponse(
+            {"error": "Order not found"},
+            status=404,
+        )
+
+    # Idempotency:
+    # Ignore duplicate notifications for an already-paid order.
+    if order.status == "paid":
+        return JsonResponse(
+            {
+                "success": True,
+                "message": "Order already processed",
+            }
+        )
+
+    # Store the NOWPayments payment ID when available.
+    if payment_id:
+        order.nowpayments_payment_id = str(payment_id)
+
+    # Payment is only considered successful when NOWPayments
+    # reports it as finished.
+    if payment_status == "finished":
+
+        price_amount = payload.get("price_amount")
+
+        if price_amount is not None:
+            try:
+                received_amount = Decimal(str(price_amount))
+            except Exception:
+                return JsonResponse(
+                    {"error": "Invalid payment amount"},
+                    status=400,
+                )
+
+            if received_amount != order.total_price:
+                return JsonResponse(
+                    {"error": "Payment amount mismatch"},
+                    status=400,
+                )
+
+        order.status = "paid"
+
+        order.save(
+            update_fields=[
+                "nowpayments_payment_id",
+                "status",
+            ]
+        )
+
+        return JsonResponse(
+            {
+                "success": True,
+                "message": "Payment confirmed",
+            }
+        )
+
+    # Save payment ID even when the payment is still processing.
+    if payment_id:
+        order.save(
+            update_fields=[
+                "nowpayments_payment_id",
+            ]
+        )
+
+    # These statuses are not successful payments.
+    if payment_status in [
+        "failed",
+        "expired",
+        "refunded",
+    ]:
+        order.status = "cancelled"
+
+        order.save(
+            update_fields=[
+                "nowpayments_payment_id",
+                "status",
+            ]
+        )
+
+    return JsonResponse(
+        {
+            "success": True,
+            "message": "IPN received",
+            "payment_status": payment_status,
+        }
+    )
+
+
+def nowpayments_success_view(request, order_id):
+
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+    )
+
+    return render(
+        request,
+        "payment_confirm.html",
+        {
+            "order": order,
+            "payment_method": "NOWPayments",
+        },
+    )
+
+
+def nowpayments_cancel_view(request, order_id):
+
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+    )
+
+    if order.status != "paid":
+        order.status = "cancelled"
+        order.save(update_fields=["status"])
+
+    return render(
+        request,
+        "checkout_review.html",
+        {
+            "cart_items": Cart(request).get_items(),
+            "cart_total": Cart(request).get_total_price(),
+            "shipping_name": order.delivery_method,
+            "delivery_fee": order.delivery_fee,
+            "total_payable": order.total_price,
+            "checkout_data": request.session.get(
+                "checkout_data",
+                {},
+            ),
+            "cart": Cart(request).cart,
+            "payment_error": (
+                "The NOWPayments payment was cancelled. " "You can try again."
             ),
         },
     )
@@ -524,14 +1146,16 @@ def flutterwave_callback_view(request):
     # BASIC VALIDATION
     # -----------------------------------------------------
 
-    if not tx_ref or not transaction_id:
+    if not tx_ref:
 
         return render(
             request,
             "payment_confirm.html",
             {
                 "payment_failed": True,
-                "message": "Payment cancelled. You have not been charged.",
+                "message": (
+                    "We could not identify this payment attempt. " "Please try again."
+                ),
             },
         )
 
@@ -550,12 +1174,63 @@ def flutterwave_callback_view(request):
 
     if order.status == "paid":
 
+        # Payment was already processed.
+        # Remove retry reference from session.
+        request.session.pop("pending_order_id", None)
+        request.session.modified = True
+
         return render(
             request,
             "payment_confirm.html",
             {
                 "order": order,
                 "payment_successful": True,
+            },
+        )
+
+    # -----------------------------------------------------
+    # HANDLE FLUTTERWAVE CANCELLATION
+    # -----------------------------------------------------
+
+    if status in ["cancelled", "failed"]:
+
+        order.status = "cancelled"
+
+        order.save(update_fields=["status"])
+
+        # IMPORTANT:
+        # Keep pending_order_id in the session.
+        # This allows the customer to retry the same order.
+        request.session.modified = True
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": (
+                    "Payment was not completed. "
+                    "You can try again using the same order."
+                ),
+            },
+        )
+
+    # -----------------------------------------------------
+    # TRANSACTION ID REQUIRED FOR VERIFICATION
+    # -----------------------------------------------------
+
+    if not transaction_id:
+
+        return render(
+            request,
+            "payment_confirm.html",
+            {
+                "order": order,
+                "payment_failed": True,
+                "message": (
+                    "Payment verification could not be completed. " "Please try again."
+                ),
             },
         )
 
@@ -568,7 +1243,7 @@ def flutterwave_callback_view(request):
         response = requests.get(
             f"https://api.flutterwave.com/v3/transactions/" f"{transaction_id}/verify",
             headers={
-                "Authorization": f"Bearer {settings.FLW_SECRET_KEY}",
+                "Authorization": (f"Bearer {settings.FLW_SECRET_KEY}"),
                 "Content-Type": "application/json",
             },
             timeout=30,
@@ -633,6 +1308,7 @@ def flutterwave_callback_view(request):
     # SECURITY CHECKS
     # -----------------------------------------------------
 
+    # Transaction reference must belong to this order
     if verified_tx_ref != order.flutterwave_tx_ref:
 
         return render(
@@ -641,10 +1317,11 @@ def flutterwave_callback_view(request):
             {
                 "order": order,
                 "payment_failed": True,
-                "message": "Transaction reference mismatch.",
+                "message": ("Transaction reference mismatch."),
             },
         )
 
+    # Currency must be NGN
     if verified_currency != expected_currency:
 
         return render(
@@ -653,21 +1330,28 @@ def flutterwave_callback_view(request):
             {
                 "order": order,
                 "payment_failed": True,
-                "message": "Payment currency mismatch.",
+                "message": ("Payment currency mismatch."),
             },
         )
 
+    # Flutterwave must report successful
     if verified_status != "successful":
+
+        order.status = "cancelled"
+
+        order.save(update_fields=["status"])
+
         return render(
             request,
             "payment_confirm.html",
             {
                 "order": order,
                 "payment_failed": True,
-                "message": "Payment was not successful. You can try again.",
+                "message": ("Payment was not successful. " "You can try again."),
             },
         )
-    
+
+    # Amount must match the Xeloos order
     if verified_amount != expected_amount:
 
         return render(
@@ -685,6 +1369,7 @@ def flutterwave_callback_view(request):
     # -----------------------------------------------------
 
     order.status = "paid"
+
     order.flutterwave_transaction_id = str(transaction.get("id"))
 
     order.save(
@@ -701,8 +1386,23 @@ def flutterwave_callback_view(request):
     cart = Cart(request)
     cart.clear()
 
-    if "checkout_data" in request.session:
-        del request.session["checkout_data"]
+    # -----------------------------------------------------
+    # CLEAR CHECKOUT SESSION
+    # -----------------------------------------------------
+
+    request.session.pop("checkout_data", None)
+
+    # -----------------------------------------------------
+    # CLEAR PENDING ORDER
+    # -----------------------------------------------------
+    #
+    # This is important.
+    #
+    # Once payment succeeds, the order can no longer
+    # be reused for another payment attempt.
+    #
+
+    request.session.pop("pending_order_id", None)
 
     request.session.modified = True
 

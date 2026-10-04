@@ -45,28 +45,44 @@ urlpatterns = [
         views.review_order_view,
         name="checkout_review",
     ),
-    
-    # path(
-    #     "payment/confirmation/<int:order_id>/",
-    #     views.payment_confirm_view,
-    #     name="payment_confirm",
-    # ),
-    
     path(
         "delivery-method/",
         views.delivery_method_view,
         name="delivery_method",
     ),
-    
+    path(
+        "payment/",
+        views.payment_method_view,
+        name="payment",
+    ),
     path(
         "payment/flutterwave/",
         views.flutterwave_payment_view,
         name="flutterwave_payment",
     ),
-    
     path(
         "payment/flutterwave/callback/",
         views.flutterwave_callback_view,
         name="flutterwave_callback",
+    ),
+    path(
+        "payment/nowpayments/",
+        views.nowpayments_payment_view,
+        name="nowpayments_payment",
+    ),
+    path(
+        "payment/nowpayments/ipn/",
+        views.nowpayments_ipn,
+        name="nowpayments_ipn",
+    ),
+    path(
+        "payment/nowpayments/success/<int:order_id>/",
+        views.nowpayments_success_view,
+        name="nowpayments_success",
+    ),
+    path(
+        "payment/nowpayments/cancel/<int:order_id>/",
+        views.nowpayments_cancel_view,
+        name="nowpayments_cancel",
     ),
 ]

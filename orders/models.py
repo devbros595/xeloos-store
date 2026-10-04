@@ -98,6 +98,24 @@ class Order(models.Model):
         null=True,
     )
 
+    nowpayments_invoice_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+
+    nowpayments_payment_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+
+    nowpayments_invoice_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+    )
+
     # ---------------------------------------------
     # STATUS
     # ---------------------------------------------
