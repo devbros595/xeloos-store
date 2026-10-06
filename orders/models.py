@@ -110,7 +110,7 @@ class Order(models.Model):
             max_length=100,
             blank=True,
             null=True,
-        ),
+        )
     )
     
     fez_status = models.CharField(

@@ -41,9 +41,14 @@ FLW_SECRET_KEY = os.getenv("FLW_SECRET_KEY")
 FLW_ENCRYPT_KEY = os.getenv("FLW_ENCRYPT_KEY")
 NOWPAYMENTS_API_KEY = os.getenv("NOWPAYMENTS_API_KEY")
 NOWPAYMENTS_IPN_SECRET = os.getenv("NOWPAYMENTS_IPN_SECRET")
-FEZ_API_URL = os.getenv("FEZ_API_URL")
-FEZ_API_KEY = os.getenv("FEZ_API_KEY")
-FEZ_SECRET_KEY = os.getenv("FEZ_SECRET_KEY")
+FEZ_API_URL = os.getenv(
+    "FEZ_API_URL",
+    "https://api.fezdelivery.co/v1",
+)
+# FEZ_API_KEY = os.getenv("FEZ_API_KEY")
+# FEZ_SECRET_KEY = os.getenv("FEZ_SECRET_KEY")
+FEZ_USER_ID = os.getenv("FEZ_USER_ID")
+FEZ_PASSWORD = os.getenv("FEZ_PASSWORD")
 
 # --- Security Settings for Production (Render) ---
 if not DEBUG:
