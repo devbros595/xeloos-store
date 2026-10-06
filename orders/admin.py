@@ -1,5 +1,10 @@
-from django.contrib import admin
+from django.contrib import admin, messages
+
 from .models import Order, OrderItem
+from .services.fez import (
+    cancel_fez_delivery,
+    track_fez_delivery,
+)
 
 
 # =========================================================
@@ -51,6 +56,8 @@ class OrderAdmin(admin.ModelAdmin):
         "delivery_fee",
         "payment_method",
         "status",
+        "fez_status",
+        "fez_order_id",
         "created_at",
     )
 
@@ -67,6 +74,7 @@ class OrderAdmin(admin.ModelAdmin):
         "flutterwave_transaction_id",
         "nowpayments_invoice_id",
         "nowpayments_payment_id",
+        "fez_order_id",
     )
 
     # -----------------------------------------------------
@@ -77,6 +85,7 @@ class OrderAdmin(admin.ModelAdmin):
         "status",
         "payment_method",
         "delivery_method",
+        "fez_status",
         "created_at",
     )
 
@@ -86,6 +95,15 @@ class OrderAdmin(admin.ModelAdmin):
 
     ordering = (
         "-created_at",
+    )
+
+    # -----------------------------------------------------
+    # ACTIONS
+    # -----------------------------------------------------
+
+    actions = (
+        "refresh_selected_fez_status",
+        "cancel_selected_fez_deliveries",
     )
 
     # -----------------------------------------------------
@@ -111,6 +129,8 @@ class OrderAdmin(admin.ModelAdmin):
         "nowpayments_invoice_id",
         "nowpayments_payment_id",
         "nowpayments_invoice_url",
+        "fez_order_id",
+        "fez_status",
     )
 
     # -----------------------------------------------------
@@ -172,6 +192,16 @@ class OrderAdmin(admin.ModelAdmin):
         ),
 
         (
+            "FEZ Delivery",
+            {
+                "fields": (
+                    "fez_order_id",
+                    "fez_status",
+                ),
+            },
+        ),
+
+        (
             "Payment",
             {
                 "fields": (
@@ -185,6 +215,251 @@ class OrderAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    # -----------------------------------------------------
+    # CANCEL FEZ DELIVERIES
+    # -----------------------------------------------------
+
+    @admin.action(
+        description="Cancel selected FEZ deliveries"
+    )
+
+    def refresh_selected_fez_status(
+        self,
+        request,
+        queryset,
+    ):
+
+        success_count = 0
+        failed_count = 0
+        skipped_count = 0
+
+        for order in queryset:
+
+            # -------------------------------------------------
+            # No FEZ delivery
+            # -------------------------------------------------
+
+            if not order.fez_order_id:
+
+                skipped_count += 1
+
+                self.message_user(
+                    request,
+                    (
+                        f"Order {order.order_id} "
+                        "has no FEZ delivery."
+                    ),
+                    level=messages.WARNING,
+                )
+
+                continue
+
+            # -------------------------------------------------
+            # Cancelled delivery
+            # -------------------------------------------------
+
+            if order.fez_status == "cancelled":
+
+                skipped_count += 1
+
+                self.message_user(
+                    request,
+                    (
+                        f"FEZ delivery for "
+                        f"{order.order_id} is cancelled."
+                    ),
+                    level=messages.WARNING,
+                )
+
+                continue
+
+            # -------------------------------------------------
+            # Fetch FEZ status
+            # -------------------------------------------------
+
+            response_data = track_fez_delivery(order)
+
+            if response_data:
+
+                fez_order = response_data.get(
+                    "order",
+                    {}
+                )
+
+                current_status = fez_order.get(
+                    "orderStatus",
+                    "Unknown",
+                )
+
+                success_count += 1
+
+                self.message_user(
+                    request,
+                    (
+                        f"Order {order.order_id}: "
+                        f"FEZ status is now "
+                        f"'{current_status}'."
+                    ),
+                    level=messages.SUCCESS,
+                )
+
+            else:
+
+                failed_count += 1
+
+                self.message_user(
+                    request,
+                    (
+                        f"Could not retrieve FEZ status "
+                        f"for {order.order_id}."
+                    ),
+                    level=messages.ERROR,
+                )
+
+        # -----------------------------------------------------
+        # Summary
+        # -----------------------------------------------------
+
+        if success_count:
+
+            self.message_user(
+                request,
+                (
+                    f"{success_count} FEZ "
+                    f"{'delivery' if success_count == 1 else 'deliveries'} "
+                    "successfully refreshed."
+                ),
+                level=messages.SUCCESS,
+            )
+
+        if failed_count:
+
+            self.message_user(
+                request,
+                (
+                    f"{failed_count} FEZ status "
+                    f"{'request' if failed_count == 1 else 'requests'} "
+                    "failed."
+                ),
+                level=messages.ERROR,
+            )
+
+        if skipped_count:
+
+            self.message_user(
+                request,
+                (
+                    f"{skipped_count} order "
+                    f"{'was' if skipped_count == 1 else 'were'} "
+                    "skipped."
+                ),
+                level=messages.WARNING,
+            )
+
+    def cancel_selected_fez_deliveries(
+        self,
+        request,
+        queryset,
+    ):
+
+        success_count = 0
+        failed_count = 0
+        skipped_count = 0
+
+        for order in queryset:
+
+            # -------------------------------------------------
+            # No FEZ delivery
+            # -------------------------------------------------
+
+            if not order.fez_order_id:
+
+                skipped_count += 1
+
+                self.message_user(
+                    request,
+                    (
+                        f"Order {order.order_id} "
+                        "has no FEZ delivery."
+                    ),
+                    level=messages.WARNING,
+                )
+
+                continue
+
+            # -------------------------------------------------
+            # Already cancelled
+            # -------------------------------------------------
+
+            if order.fez_status == "cancelled":
+
+                skipped_count += 1
+
+                self.message_user(
+                    request,
+                    (
+                        f"FEZ delivery for "
+                        f"{order.order_id} is already cancelled."
+                    ),
+                    level=messages.WARNING,
+                )
+
+                continue
+
+            # -------------------------------------------------
+            # Attempt cancellation
+            # -------------------------------------------------
+
+            success = cancel_fez_delivery(order)
+
+            if success:
+
+                success_count += 1
+
+            else:
+
+                failed_count += 1
+
+        # -----------------------------------------------------
+        # Summary
+        # -----------------------------------------------------
+
+        if success_count:
+
+            self.message_user(
+                request,
+                (
+                    f"{success_count} FEZ delivery "
+                    f"{'was' if success_count == 1 else 'were'} "
+                    "successfully cancelled."
+                ),
+                level=messages.SUCCESS,
+            )
+
+        if failed_count:
+
+            self.message_user(
+                request,
+                (
+                    f"{failed_count} FEZ delivery "
+                    f"{'cancellation' if failed_count == 1 else 'cancellations'} "
+                    "failed."
+                ),
+                level=messages.ERROR,
+            )
+
+        if skipped_count:
+
+            self.message_user(
+                request,
+                (
+                    f"{skipped_count} order "
+                    f"{'was' if skipped_count == 1 else 'were'} "
+                    "skipped."
+                ),
+                level=messages.WARNING,
+            )
 
 
 # =========================================================

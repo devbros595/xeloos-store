@@ -109,7 +109,7 @@ class Order(models.Model):
         models.CharField(
             max_length=100,
             blank=True,
-            null=True,
+            default="",
         )
     )
     

@@ -525,3 +525,178 @@ def cancel_fez_delivery(order):
     )
 
     return False
+
+# =========================================================
+# TRACK FEZ DELIVERY
+# =========================================================
+
+def track_fez_delivery(order):
+    """
+    Fetch the current Fez delivery status for a Xeloos order.
+
+    Fez endpoint:
+        GET /order/track/{orderNumber}
+
+    Returns:
+        response_data -> Fez response dictionary
+        None          -> request failed
+    """
+
+    # =========================================================
+    # SAFETY CHECK
+    # =========================================================
+
+    if not order.fez_order_id:
+
+        print(
+            "FEZ TRACKING: No Fez order exists for:",
+            order.order_id,
+        )
+
+        return None
+
+    # =========================================================
+    # AUTHENTICATE WITH FEZ
+    # =========================================================
+
+    auth_token, secret_key = authenticate_fez()
+
+    if not auth_token or not secret_key:
+
+        print(
+            "FEZ TRACKING: Authentication failed."
+        )
+
+        return None
+
+    # =========================================================
+    # FEZ API
+    # =========================================================
+
+    url = (
+        f"{settings.FEZ_API_URL.rstrip('/')}"
+        f"/order/track/{order.fez_order_id}"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {auth_token}",
+        "secret-key": secret_key,
+        "Content-Type": "application/json",
+    }
+
+    # =========================================================
+    # SEND REQUEST
+    # =========================================================
+
+    try:
+
+        response = requests.get(
+            url,
+            headers=headers,
+            timeout=30,
+        )
+
+        try:
+            response_data = response.json()
+
+        except ValueError:
+
+            print(
+                "FEZ TRACKING ERROR: Invalid JSON response"
+            )
+
+            print(
+                "FEZ TRACKING STATUS CODE:",
+                response.status_code,
+            )
+
+            print(
+                "FEZ TRACKING RAW RESPONSE:",
+                response.text,
+            )
+
+            return None
+
+    except requests.RequestException as exc:
+
+        print(
+            "FEZ TRACKING REQUEST ERROR:",
+            exc,
+        )
+
+        return None
+
+    # =========================================================
+    # DEBUG RESPONSE
+    # =========================================================
+
+    print(
+        "========== FEZ TRACKING RESPONSE =========="
+    )
+
+    print(
+        "STATUS CODE:",
+        response.status_code,
+    )
+
+    print(
+        "RESPONSE:",
+        response_data,
+    )
+
+    print(
+        "XEELOOS ORDER:",
+        order.order_id,
+    )
+
+    print(
+        "FEZ ORDER:",
+        order.fez_order_id,
+    )
+
+    print(
+        "============================================"
+    )
+
+    # =========================================================
+    # HANDLE FAILURE
+    # =========================================================
+
+    if (
+        response.status_code != 200
+        or response_data.get("status") != "Success"
+    ):
+
+        print(
+            "FEZ TRACKING FAILED:",
+            response_data,
+        )
+
+        return None
+
+    # =========================================================
+    # GET ORDER INFORMATION
+    # =========================================================
+
+    fez_order = response_data.get(
+        "order",
+        {}
+    )
+
+    current_status = fez_order.get(
+        "orderStatus"
+    )
+
+    # =========================================================
+    # UPDATE XEELOOS FEZ STATUS
+    # =========================================================
+
+    if current_status:
+
+        order.fez_status = current_status
+
+        order.save(
+            update_fields=["fez_status"]
+        )
+
+    return response_data

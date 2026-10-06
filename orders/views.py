@@ -1027,9 +1027,7 @@ def nowpayments_ipn(request):
 
         if price_amount is not None:
             try:
-                received_amount = Decimal(
-                    str(price_amount)
-                )
+                received_amount = Decimal(str(price_amount))
             except Exception:
                 return JsonResponse(
                     {"error": "Invalid payment amount"},
