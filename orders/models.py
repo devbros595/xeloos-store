@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.conf import settings
 
 
 class Order(models.Model):
@@ -19,6 +20,14 @@ class Order(models.Model):
         max_length=10,
         unique=True,
         blank=True,
+    )
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders",
     )
 
     name = models.CharField(max_length=100)
@@ -105,14 +114,12 @@ class Order(models.Model):
         null=True,
     )
 
-    fez_tracking_id = (
-        models.CharField(
-            max_length=100,
-            blank=True,
-            default="",
-        )
+    fez_tracking_id = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
     )
-    
+
     fez_status = models.CharField(
         max_length=50,
         blank=True,

@@ -373,6 +373,7 @@ def sign_out(request):
 def install_esim(request):
     return render(request, "store/installing-esim.html")
 
+
 def services(request):
     return render(request, "store/services.html")
 
@@ -401,17 +402,54 @@ def policy_view(request):
 @login_required
 def order_history_view(request):
 
-    orders = Order.objects.filter(email=request.user.email).order_by("-created_at")
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
 
-    return render(request, "store/order_history.html", {"orders": orders})
+    return render(
+        request,
+        "store/order_history.html",
+        {
+            "orders": orders,
+        },
+    )
 
 
 @login_required
 def order_detail_view(request, order_id):
 
-    order = get_object_or_404(Order, order_id=order_id, email=request.user.email)
+    order = get_object_or_404(Order, order_id=order_id, user=request.user)
 
-    return render(request, "store/order_detail.html", {"order": order})
+    items = []
+
+    for item in order.items.all():
+
+        if item.product_type == "product":
+            product = Product.objects.filter(id=item.product_id).first()
+
+            item.category_name = (
+                product.category.name if product and product.category else "N/A"
+            )
+
+        elif item.product_type == "sim":
+            item.category_name = "Physical SIM"
+
+        else:
+            item.category_name = "N/A"
+
+        item.item_total = item.product_price * item.quantity
+
+        items.append(item)
+
+    has_physical_item = order.items.filter(product_type="sim").exists()
+
+    return render(
+        request,
+        "store/order_detail.html",
+        {
+            "order": order,
+            "items": items,
+            "has_physical_item": has_physical_item,
+        },
+    )
 
 
 # =========================================================

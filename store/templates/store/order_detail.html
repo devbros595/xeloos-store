@@ -1,71 +1,398 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
+
 <title>Order {{ order.order_id }} | Break Digital Barriers</title>
 {% endblock %}
 
 {% block content %}
+
 <style>
     .order-detail {
         margin: 5rem 0;
         padding: 0 10rem;
     }
-    @media (max-width: 768px) {
-        .order-detail {
-            padding: 0;
-            margin-top: 7rem;
-        }
+
+    .order-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
-    @media (max-width: 767.98px) {
+    .order-info {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .order-info p {
+        margin-bottom: 0.6rem;
+    }
+
+    .order-items {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .order-items th,
+    .order-items td {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+    }
+
+    .order-items th {
+        font-weight: 600;
+    }
+
+    .order-summary {
+        margin-top: 1.5rem;
+        max-width: 400px;
+        margin-left: auto;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.6rem 0;
+    }
+
+    .summary-total {
+        border-top: 2px solid #eee;
+        margin-top: 0.5rem;
+        padding-top: 1rem;
+        font-size: 1.15rem;
+        font-weight: 700;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.35rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .status-paid {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status-pending {
+        background: #fff3cd;
+        color: #664d03;
+    }
+
+    .status-cancelled {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        display: inline-block;
+        background: linear-gradient(to right, #7b1730, #000000);
+        transition: all 0.3s ease-in-out;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+        border: none;
+        border-radius: 1.5rem;
+        width: 200px;
+        white-space: nowrap;
+    }
+
+    .back-btn:hover {
+        background: linear-gradient(to right, #7b1730, #d21f4c);
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
         .order-detail {
             padding: 0 2rem;
             margin-top: 7rem;
         }
 
+        .order-card {
+            padding: 1.25rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .order-items {
+            min-width: 650px;
+        }
+
+        .order-summary {
+            max-width: 100%;
+        }
     }
 </style>
+
 <main class="index-main">
-    <section class="sim-store-navbar" data-aos="fade-down">
+
+    <!-- Page Header -->
+    <section class="sim-store-navbar" data-aos="fade-down" data-aos-delay="100">
+
         <div class="container-fluid d-flex flex-column gap-4">
+
             <div class="sim-store-header">
                 <h2>Order #{{ order.order_id }} Details</h2>
             </div>
+
             <div class="mini-navbar d-flex align-items-center gap-3">
+
                 <a href="/">
                     <span>Home</span>
                 </a>
+
                 <i class="fa-solid fa-angle-right fa-xs"></i>
+
                 <a href="{% url 'user-order-history' %}">
                     <span>Order History</span>
                 </a>
+
                 <i class="fa-solid fa-angle-right fa-xs"></i>
-                <span class="active">Order #{{ order.order_id }}</span>
+
+                <span class="active">
+                    Order #{{ order.order_id }}
+                </span>
+
             </div>
+
         </div>
+
     </section>
-    <section class="order-detail">
+
+
+    <!-- Order Details -->
+    <section class="order-detail" data-aos="fade-up" data-aos-delay="200">
+
         <div class="container">
-            <h2>Order Details - {{ order.order_id }}</h2>
-            <p><strong>Status:</strong> {{ order.status }}</p>
-            <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
-            <p><strong>Name:</strong> {{ order.name }}</p>
-            <p><strong>Email:</strong> {{ order.email }}</p>
-            <p><strong>Phone:</strong> {{ order.phone }}</p>
-            <p><strong>Address:</strong> {{ order.address }}, {{ order.city }}, {{ order.state }}</p>
-            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
 
-            <h4 class="mt-4">Items:</h4>
-            <ul>
-                {% for item in order.items.all %}
-                <li>{{ item.sim_name }} - Quantity: {{ item.quantity }} - Price: ${{ item.sim_price }}</li>
-                {% empty %}
-                <li>No items found for this order.</li>
-                {% endfor %}
-            </ul>
+            <div class="order-card">
 
-            <a href="{% url 'user-order-history' %}" class="btn btn-secondary mt-3">Back to Order History</a>
+                <!-- Order Information -->
+                <div class="order-info">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+                        <h2 class="mb-0">
+                            Order #{{ order.order_id }}
+                        </h2>
+
+                        <span class="status-badge status-{{ order.status }}">
+                            {{ order.get_status_display }}
+                        </span>
+
+                    </div>
+
+                    <p>
+                        <strong>Placed on:</strong>
+                        {{ order.created_at|date:"M d, Y H:i" }}
+                    </p>
+
+                    <p>
+                        <strong>Payment Method:</strong>
+                        {{ order.get_payment_method_display }}
+                    </p>
+
+                    {% if has_physical_item %}
+
+                    <p>
+                        <strong>Delivery Method:</strong>
+                        {{ order.delivery_method }}
+                    </p>
+
+                    <p>
+                        <strong>Delivery Status:</strong>
+
+                        {% if order.fez_status %}
+                        {{ order.fez_status|title }}
+                        {% else %}
+                        Not Available
+                        {% endif %}
+
+                    </p>
+
+                    <p>
+                        <strong>Tracking ID:</strong>
+
+                        {% if order.fez_tracking_id %}
+                        {{ order.fez_tracking_id }}
+                        {% else %}
+                        Not Available
+                        {% endif %}
+
+                    </p>
+                    {% else %}
+                    <p>
+                        <strong>Delivery Method:</strong>
+                        {{ order.delivery_method }} (Delivered to {{order.email}})
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Customer Information -->
+                <div class="order-info">
+
+                    <h4 class="mb-3">Customer Information</h4>
+
+                    <p>
+                        <strong>Name:</strong>
+                        {{ order.name }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ order.email }}
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+                        {{ order.phone }}
+                    </p>
+
+                    {% if has_physical_item %}
+
+                    <p>
+                        <strong>Delivery Address:</strong>
+                        {{ order.address }}, {{ order.city }}, {{ order.state }}
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Order Items -->
+                <div>
+
+                    <h4 class="mb-3">Order Items</h4>
+
+                    <div class="table-responsive">
+
+                        <table class="order-items">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for item in items %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ item.product_name }}
+                                    </td>
+
+                                    <td>
+                                        {{ item.category_name }}
+                                    </td>
+
+                                    <td>
+                                        ₦{{ item.product_price|floatformat:2 }}
+                                    </td>
+
+                                    <td>
+                                        {{ item.quantity }}
+                                    </td>
+
+                                    <td>
+                                        ₦{{ item.item_total|floatformat:2 }}
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="5" class="text-center py-4">
+                                        No items found for this order.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+
+                    {% if has_physical_item %}
+
+                    <div class="summary-row">
+
+                        <span>Delivery Fee</span>
+
+                        <span>
+                            ₦{{ order.delivery_fee|floatformat:2 }}
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                    <div class="summary-row summary-total">
+
+                        <span>Total Paid</span>
+
+                        <span>
+                            ₦{{ order.total_price|floatformat:2 }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Actions -->
+                <div class="mt-4">
+
+                    <a href="{% url 'user-order-history' %}" class="back-btn">
+
+                        <i class="fa-solid fa-arrow-left me-1"></i>
+
+                        Back to Order History
+
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
+
     </section>
+
 </main>
+
 {% endblock %}

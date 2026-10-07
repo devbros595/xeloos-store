@@ -6,10 +6,10 @@ from .services.fez import (
     track_fez_delivery,
 )
 
-
 # =========================================================
 # ORDER ITEMS INLINE
 # =========================================================
+
 
 class OrderItemInline(admin.TabularInline):
 
@@ -39,6 +39,7 @@ class OrderItemInline(admin.TabularInline):
 # =========================================================
 # ORDER ADMIN
 # =========================================================
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -93,9 +94,7 @@ class OrderAdmin(admin.ModelAdmin):
     # DEFAULT SORTING
     # -----------------------------------------------------
 
-    ordering = (
-        "-created_at",
-    )
+    ordering = ("-created_at",)
 
     # -----------------------------------------------------
     # ACTIONS
@@ -137,16 +136,13 @@ class OrderAdmin(admin.ModelAdmin):
     # INLINE ORDER ITEMS
     # -----------------------------------------------------
 
-    inlines = (
-        OrderItemInline,
-    )
+    inlines = (OrderItemInline,)
 
     # -----------------------------------------------------
     # FIELD ORGANIZATION
     # -----------------------------------------------------
 
     fieldsets = (
-
         (
             "Order Information",
             {
@@ -157,7 +153,6 @@ class OrderAdmin(admin.ModelAdmin):
                 ),
             },
         ),
-
         (
             "Customer",
             {
@@ -171,16 +166,12 @@ class OrderAdmin(admin.ModelAdmin):
                 ),
             },
         ),
-
         (
             "Order Total",
             {
-                "fields": (
-                    "total_price",
-                ),
+                "fields": ("total_price",),
             },
         ),
-
         (
             "Delivery",
             {
@@ -190,7 +181,6 @@ class OrderAdmin(admin.ModelAdmin):
                 ),
             },
         ),
-
         (
             "FEZ Delivery",
             {
@@ -200,7 +190,6 @@ class OrderAdmin(admin.ModelAdmin):
                 ),
             },
         ),
-
         (
             "Payment",
             {
@@ -220,10 +209,7 @@ class OrderAdmin(admin.ModelAdmin):
     # CANCEL FEZ DELIVERIES
     # -----------------------------------------------------
 
-    @admin.action(
-        description="Cancel selected FEZ deliveries"
-    )
-
+    @admin.action(description="Refresh selected FEZ deliveries")
     def refresh_selected_fez_status(
         self,
         request,
@@ -246,10 +232,7 @@ class OrderAdmin(admin.ModelAdmin):
 
                 self.message_user(
                     request,
-                    (
-                        f"Order {order.order_id} "
-                        "has no FEZ delivery."
-                    ),
+                    (f"Order {order.order_id} " "has no FEZ delivery."),
                     level=messages.WARNING,
                 )
 
@@ -265,10 +248,7 @@ class OrderAdmin(admin.ModelAdmin):
 
                 self.message_user(
                     request,
-                    (
-                        f"FEZ delivery for "
-                        f"{order.order_id} is cancelled."
-                    ),
+                    (f"FEZ delivery for " f"{order.order_id} is cancelled."),
                     level=messages.WARNING,
                 )
 
@@ -282,10 +262,7 @@ class OrderAdmin(admin.ModelAdmin):
 
             if response_data:
 
-                fez_order = response_data.get(
-                    "order",
-                    {}
-                )
+                fez_order = response_data.get("order", {})
 
                 current_status = fez_order.get(
                     "orderStatus",
@@ -310,10 +287,7 @@ class OrderAdmin(admin.ModelAdmin):
 
                 self.message_user(
                     request,
-                    (
-                        f"Could not retrieve FEZ status "
-                        f"for {order.order_id}."
-                    ),
+                    (f"Could not retrieve FEZ status " f"for {order.order_id}."),
                     level=messages.ERROR,
                 )
 
@@ -357,6 +331,7 @@ class OrderAdmin(admin.ModelAdmin):
                 level=messages.WARNING,
             )
 
+    @admin.action(description="Cancel selected FEZ deliveries")
     def cancel_selected_fez_deliveries(
         self,
         request,
@@ -379,10 +354,7 @@ class OrderAdmin(admin.ModelAdmin):
 
                 self.message_user(
                     request,
-                    (
-                        f"Order {order.order_id} "
-                        "has no FEZ delivery."
-                    ),
+                    (f"Order {order.order_id} " "has no FEZ delivery."),
                     level=messages.WARNING,
                 )
 
@@ -398,10 +370,7 @@ class OrderAdmin(admin.ModelAdmin):
 
                 self.message_user(
                     request,
-                    (
-                        f"FEZ delivery for "
-                        f"{order.order_id} is already cancelled."
-                    ),
+                    (f"FEZ delivery for " f"{order.order_id} is already cancelled."),
                     level=messages.WARNING,
                 )
 
@@ -466,6 +435,7 @@ class OrderAdmin(admin.ModelAdmin):
 # ORDER ITEM ADMIN
 # =========================================================
 
+
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
 
@@ -482,13 +452,9 @@ class OrderItemAdmin(admin.ModelAdmin):
         "product_name",
     )
 
-    list_filter = (
-        "product_type",
-    )
+    list_filter = ("product_type",)
 
-    ordering = (
-        "-order__created_at",
-    )
+    ordering = ("-order__created_at",)
 
     readonly_fields = (
         "order",

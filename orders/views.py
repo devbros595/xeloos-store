@@ -467,6 +467,7 @@ def flutterwave_payment_view(request):
     if not order:
 
         order = Order.objects.create(
+             user=request.user,
             name=checkout_data.get("name", ""),
             email=checkout_data.get("email", ""),
             phone=checkout_data.get("phone", ""),
