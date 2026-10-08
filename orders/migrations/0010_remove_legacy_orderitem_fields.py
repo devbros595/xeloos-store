@@ -1,6 +1,17 @@
 from django.db import migrations
 
 
+def remove_legacy_fields(apps, schema_editor):
+    if schema_editor.connection.vendor == "postgresql":
+        schema_editor.execute("""
+            ALTER TABLE orders_orderitem
+            DROP COLUMN IF EXISTS sim_name;
+
+            ALTER TABLE orders_orderitem
+            DROP COLUMN IF EXISTS sim_price;
+        """)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -8,14 +19,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL(
-            sql="""
-                ALTER TABLE orders_orderitem
-                DROP COLUMN IF EXISTS sim_name;
-
-                ALTER TABLE orders_orderitem
-                DROP COLUMN IF EXISTS sim_price;
-            """,
-            reverse_sql=migrations.RunSQL.noop,
+        migrations.RunPython(
+            remove_legacy_fields,
+            reverse_code=migrations.RunPython.noop,
         ),
     ]
